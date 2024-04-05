@@ -7,6 +7,35 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal">
+                <Image/>
+                <Label Content="CURSE"/>
+            </StackPanel>
+            
+            <Menu  >
+                <MenuItem Header="Соискатель"/>
+                <MenuItem Header="Работодатель"/>
+            </Menu>
+        </StackPanel>
+        
+        <Frame />
+        <StackPanel Grid.Column="9">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Login"/>
+            <Button Content="Registration"/>
+            </StackPanel>
+            <WrapPanel >
+                <TextBlock Text="ЗДЕСЬ МОГЛА БЫТЬ ВАША РЕКЛАМА" TextWrapping="Wrap"/>
+            </WrapPanel>
+        </StackPanel>
     </Grid>
 </Window>

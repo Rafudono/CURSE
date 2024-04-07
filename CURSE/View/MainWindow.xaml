@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CURSE"
+        xmlns:local="clr-namespace:CURSE" 
+        xmlns:viewmodel="clr-namespace:CURSE.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainVM}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -27,7 +28,7 @@
             </Menu>
         </StackPanel>
         
-        <Frame />
+        <Frame Content="{Binding CurrentPage}" />
         <StackPanel Grid.Column="9">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Login"/>

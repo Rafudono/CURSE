@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CURSE.View;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +11,8 @@ namespace CURSE.ViewModel
 {
     internal class MainVM : BaseVM
     {
+        public VmCommand Login { get; }
+        public VmCommand Registration { get; }
         private Page currentPage;
 
         public Page CurrentPage
@@ -19,6 +23,19 @@ namespace CURSE.ViewModel
                 currentPage = value;
                 Signal();
             }
+        }
+        public MainVM()
+        {
+            Login = new VmCommand(() =>
+            {
+                LogIn taskwindow = new LogIn();
+                taskwindow.ShowDialog();
+            });
+            Registration = new VmCommand(() =>
+            {
+                Registration taskwindow = new Registration();
+                taskwindow.ShowDialog();
+            });
         }
     }
 }

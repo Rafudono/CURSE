@@ -7,6 +7,25 @@
         mc:Ignorable="d"
         Title="Registration" Height="450" Width="800">
     <Grid>
-        
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
+        <Label Content="Почта"/>
+        <TextBox/>
+        <Button Content="Продолжить"/>
+    </StackPanel>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden">
+            <Label Content="Имя"/>
+            <TextBox/>
+            <Label Content="Фамилия"/>
+            <TextBox/>
+            <Button Content="Назад"/>
+            <Button Content="Продолжить"/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden">
+            <Label Content="Телефон"/>
+            <TextBox/>
+            <Button Content="Назад"/>
+            <Button Content="Продолжить"/>
+        </StackPanel>
     </Grid>
 </Window>
+    

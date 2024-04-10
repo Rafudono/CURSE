@@ -9,6 +9,11 @@
       Title="Employer">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.7*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListBox/>
         
     </Grid>
 </Page>

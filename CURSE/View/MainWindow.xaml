@@ -3,10 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CURSE" 
-        xmlns:viewmodel="clr-namespace:CURSE.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainVM}"
+        xmlns:local="clr-namespace:CURSE.Model" 
+        xmlns:vm="clr-namespace:CURSE.ViewModel" 
+        DataContext="{DynamicResource vm}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <vm:MainVM x:Key="vm"/>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -25,14 +29,13 @@
             <Menu  >
                 <MenuItem Header="Соискатель"/>
                 <MenuItem Header="Работодатель"/>
+                <Frame Content="{Binding CurrentPage}" />
             </Menu>
         </StackPanel>
-        
-        <Frame Content="{Binding CurrentPage}" />
         <StackPanel Grid.Column="9">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Login"/>
-            <Button Content="Registration"/>
+            <Button Content="Login" Command="{Binding Login}"/>
+            <Button Content="Registration" Command="{Binding Registration}"/>
             </StackPanel>
             <WrapPanel >
                 <TextBlock Text="ЗДЕСЬ МОГЛА БЫТЬ ВАША РЕКЛАМА" TextWrapping="Wrap"/>

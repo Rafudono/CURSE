@@ -4,9 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CURSE.View"
+        xmlns:vm="clr-namespace:CURSE.ViewModel" 
+        DataContext="{DynamicResource vm}"
         mc:Ignorable="d"
         Title="LogIn" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <Window.Resources>
+        <vm:MainVM x:Key="vm"/>
+    </Window.Resources>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
+        <Label Content="Логин"/>
+        <TextBox/>
+        <Label Content="Пароль"/>
+        <TextBox/>
+    </StackPanel>
+   
 </Window>

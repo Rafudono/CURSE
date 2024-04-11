@@ -12,7 +12,7 @@
         <TextBox/>
         <Button Content="Продолжить"/>
     </StackPanel>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step1}" >
             <Label Content="Имя"/>
             <TextBox/>
             <Label Content="Фамилия"/>
@@ -20,11 +20,18 @@
             <Button Content="Назад"/>
             <Button Content="Продолжить"/>
         </StackPanel>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step2}">
             <Label Content="Телефон"/>
             <TextBox/>
             <Button Content="Назад"/>
             <Button Content="Продолжить"/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step3}">
+            <Label Content="Зарегистрироваться как"/>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Соискатель"/>
+                <Button Content="Работодатель"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

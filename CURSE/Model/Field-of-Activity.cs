@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CURSE.ViewModel
+namespace CURSE.Model
 {
-    public class LoginVM :BaseVM
+    public class Field_of_Activity
     {
-        
     }
 }

@@ -16,6 +16,7 @@
         <TextBox/>
         <Label Content="Пароль"/>
         <TextBox/>
+        <Button Content="Войти"/>
     </StackPanel>
    
 </Window>

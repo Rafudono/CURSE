@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CURSE.Model
 {
-   public class Applicant
+   public class ResumeRepository
     {
     }
 }

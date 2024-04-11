@@ -9,6 +9,5 @@ namespace CURSE.Model
     public class Emloyer : Human
     {
         public string Organization { get; set; }
-
     } 
 }

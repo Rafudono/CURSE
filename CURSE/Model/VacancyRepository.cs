@@ -12,7 +12,6 @@ namespace CURSE.Model
     {
         private DrinkRepository()
         {
-
         }
 
         static DrinkRepository instance;
@@ -47,8 +46,14 @@ namespace CURSE.Model
                         vacancy.Id = id;
                         vacancy.Title = reader.GetString("Title");
                         vacancy.XP= reader.GetInt32("XP");
-                        vacancy.Price = reader.GetDouble("Price");
-                        vacancy.Description = reader.GetString("Description");
+                        vacancy.City = reader.GetString("City");
+                        vacancy.MINSalary = reader.GetInt32("MINSalary");
+                        vacancy.MAXSalary = reader.GetInt32("MAXSalary");
+                        vacancy.DescriptionResponsibilities = reader.GetString("DescriptionResp");
+                        vacancy.DescriptionRequirements = reader.GetString("DescriptionRequire");
+                        vacancy.DescriptionConditions = reader.GetString("DescriptionCond");
+                        vacancy.IsFlexibleSchedule = reader.GetString("Schedule");
+                        vacancy.RequiredEducation = reader.GetString("RequireEducation");
                     }
                   
                 }
@@ -57,21 +62,21 @@ namespace CURSE.Model
             return result;
         }
 
-        internal void AddDrink(Vacancy vacancy)
+        internal void AddVacancy(Vacancy vacancy)
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return;
 
-            int id = MySqlDB.Instance.GetAutoID("Drink");
+            int id = MySqlDB.Instance.GetAutoID("Vacancy");
 
             string sql = "INSERT INTO Drink VALUES (0, @title, @capacity, @price, @description)";
             using (var mc = new MySqlCommand(sql, connect))
             {
-                mc.Parameters.Add(new MySqlParameter("title", drink.Title));
-                mc.Parameters.Add(new MySqlParameter("capacity", drink.Capacity));
-                mc.Parameters.Add(new MySqlParameter("price", drink.Price));
-                mc.Parameters.Add(new MySqlParameter("description", drink.Description));
+                mc.Parameters.Add(new MySqlParameter("title", vacancy.Title));
+                mc.Parameters.Add(new MySqlParameter("capacity", vacancy.Capacity));
+                mc.Parameters.Add(new MySqlParameter("price", vacancy.Price));
+                mc.Parameters.Add(new MySqlParameter("description", vacancy.Description));
                 if (mc.ExecuteNonQuery() > 0)
                 {
                     sql = "";

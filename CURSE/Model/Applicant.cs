@@ -12,8 +12,8 @@ namespace CURSE.Model
         public int Salary { get; set; }
         public List<Field_of_Activity> FieldofActivity { get; set; }
         public string Comment { get; set; }
-        public string Schedule { get; set; } //график
-       public ? Employment {  get; set; }//занятость  
+        public bool IsFlexibleSchedule { get; set; } //график
+       public bool FullEmployment {  get; set; }//занятость  
 
     }
 }

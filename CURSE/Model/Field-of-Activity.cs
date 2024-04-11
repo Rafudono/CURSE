@@ -8,5 +8,7 @@ namespace CURSE.Model
 {
     public class Field_of_Activity
     {
+        public int Id { get; set; }
+        public string Title { get; set; }
     }
 }

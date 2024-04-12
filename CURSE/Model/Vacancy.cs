@@ -15,13 +15,13 @@ namespace CURSE.Model
         //public string Organization { get; set; } 
         //нужно из id работодателя (которая в таблице) получить органиацию
         public int XP { get; set; }
-        public string City { get; set; } //получить из id
+        public int Id_City { get; set; } //получить из id
         public int  MINSalary { get; set; }
         public int MAXSalary { get; set; }
         public string DescriptionResponsibilities { get; set; }
         public string DescriptionRequirements { get; set; }
         public string DescriptionConditions { get; set; }
         public string IsFlexibleSchedule { get; set; }
-        public string RequiredEducation { get; set; }
+        public int IdRequiredEducation { get; set; }
     }
 }

@@ -4,13 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CURSE.View"
+        xmlns:vm="clr-namespace:CURSE.ViewModel" 
+        DataContext="{DynamicResource vm}"
         mc:Ignorable="d"
         Title="Registration" Height="450" Width="800">
+    <Window.Resources>
+        <vm:RegistrationVM x:Key="vm" />
+    </Window.Resources>
     <Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step0}" >
         <Label Content="Почта"/>
         <TextBox/>
-        <Button Content="Продолжить"/>
+            <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
     </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step1}" >
             <Label Content="Имя"/>
@@ -18,13 +23,13 @@
             <Label Content="Фамилия"/>
             <TextBox/>
             <Button Content="Назад"/>
-            <Button Content="Продолжить"/>
+            <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step2}">
             <Label Content="Телефон"/>
             <TextBox/>
             <Button Content="Назад"/>
-            <Button Content="Продолжить"/>
+            <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step3}">
             <Label Content="Зарегистрироваться как"/>
@@ -32,6 +37,7 @@
                 <Button Content="Соискатель"/>
                 <Button Content="Работодатель"/>
             </StackPanel>
+            <Button Content="Зарегисрироваться!" Command="{Binding ChangeNEXTVisibility}"/>
         </StackPanel>
     </Grid>
 </Window>

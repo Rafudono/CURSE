@@ -8,12 +8,14 @@ namespace CURSE.Model
 {
    public class Applicant : Human
     {
+        public int Id { get; set; }
+        public int Id_City { get; set; }
         public int XP { get; set; }
         public int Salary { get; set; }
         public List<Field_of_Activity> FieldofActivity { get; set; }
-        public string Comment { get; set; }
+        public int IdEducation { get; set; }
         public bool IsFlexibleSchedule { get; set; } //график
-       public bool FullEmployment {  get; set; }//занятость  
+       public bool IsFullEmployment {  get; set; }//занятость  
 
     }
 }

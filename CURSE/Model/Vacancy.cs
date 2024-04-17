@@ -21,7 +21,7 @@ namespace CURSE.Model
         public string DescriptionResponsibilities { get; set; }
         public string DescriptionRequirements { get; set; }
         public string DescriptionConditions { get; set; }
-        public string IsFlexibleSchedule { get; set; }
+        public bool IsFlexibleSchedule { get; set; }
         public int IdRequiredEducation { get; set; }
     }
 }

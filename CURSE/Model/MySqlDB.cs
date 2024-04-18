@@ -15,10 +15,10 @@ namespace CURSE.Model
         private MySqlDB()
         {
             MySqlConnectionStringBuilder stringBuilder = new();
-            stringBuilder.UserID = "student";
-            stringBuilder.Password = "student";
+            stringBuilder.UserID = "root";
+            stringBuilder.Password = "";
             stringBuilder.Database = "CURSE";
-            stringBuilder.Server = "192.168.200.13";
+            stringBuilder.Server = "localhost";
             stringBuilder.CharacterSet = "utf8mb4";
             //MySqlConnection = new MySqlConnection("server=192.168.200.13;user=student;password=student;database=drinks_1125;Character Set=utf8mb4");
             mySqlConnection = new MySqlConnection(stringBuilder.ToString());

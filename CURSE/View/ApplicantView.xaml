@@ -4,15 +4,27 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CURSE.Model"
+        xmlns:vm="clr-namespace:CURSE.ViewModel" 
+  DataContext="{DynamicResource vm}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ApplicantView">
-
+    <Page.Resources>
+        <vm:ListVacancy x:Key="vm"/>
+    </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.7*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ListBox/>
+        <StackPanel>
+        <ListView ItemsSource="{Binding All_vac}" >
+            <ListView.View >
+                    <GridView>
+                        <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Title}"/>
+                    </GridView>
+            </ListView.View>
+        </ListView>
+        </StackPanel>
     </Grid>
 </Page>

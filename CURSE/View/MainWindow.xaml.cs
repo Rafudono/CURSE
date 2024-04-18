@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using CURSE.Model;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -18,6 +19,12 @@ namespace CURSE.View
     {
         public MainWindow()
         {
+            InitializeComponent();
+            try
+            {
+                var hz = VacancyRepository.Instance.Search("");
+            }
+            catch (Exception e) { MessageBox.Show(e.Message); }
         }
     }
 }

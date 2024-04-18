@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CURSE.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
 namespace CURSE.View
 {
     /// <summary>
@@ -22,7 +22,15 @@ namespace CURSE.View
     {
         public ApplicantView()
         {
-            InitializeComponent();
+           
+            public ListVacancy(ViewModel.MainVM mainVM)
+            {
+                InitializeComponent();
+                var vm = DataContext as ListDrinksVM;
+                vm?.SetMainVM(mainVM);
+                //((ListDrinksVM)DataContext).SetMainVM(mainVM);
+                //DataContext = new ListDrinksVM(mainVM);
+            }
         }
     }
 }

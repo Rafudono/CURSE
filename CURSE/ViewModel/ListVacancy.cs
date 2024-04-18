@@ -11,7 +11,7 @@ namespace CURSE.ViewModel
 {
    public class ListVacancy : BaseVM
         {
-        //private MainVM mainVM;
+        private MainVM mainVM;
         private string searchText = "";
         private ObservableCollection<Vacancy> all_vac;
         private Field_of_Activity selectedField;
@@ -59,33 +59,44 @@ namespace CURSE.ViewModel
             Fields = new ObservableCollection<Field_of_Activity>(FoaRepository.Instance.GetFields());
             Fields.Insert(0, new Field_of_Activity { Id = 0, Title = "Все виды!!!!!" });     //!!!!
             SelectedField = Fields[0];
-                string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.DescriptionResponsibilities, v.DescriptionRequirements, v.DescriptionConditions, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID";
+            string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.DescriptionResponsibilities, v.DescriptionRequirements, v.DescriptionConditions, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID";
 
-            All_vac = new ObservableCollection<Vacancy>(VacancyRepository.Instance.WatchAllVacancy(sql));
+            All_vac = new ObservableCollection<Vacancy>(VacancyRepository.Instance.GetAllVacancy(sql));
 
-                //Create = new VmCommand(() =>
-                //{
-                //    mainVM.CurrentPage = new EditorDrink(mainVM);
-                //});
+            //Create = new VmCommand(() =>
+            //{
+            //    mainVM.CurrentPage = new EditorDrink(mainVM);
+            //});
 
-                //Edit = new VmCommand(() => {
-                //    if (SelectedDrink == null)
-                //        return;
-                //    mainVM.CurrentPage = new EditorDrink(mainVM, SelectedDrink);
-                //});
+            //Edit = new VmCommand(() => {
+            //    if (SelectedDrink == null)
+            //        return;
+            //    mainVM.CurrentPage = new EditorDrink(mainVM, SelectedDrink);
+            //});
 
-                //Delete = new VmCommand(() => {
-                //    if (SelectedDrink == null)
-                //        return;
+            //Delete = new VmCommand(() => {
+            //    if (SelectedDrink == null)
+            //        return;
 
-                //    if (MessageBox.Show("Удаление напитка", "Предупреждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                //    {
-                //        DrinkRepository.Instance.Remove(SelectedDrink);
-                //        Drinks.Remove(SelectedDrink);
-                //    }
-                //});
+            //    if (MessageBox.Show("Удаление напитка", "Предупреждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            //    {
+            //        DrinkRepository.Instance.Remove(SelectedDrink);
+            //        Drinks.Remove(SelectedDrink);
+            //    }
+            //});
+        }
+            internal void SetMainVM(MainVM mainVM)
+            {
+                this.mainVM = mainVM;
+            }
+
+            private void Search()
+            {
+            All_vac = new ObservableCollection<Vacancy>(
+                    VacancyRepository.Instance.Search(SearchText, SelectedField));
 
             }
+        }
 
         }
     }

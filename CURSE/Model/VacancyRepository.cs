@@ -27,7 +27,7 @@ namespace CURSE.Model
             }
         }
 
-        internal IEnumerable<Vacancy> WatchAllVacancy(string sql)
+        internal IEnumerable<Vacancy> GetAllVacancy(string sql)
         {
             var result = new List<Vacancy>();
             var connect = MySqlDB.Instance.GetConnection();
@@ -47,20 +47,20 @@ namespace CURSE.Model
                         result.Add(vacancy);
                         vacancy.Id = id;
                         vacancy.Title = reader.GetString("Title");
-                        vacancy.XP= reader.GetInt32("XP");
+                        vacancy.XP= reader.GetInt32("Required-XP");
                         vacancy.Id_City = reader.GetInt32("Id_City");
                         vacancy.MINSalary = reader.GetInt32("MINSalary");
                         vacancy.MAXSalary = reader.GetInt32("MAXSalary");
-                        vacancy.DescriptionResponsibilities = reader.GetString("DescriptionResp");
-                        vacancy.DescriptionRequirements = reader.GetString("DescriptionRequire");
-                        vacancy.DescriptionConditions = reader.GetString("DescriptionCond");
+                        vacancy.DescriptionResponsibilities = reader.GetString("DescriptionResponsibilities");
+                        vacancy.DescriptionRequirements = reader.GetString("DescriptionRequirements");
+                        vacancy.DescriptionConditions = reader.GetString("DescriptionConditions");
                         vacancy.IsFlexibleSchedule = reader.GetBoolean("IsFlexibleSchedule");
-                        vacancy.IdRequiredEducation = reader.GetInt32("IDRequireEducation");
+                        vacancy.IdRequiredEducation = reader.GetInt32("id_Required-Education");
                     }
-                    vacancy.FieldofActivity.Add(new Field_of_Activity {
-                     Id = reader.GetInt32("foaId"),
-                     Title = reader.GetString("foaTitle"),
-                });
+                //    vacancy.FieldofActivity.Add(new Field_of_Activity {
+                //     Id = reader.GetInt32("foaId"),
+                //     Title = reader.GetString("foaTitle"),
+                //});
 
                   
                 }
@@ -117,7 +117,7 @@ namespace CURSE.Model
                 mc.ExecuteNonQuery();
         }
 
-        internal IEnumerable<Vacancy> Search(string searchText)
+        internal IEnumerable<Vacancy> Search(string searchText, Field_of_Activity field)
         {
             string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.DescriptionResponsibilities, v.DescriptionRequirements, v.DescriptionConditions, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID";
             //sql += " AND (d.Title LIKE '%" + searchText + "%'";
@@ -128,7 +128,7 @@ namespace CURSE.Model
             //    var result = WatchAllVacancy(sql).Where(s => s.Tags.FirstOrDefault(s => s.ID == selectedTag.ID) != null);
             //    return result;                
             //}                                       сложный способ?
-            return WatchAllVacancy(sql);
+            return GetAllVacancy(sql);
             //return drinks.Where(s => 
             //    s.Title.Contains(searchText) ||
             //    s.Description.Contains(searchText));

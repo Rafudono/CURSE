@@ -13,6 +13,8 @@ namespace CURSE.ViewModel
     {
         public VmCommand Login { get; }
         public VmCommand Registration { get; }
+        public VmCommand Search { get; }
+
         private Page currentPage;
 
         public Page CurrentPage
@@ -36,8 +38,18 @@ namespace CURSE.ViewModel
                 Registration taskwindow = new Registration();
                 taskwindow.ShowDialog();
             });
+            Search = new VmCommand(() =>
+            {
+                OpenSearch();
+            });
+
+            OpenSearch();
         }
         public Page applicantView = new ApplicantView(); //не сигнал
+        private void OpenSearch()
+        {
+            CurrentPage = new ApplicantView(this);
+        }
 
     }
 }

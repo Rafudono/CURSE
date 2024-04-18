@@ -32,18 +32,18 @@ namespace CURSE.Model
             if (connect == null)
                 return result;
 
-            string sql = "SELECT * FROM Fields-of-activity";
+            string sql = "SELECT * FROM `Fields-of-activity`";
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    var field = new Field_of_Activity
-                    {
-                        Id = reader.GetInt32("id"),
-                        Title = reader.GetString("Title")
-                    };
-                    result.Add(field);
+                    //var field = new Field_of_Activity
+                    //{
+                    //    Id = reader.GetInt32("id"),
+                    //    Title = reader.GetString("Title")
+                    //};
+                  //  result.Add(field);
                 }
             }
             return result;

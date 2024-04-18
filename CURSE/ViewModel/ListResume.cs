@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CURSE.Model
+namespace CURSE.ViewModel
 {
-   public class ResumeRepository
+    public class ListResume
     {
     }
 }

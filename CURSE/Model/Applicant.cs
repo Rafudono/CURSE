@@ -9,6 +9,7 @@ namespace CURSE.Model
    public class Applicant : Human
     {
         public int Id { get; set; }
+        public int HumanId {  get; set; }
         public int Id_City { get; set; }
         public int XP { get; set; }
         public int Salary { get; set; }

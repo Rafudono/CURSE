@@ -24,7 +24,7 @@ namespace CURSE.Model
             }
         }
 
-        internal IEnumerable<Applicant> WatchAllResume(string sql)
+        internal IEnumerable<Applicant> WatchAllResume (string sql)
         {
             var result = new List<Applicant>();
             var connect = MySqlDB.Instance.GetConnection();
@@ -43,6 +43,7 @@ namespace CURSE.Model
                         applicant = new Applicant();
                         result.Add(applicant);
                         applicant.Id = id;
+                        applicant.HumanId = reader.GetInt32("HumanId");
                         applicant.XP = reader.GetInt32("XP");
                         applicant.Id_City = reader.GetInt32("Id_City");
                         applicant.Salary = reader.GetInt32("Salary");
@@ -73,6 +74,7 @@ namespace CURSE.Model
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("id", applicant.Id));
+                mc.Parameters.Add(new MySqlParameter("h_id", applicant.HumanId));
                 mc.Parameters.Add(new MySqlParameter("xp", applicant.XP));
                 mc.Parameters.Add(new MySqlParameter("id_foa", applicant.FieldofActivity));
                 mc.Parameters.Add(new MySqlParameter("id_education", applicant.IdEducation));
@@ -97,16 +99,16 @@ namespace CURSE.Model
             if (connect == null)
                 return;
 
-            string sql = "DELETE FROM Cross_Applicant_Field-of-activity WHERE id_vac = '" + applicant.Id + "';";
+            string sql = "DELETE FROM Cross_Applicant_Field-of-activity WHERE id_applicant = '" + applicant.Id + "';";
             sql += "DELETE FROM Applicant WHERE ID = '" + applicant.Id + "';";
 
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
         }
 
-        internal IEnumerable<Vacancy> Search(string searchText)
+        internal IEnumerable<Applicant> Search(string searchText)
         {
-            string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.DescriptionResponsibilities, v.DescriptionRequirements, v.DescriptionConditions, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID";
+            string sql = "SELECT a.ID, a.id_human, a.XP, a.id_Education, a.id_city, a.Salary , a.IsFullEmployment , a.IsFlexibleSchedule , foa.ID AS foaId, foa.Field_name AS foaTitle FROM CURSE.`Cross_Applicant_Field-of-activity` cafoa, CURSE.Applicant a, CURSE.`Fields-of-activity` foa WHERE cafoa.id_applicant = a.ID AND cafoa.id_field = foa.ID;";
             //sql += " AND (d.Title LIKE '%" + searchText + "%'";
             //sql += " OR d.Description LIKE '%" + searchText + "%')";
 
@@ -115,7 +117,7 @@ namespace CURSE.Model
             //    var result = WatchAllVacancy(sql).Where(s => s.Tags.FirstOrDefault(s => s.ID == selectedTag.ID) != null);
             //    return result;                
             //}                                       сложный способ?
-            return WatchAllResume(sql);
+            return WatchAllResume (sql);
             //return drinks.Where(s => 
             //    s.Title.Contains(searchText) ||
             //    s.Description.Contains(searchText));

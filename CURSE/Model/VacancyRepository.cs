@@ -77,21 +77,21 @@ namespace CURSE.Model
 
             int id = MySqlDB.Instance.GetAutoID("Vacancy");
 
-            string sql = "INSERT INTO Vacancy VALUES (0, @empl_id, @xp, @id_foa, @id_req-education, @id_city, " +
-                "@minsalary, @maxsalary, @descr-resp, @descr-require, @descr-cond, @isflex-schedule, @title)";
+            string sql = "INSERT INTO Vacancy VALUES (0, @empl_id, @xp, @id_foa, @id_reqeducation, @id_city, " +
+                "@minsalary, @maxsalary, @descr_resp, @descr_require, @descr_cond, @isflex_schedule, @title)";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("empl_id", vacancy.EmployerId));
                 mc.Parameters.Add(new MySqlParameter("xp", vacancy.XP));
                 mc.Parameters.Add(new MySqlParameter("id_foa", vacancy.FieldofActivity));
-                mc.Parameters.Add(new MySqlParameter("id_req-education", vacancy.IdRequiredEducation));
+                mc.Parameters.Add(new MySqlParameter("id_reqeducation", vacancy.IdRequiredEducation));
                 mc.Parameters.Add(new MySqlParameter("id_city", vacancy.Id_City));
                 mc.Parameters.Add(new MySqlParameter("minsalary", vacancy.MINSalary));
                 mc.Parameters.Add(new MySqlParameter("maxsalary", vacancy.MAXSalary));
-                mc.Parameters.Add(new MySqlParameter("descr-resp", vacancy.DescriptionResponsibilities));
-                mc.Parameters.Add(new MySqlParameter("descr-require", vacancy.DescriptionRequirements));
-                mc.Parameters.Add(new MySqlParameter("descr-cond", vacancy.DescriptionConditions));
-                mc.Parameters.Add(new MySqlParameter("isflex-schedule", vacancy.IsFlexibleSchedule));
+                mc.Parameters.Add(new MySqlParameter("descr_resp", vacancy.DescriptionResponsibilities));
+                mc.Parameters.Add(new MySqlParameter("descr_require", vacancy.DescriptionRequirements));
+                mc.Parameters.Add(new MySqlParameter("descr_cond", vacancy.DescriptionConditions));
+                mc.Parameters.Add(new MySqlParameter("isflex_schedule", vacancy.IsFlexibleSchedule));
                 mc.Parameters.Add(new MySqlParameter("title", vacancy.Title));
                 //if (mc.ExecuteNonQuery() > 0)
                 //{
@@ -145,30 +145,30 @@ namespace CURSE.Model
             if (connect == null)
                 return;
 
-            string sql = "DELETE FROM CrossDrinkTag WHERE idDrink = '" + vacancy.Id + "';";
+            string sql = "DELETE FROM `Cross_Vacancy_Field-of-activity` WHERE id_vac = '" + vacancy.Id + "';";
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
 
             sql = "";
             foreach (var foa in vacancy.FieldofActivity)
-                sql += "INSERT INTO CrossDrinkTag VALUES (" + vacancy.Id + "," + foa.Id + ");";
+                sql += "INSERT INTO `Cross_Vacancy_Field-of-activity` VALUES (" + vacancy.Id + "," + foa.Id + ");";
             using (var mcCross = new MySqlCommand(sql, connect))
                 mcCross.ExecuteNonQuery();
 
-            sql = "UPDATE Drink SET Title = @title, Capacity = @capacity, Price = @price, Description = @description WHERE Id = " + vacancy.Id;
+            sql = "UPDATE CURSE.Vacancy SET employer_id = @empl_id, `Required-XP` = @xp, `id_Required-Education` = @id_reqeducation, id_city = @id_city, MINSalary = @minsalary, MAXsalary = @maxsalary, DescriptionResponsibilities = @descr_resp, DescriptionRequirements = @descr_require, DescriptionConditions = @descr_cond, IsFlexibleSchedule = @isflex_schedule, Title = @title WHERE ID =" + vacancy.Id;
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("empl_id", vacancy.EmployerId));
                 mc.Parameters.Add(new MySqlParameter("xp", vacancy.XP));
-                mc.Parameters.Add(new MySqlParameter("id_foa", vacancy.FieldofActivity));
-                mc.Parameters.Add(new MySqlParameter("id_req-education", vacancy.IdRequiredEducation));
+               // mc.Parameters.Add(new MySqlParameter("id_foa", vacancy.FieldofActivity));
+                mc.Parameters.Add(new MySqlParameter("id_reqeducation", vacancy.IdRequiredEducation));
                 mc.Parameters.Add(new MySqlParameter("id_city", vacancy.Id_City));
                 mc.Parameters.Add(new MySqlParameter("minsalary", vacancy.MINSalary));
                 mc.Parameters.Add(new MySqlParameter("maxsalary", vacancy.MAXSalary));
-                mc.Parameters.Add(new MySqlParameter("descr-resp", vacancy.DescriptionResponsibilities));
-                mc.Parameters.Add(new MySqlParameter("descr-require", vacancy.DescriptionRequirements));
-                mc.Parameters.Add(new MySqlParameter("descr-cond", vacancy.DescriptionConditions));
-                mc.Parameters.Add(new MySqlParameter("isflex-schedule", vacancy.IsFlexibleSchedule));
+                mc.Parameters.Add(new MySqlParameter("descr_resp", vacancy.DescriptionResponsibilities));
+                mc.Parameters.Add(new MySqlParameter("descr_require", vacancy.DescriptionRequirements));
+                mc.Parameters.Add(new MySqlParameter("descr_cond", vacancy.DescriptionConditions));
+                mc.Parameters.Add(new MySqlParameter("isflex_schedule", vacancy.IsFlexibleSchedule));
                 mc.Parameters.Add(new MySqlParameter("title", vacancy.Title));
                 mc.ExecuteNonQuery();
             }

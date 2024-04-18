@@ -37,5 +37,7 @@ namespace CURSE.ViewModel
                 taskwindow.ShowDialog();
             });
         }
+        public Page applicantView = new ApplicantView(); //не сигнал
+
     }
 }

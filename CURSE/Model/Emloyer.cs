@@ -8,6 +8,8 @@ namespace CURSE.Model
 {
     public class Emloyer : Human
     {
-        public string Organization { get; set; }
+        public int ID { get; set; }
+        public int id_human { get; set; }
+        public int id_organization { get; set; } //я хотел string
     } 
 }

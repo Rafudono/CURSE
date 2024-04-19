@@ -20,17 +20,20 @@
             <RowDefinition Height="Auto"/>
             
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
+        <StackPanel >
             <StackPanel Orientation="Horizontal">
                 <Image/>
                 <Label Content="CURSE"/>
             </StackPanel>
             
-            <Menu  >
-                <MenuItem Header="Соискатель"/>
-                <MenuItem Header="Работодатель"/>
-                <Frame Content="{Binding CurrentPage}" />
-            </Menu>
+            <TabControl>
+                <TabItem Header="Соискатель" >
+                    <Frame Content="{Binding CurrentPage}"/>
+                </TabItem>
+                <TabItem Header="Работодатель">
+                    <Frame Content="{Binding NextPage}"/>
+                </TabItem>
+            </TabControl>
         </StackPanel>
         <StackPanel Grid.Column="9">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

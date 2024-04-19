@@ -20,17 +20,14 @@ namespace CURSE.View
     /// </summary>
     public partial class ApplicantView : Page
     {
-        public ApplicantView()
+        public ApplicantView(ViewModel.MainVM mainVM)
         {
-           
-            public ListVacancy(ViewModel.MainVM mainVM)
-            {
-                InitializeComponent();
-                var vm = DataContext as ListDrinksVM;
-                vm?.SetMainVM(mainVM);
-                //((ListDrinksVM)DataContext).SetMainVM(mainVM);
-                //DataContext = new ListDrinksVM(mainVM);
-            }
+            InitializeComponent();
+            var vm = DataContext as ListVacancy;
+            vm?.SetMainVM(mainVM);
+            //((ListDrinksVM)DataContext).SetMainVM(mainVM);
+            //DataContext = new ListDrinksVM(mainVM);
         }
+        
     }
 }

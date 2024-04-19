@@ -9,13 +9,14 @@ using System.Windows.Controls;
 
 namespace CURSE.ViewModel
 {
-    internal class MainVM : BaseVM
+    public class MainVM : BaseVM
     {
         public VmCommand Login { get; }
         public VmCommand Registration { get; }
         public VmCommand Search { get; }
 
         private Page currentPage;
+        private Page nextPage;
 
         public Page CurrentPage
         {
@@ -23,6 +24,15 @@ namespace CURSE.ViewModel
             set
             {
                 currentPage = value;
+                Signal();
+            }
+        }
+        public Page NextPage
+        {
+            get => nextPage;
+            set
+            {
+                nextPage = value;
                 Signal();
             }
         }
@@ -45,10 +55,12 @@ namespace CURSE.ViewModel
 
             OpenSearch();
         }
-        public Page applicantView = new ApplicantView(); //не сигнал
+        //public Page applicantView = new ApplicantView(); //не сигнал
+        //public Page employerView = new EmployerView();
         private void OpenSearch()
         {
             CurrentPage = new ApplicantView(this);
+            NextPage = new EmployerView(this); //rfr
         }
 
     }

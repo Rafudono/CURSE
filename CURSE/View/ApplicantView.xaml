@@ -14,17 +14,22 @@
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.7*"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <StackPanel>
+        <StackPanel Orientation="Horizontal">
         <ListView ItemsSource="{Binding All_vac}" >
             <ListView.View >
                     <GridView>
                         <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Title}"/>
+                        <GridViewColumn Header="Сфера деятельности" DisplayMemberBinding="{Binding FieldofActivity}"/>
                     </GridView>
             </ListView.View>
         </ListView>
+        </StackPanel>
+        <StackPanel Grid.Column="6" DataContext="{Binding SelectedVac}">
+            <TextBlock Text="Условия" />
+            <TextBlock Text="{Binding DescriptionConditions}"/>
         </StackPanel>
     </Grid>
 </Page>

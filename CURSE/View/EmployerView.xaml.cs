@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CURSE.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,13 @@ namespace CURSE.View
     /// <summary>
     /// Логика взаимодействия для Employer.xaml
     /// </summary>
-    public partial class Employer : Page
+    public partial class EmployerView : Page
     {
-        public Employer()
+        public EmployerView(ViewModel.MainVM mainVM)
         {
             InitializeComponent();
+            var vm = DataContext as ListVacancy;
+            vm?.SetMainVM(mainVM);
         }
     }
 }

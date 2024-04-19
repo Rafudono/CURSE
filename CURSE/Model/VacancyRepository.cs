@@ -57,12 +57,13 @@ namespace CURSE.Model
                         vacancy.IsFlexibleSchedule = reader.GetBoolean("IsFlexibleSchedule");
                         vacancy.IdRequiredEducation = reader.GetInt32("id_Required-Education");
                     }
-                //    vacancy.FieldofActivity.Add(new Field_of_Activity {
-                //     Id = reader.GetInt32("foaId"),
-                //     Title = reader.GetString("foaTitle"),
-                //});
+                    //vacancy.FieldofActivity.Add(new Field_of_Activity
+                    //{
+                    //    Id = reader.GetInt32("foaId"),
+                    //    Title = reader.GetString("foaTitle"),
+                    //});
 
-                  
+
                 }
             }
 
@@ -93,14 +94,15 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("descr_cond", vacancy.DescriptionConditions));
                 mc.Parameters.Add(new MySqlParameter("isflex_schedule", vacancy.IsFlexibleSchedule));
                 mc.Parameters.Add(new MySqlParameter("title", vacancy.Title));
-                //if (mc.ExecuteNonQuery() > 0)
-                //{
-                //    sql = "";
-                //    foreach (var tag in drink.Tags)
-                //        sql += "INSERT INTO CrossDrinkTag VALUES (" + id + "," + tag.ID + ");";
-                //    using (var mcCross = new MySqlCommand(sql, connect))
-                //        mcCross.ExecuteNonQuery();
-                //}            сложный способ?
+                if (mc.ExecuteNonQuery() > 0)
+                {
+                    sql = "";
+                    foreach (var field in vacancy.FieldofActivity)
+                        sql += "INSERT INTO `Cross_Vacancy_Field-of-activity` VALUES (" + id + "," + field.Id + ");";
+                    using (var mcCross = new MySqlCommand(sql, connect))
+                        mcCross.ExecuteNonQuery();
+                }
+                //сложный способ?
             }
         }
 
@@ -117,7 +119,7 @@ namespace CURSE.Model
                 mc.ExecuteNonQuery();
         }
 
-        internal IEnumerable<Vacancy> Search(string searchText, Field_of_Activity field)
+        internal IEnumerable<Vacancy> Search(string searchText)//, Field_of_Activity field)
         {
             string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.DescriptionResponsibilities, v.DescriptionRequirements, v.DescriptionConditions, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID";
             //sql += " AND (d.Title LIKE '%" + searchText + "%'";

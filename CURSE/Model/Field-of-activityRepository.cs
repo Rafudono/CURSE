@@ -38,12 +38,12 @@ namespace CURSE.Model
             {
                 while (reader.Read())
                 {
-                    //var field = new Field_of_Activity
-                    //{
-                    //    Id = reader.GetInt32("id"),
-                    //    Title = reader.GetString("Title")
-                    //};
-                  //  result.Add(field);
+                    var field = new Field_of_Activity
+                    {
+                        Id = reader.GetInt32("ID"),
+                        Title = reader.GetString("Field_name")
+                    };
+                    result.Add(field);
                 }
             }
             return result;

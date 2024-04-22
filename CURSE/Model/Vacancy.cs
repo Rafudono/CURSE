@@ -11,7 +11,7 @@ namespace CURSE.Model
         public int Id {  get; set; }
         public string Title { get; set; }
         public int EmployerId { get; set; }
-        public List<Field_of_Activity> FieldofActivity { get; set; }
+        public List<Field_of_Activity> FieldofActivity { get; set; } = new();
         //public string Organization { get; set; } 
         //нужно из id работодателя (которая в таблице) получить органиацию
         public int XP { get; set; }

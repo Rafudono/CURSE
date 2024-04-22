@@ -57,13 +57,12 @@ namespace CURSE.Model
                         vacancy.IsFlexibleSchedule = reader.GetBoolean("IsFlexibleSchedule");
                         vacancy.IdRequiredEducation = reader.GetInt32("id_Required-Education");
                     }
-                    //vacancy.FieldofActivity.Add(new Field_of_Activity
-                    //{
-                    //    Id = reader.GetInt32("foaId"),
-                    //    Title = reader.GetString("foaTitle"),
-                    //});
-
-
+                    Field_of_Activity foa = new Field_of_Activity
+                    {
+                        Id = reader.GetInt32("id"),
+                        Title = reader.GetString("foaTitle"),
+                    };
+                    vacancy.FieldofActivity.Add(foa);
                 }
             }
 
@@ -84,7 +83,7 @@ namespace CURSE.Model
             {
                 mc.Parameters.Add(new MySqlParameter("empl_id", vacancy.EmployerId));
                 mc.Parameters.Add(new MySqlParameter("xp", vacancy.XP));
-                mc.Parameters.Add(new MySqlParameter("id_foa", vacancy.FieldofActivity));
+               // mc.Parameters.Add(new MySqlParameter("id_foa", vacancy.FieldofActivity));
                 mc.Parameters.Add(new MySqlParameter("id_reqeducation", vacancy.IdRequiredEducation));
                 mc.Parameters.Add(new MySqlParameter("id_city", vacancy.Id_City));
                 mc.Parameters.Add(new MySqlParameter("minsalary", vacancy.MINSalary));
@@ -121,7 +120,7 @@ namespace CURSE.Model
 
         internal IEnumerable<Vacancy> Search(string searchText)//, Field_of_Activity field)
         {
-            string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.DescriptionResponsibilities, v.DescriptionRequirements, v.DescriptionConditions, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID";
+            string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.DescriptionResponsibilities, v.DescriptionRequirements, v.DescriptionConditions, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID ORDER by v.ID ";
             //sql += " AND (d.Title LIKE '%" + searchText + "%'";
             //sql += " OR d.Description LIKE '%" + searchText + "%')";
 
@@ -162,7 +161,7 @@ namespace CURSE.Model
             {
                 mc.Parameters.Add(new MySqlParameter("empl_id", vacancy.EmployerId));
                 mc.Parameters.Add(new MySqlParameter("xp", vacancy.XP));
-               // mc.Parameters.Add(new MySqlParameter("id_foa", vacancy.FieldofActivity));
+                //mc.Parameters.Add(new MySqlParameter("id_foa", vacancy.FieldofActivity));
                 mc.Parameters.Add(new MySqlParameter("id_reqeducation", vacancy.IdRequiredEducation));
                 mc.Parameters.Add(new MySqlParameter("id_city", vacancy.Id_City));
                 mc.Parameters.Add(new MySqlParameter("minsalary", vacancy.MINSalary));

@@ -24,7 +24,7 @@ namespace CURSE.Model
             }
         }
 
-        internal IEnumerable<Applicant> WatchAllResume (string sql)
+        internal IEnumerable<Applicant> GetAllResume (string sql)
         {
             var result = new List<Applicant>();
             var connect = MySqlDB.Instance.GetConnection();
@@ -67,7 +67,7 @@ namespace CURSE.Model
             if (connect == null)
                 return;
 
-            int id = MySqlDB.Instance.GetAutoID("Vacancy");
+            int id = MySqlDB.Instance.GetAutoID("Applicant");
 
             string sql = "INSERT INTO Applicant VALUES (0, @xp, @id_foa, @id_education, @id_city, " +
                 "@salary, @isfull-employment, @isflex-schedule)";
@@ -99,7 +99,7 @@ namespace CURSE.Model
             if (connect == null)
                 return;
 
-            string sql = "DELETE FROM Cross_Applicant_Field-of-activity WHERE id_applicant = '" + applicant.Id + "';";
+            string sql = "DELETE FROM `Cross_Applicant_Field-of-activity` WHERE id_applicant = '" + applicant.Id + "';";
             sql += "DELETE FROM Applicant WHERE ID = '" + applicant.Id + "';";
 
             using (var mc = new MySqlCommand(sql, connect))
@@ -109,56 +109,37 @@ namespace CURSE.Model
         internal IEnumerable<Applicant> Search(string searchText)
         {
             string sql = "SELECT a.ID, a.id_human, a.XP, a.id_Education, a.id_city, a.Salary , a.IsFullEmployment , a.IsFlexibleSchedule , foa.ID AS foaId, foa.Field_name AS foaTitle FROM CURSE.`Cross_Applicant_Field-of-activity` cafoa, CURSE.Applicant a, CURSE.`Fields-of-activity` foa WHERE cafoa.id_applicant = a.ID AND cafoa.id_field = foa.ID;";
-            //sql += " AND (d.Title LIKE '%" + searchText + "%'";
-            //sql += " OR d.Description LIKE '%" + searchText + "%')";
-
-            //if (selectedTag.ID != 0)
-            //{
-            //    var result = WatchAllVacancy(sql).Where(s => s.Tags.FirstOrDefault(s => s.ID == selectedTag.ID) != null);
-            //    return result;                
-            //}                                       сложный способ?
-            return WatchAllResume (sql);
-            //return drinks.Where(s => 
-            //    s.Title.Contains(searchText) ||
-            //    s.Description.Contains(searchText));
-            //else
-            //    return drinks.Where(s =>
-            //    (s.Title.Contains(searchText) ||
-            //    s.Description.Contains(searchText)) &&
-            //    s.Tags.Contains(selectedTag));
+            return GetAllResume(sql);
         }
 
-        internal void UpdateVacancy(Vacancy vacancy)
+        internal void UpdateResume(Applicant applicant)
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return;
 
-            string sql = "DELETE FROM CrossDrinkTag WHERE idDrink = '" + vacancy.Id + "';";
+            string sql = "DELETE FROM `Cross_Applicant_Field-of-activity` WHERE id_applicant = '" + applicant.Id + "';";
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
 
             sql = "";
-            foreach (var foa in vacancy.FieldofActivity)
-                sql += "INSERT INTO CrossDrinkTag VALUES (" + vacancy.Id + "," + foa.Id + ");";
+            foreach (var foa in applicant.FieldofActivity)
+                sql += "INSERT INTO `Cross_Applicant_Field-of-activity` VALUES (" + applicant.Id + "," + foa.Id + ");";
             using (var mcCross = new MySqlCommand(sql, connect))
                 mcCross.ExecuteNonQuery();
 
-            sql = "UPDATE Drink SET Title = @title, Capacity = @capacity, Price = @price, Description = @description WHERE Id = " + vacancy.Id;
+            sql = "UPDATE Drink SET Title = @title, Capacity = @capacity, Price = @price, Description = @description WHERE Id = " + applicant.Id;
             using (var mc = new MySqlCommand(sql, connect))
             {
-                mc.Parameters.Add(new MySqlParameter("empl_id", vacancy.EmployerId));
-                mc.Parameters.Add(new MySqlParameter("xp", vacancy.XP));
-                mc.Parameters.Add(new MySqlParameter("id_foa", vacancy.FieldofActivity));
-                mc.Parameters.Add(new MySqlParameter("id_req-education", vacancy.IdRequiredEducation));
-                mc.Parameters.Add(new MySqlParameter("id_city", vacancy.Id_City));
-                mc.Parameters.Add(new MySqlParameter("minsalary", vacancy.MINSalary));
-                mc.Parameters.Add(new MySqlParameter("maxsalary", vacancy.MAXSalary));
-                mc.Parameters.Add(new MySqlParameter("descr-resp", vacancy.DescriptionResponsibilities));
-                mc.Parameters.Add(new MySqlParameter("descr-require", vacancy.DescriptionRequirements));
-                mc.Parameters.Add(new MySqlParameter("descr-cond", vacancy.DescriptionConditions));
-                mc.Parameters.Add(new MySqlParameter("isflex-schedule", vacancy.IsFlexibleSchedule));
-                mc.Parameters.Add(new MySqlParameter("title", vacancy.Title));
+                mc.Parameters.Add(new MySqlParameter("id", applicant.Id));
+                mc.Parameters.Add(new MySqlParameter("h_id", applicant.HumanId));
+                mc.Parameters.Add(new MySqlParameter("xp", applicant.XP));
+                mc.Parameters.Add(new MySqlParameter("id_foa", applicant.FieldofActivity));
+                mc.Parameters.Add(new MySqlParameter("id_education", applicant.IdEducation));
+                mc.Parameters.Add(new MySqlParameter("id_city", applicant.Id_City));
+                mc.Parameters.Add(new MySqlParameter("salary", applicant.Salary));
+                mc.Parameters.Add(new MySqlParameter("isfull-employment", applicant.IsFullEmployment));
+                mc.Parameters.Add(new MySqlParameter("isflex-schedule", applicant.IsFlexibleSchedule));
                 mc.ExecuteNonQuery();
             }
         }

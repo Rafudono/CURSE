@@ -40,6 +40,17 @@
             <Button Content="Login" Command="{Binding Login}"/>
             <Button Content="Registration" Command="{Binding Registration}"/>
             </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Моё резюме" />
+                    <TextBlock Text="Уведомления"/>
+                <TextBlock Text="Настройки"/>
+            </Grid>
+           
             <WrapPanel >
                 <TextBlock Text="ЗДЕСЬ МОГЛА БЫТЬ ВАША РЕКЛАМА" TextWrapping="Wrap"/>
             </WrapPanel>

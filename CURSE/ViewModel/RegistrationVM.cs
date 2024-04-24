@@ -21,6 +21,7 @@ namespace CURSE.ViewModel
         public Visibility Step2 { get => step2; set { step2 = value; Signal(); } } 
         public Visibility Step3 { get => step3; set { step3 = value; Signal(); } }
         public VmCommand ChangeNEXTVisibility {  get; set; }
+        public VmCommand ChangePrevVisibility { get; set; }
 
         public RegistrationVM()
         {
@@ -46,6 +47,24 @@ namespace CURSE.ViewModel
                 {
                     registration.Close();
                     MessageBox.Show("Вы успешно зарегистрировались!");
+                }
+            });
+            ChangePrevVisibility = new VmCommand(() =>
+            {
+                if (Step1 == Visibility.Visible)
+                {
+                    Step1 = Visibility.Hidden;
+                    Step0 = Visibility.Visible;
+                }
+                else if (Step2 == Visibility.Visible)
+                {
+                    Step2 = Visibility.Hidden;
+                    Step1 = Visibility.Visible;
+                }
+                else if (Step3 == Visibility.Visible)
+                {
+                    Step3 = Visibility.Hidden;
+                    Step2 = Visibility.Visible;
                 }
             });
         }

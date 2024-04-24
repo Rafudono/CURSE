@@ -15,7 +15,7 @@ namespace CURSE.ViewModel
         private string searchText = "";
         private ObservableCollection<Vacancy> all_vac;
         private Field_of_Activity selectedField;
-
+        private Vacancy selectedVac;
         //public VmCommand Create { get; set; }
         //public VmCommand Edit { get; set; }
         //public VmCommand Delete { get; set; }
@@ -42,7 +42,16 @@ namespace CURSE.ViewModel
         }
 
         public ObservableCollection<Field_of_Activity> Fields { get; set; }
-        public Vacancy SelectedVac { get; set; }
+        public Vacancy SelectedVac
+        {
+            get => selectedVac;
+            set
+            {
+                selectedVac = value;
+                Signal();
+                //   Search();
+            }
+        }
         public ObservableCollection<Vacancy> All_vac
         {
             get => all_vac;

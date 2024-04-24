@@ -26,11 +26,11 @@
             <TextBlock Text="Поиск"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="6">
-            <ListView ItemsSource="{Binding All_vac}" >
+            <ListView ItemsSource="{Binding All_vac}" SelectedItem="{Binding SelectedVac}" HorizontalAlignment="Left" >
                 <ListView.View >
-                    <GridView >
-                        <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Title}"/>
-                        <GridViewColumn Header="Сфера деятельности">
+                    <GridView  >
+                        <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Title}" />
+                        <GridViewColumn Header="Сфера деятельности" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <ItemsControl ItemsSource="{Binding FieldofActivity}" DisplayMemberPath="Title">
@@ -47,9 +47,10 @@
                 </ListView.View>
             </ListView>
         </StackPanel>
-        <StackPanel Grid.Column="6" Grid.Row="9" DataContext="{Binding SelectedVac}">
-            <TextBlock Text="Условия" />
-            <TextBlock Text="{Binding DescriptionConditions}"/>
+        <StackPanel Grid.Column="6" Grid.Row="9">
+            <TextBlock Text="{Binding SelectedVac.DescriptionRequirements}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding SelectedVac.DescriptionConditions}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding SelectedVac.DescriptionResponsibilities}" TextWrapping="Wrap"/>
         </StackPanel>
     </Grid>
 </Page>

@@ -14,46 +14,40 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel >
-            <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal">
                 <Image/>
                 <Label Content="CURSE"/>
             </StackPanel>
-            
-            <TabControl>
-                <TabItem Header="Соискатель" >
-                    <Frame Content="{Binding CurrentPage}"/>
-                </TabItem>
-                <TabItem Header="Работодатель">
-                    <Frame Content="{Binding NextPage}"/>
-                </TabItem>
-            </TabControl>
-        </StackPanel>
+
+        <TabControl Grid.Row="3" >
+            <TabItem Header="Соискатель" >
+                <Frame Content="{Binding CurrentPage}"/>
+            </TabItem>
+            <TabItem Header="Работодатель">
+                <Frame Content="{Binding NextPage}"/>
+            </TabItem>
+        </TabControl>
         <StackPanel Grid.Column="9">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Login" Command="{Binding Login}"/>
             <Button Content="Registration" Command="{Binding Registration}"/>
             </StackPanel>
-            <Grid>
+            <Grid Grid.Row="2" HorizontalAlignment="Right">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Моё резюме" />
-                    <TextBlock Text="Уведомления"/>
-                <TextBlock Text="Настройки"/>
+                <TextBlock Text="Уведомления" Grid.Column="1"/>
+                <TextBlock Text="Настройки" Grid.Column="2"/>
             </Grid>
            
-            <WrapPanel >
-                <TextBlock Text="ЗДЕСЬ МОГЛА БЫТЬ ВАША РЕКЛАМА" TextWrapping="Wrap"/>
-            </WrapPanel>
         </StackPanel>
     </Grid>
 </Window>

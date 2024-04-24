@@ -22,13 +22,13 @@
             <TextBox/>
             <Label Content="Фамилия"/>
             <TextBox/>
-            <Button Content="Назад"/>
+            <Button Content="Назад" Command="{Binding ChangePrevVisibility}"/>
             <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step2}">
             <Label Content="Телефон"/>
             <TextBox/>
-            <Button Content="Назад"/>
+            <Button Content="Назад" Command="{Binding ChangePrevVisibility}"/>
             <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step3}">
@@ -37,6 +37,7 @@
                 <Button Content="Соискатель"/>
                 <Button Content="Работодатель"/>
             </StackPanel>
+            <Button Content="Назад" Command="{Binding ChangePrevVisibility}"/>
             <Button Content="Зарегисрироваться!" Command="{Binding ChangeNEXTVisibility}"/>
         </StackPanel>
     </Grid>

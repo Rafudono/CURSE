@@ -3,17 +3,47 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:CURSE.View"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Employer">
-
+     xmlns:local="clr-namespace:CURSE.Model"
+  xmlns:vm="clr-namespace:CURSE.ViewModel" 
+       DataContext="{DynamicResource vm}"
+     mc:Ignorable="d" 
+     d:DesignHeight="450" d:DesignWidth="800"
+     Title="EmployerView">
+    <Page.Resources>
+        <vm:ListResume x:Key="vm"/>
+    </Page.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.7*"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ListBox />
-        
+        <StackPanel Orientation="Horizontal" >
+            <TextBox Width="350"/>
+            <TextBlock Text="Поиск"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="6">
+            <ListBox ItemsSource="{Binding All_resume}" SelectedItem="{Binding SelectedResume}" HorizontalAlignment="Left" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <!--<Image Width="100" Source="{Binding Photo}"/>-->
+                            <Label Content="{Binding Surname}"/>
+                            <Label Content="{Binding Name}"/>
+                            <Label Content="{Binding Middle_Name}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+        </StackPanel>
+        <StackPanel Grid.Column="6" Grid.Row="9">
+            <TextBlock Text="{Binding SelectedVac.DescriptionRequirements}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding SelectedVac.DescriptionConditions}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding SelectedVac.DescriptionResponsibilities}" TextWrapping="Wrap"/>
+        </StackPanel>
     </Grid>
 </Page>

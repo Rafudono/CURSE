@@ -22,14 +22,14 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal" >
-            <TextBox Width="340"/>
+            <TextBox Width="350"/>
             <TextBlock Text="Поиск"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="6">
-            <ListView ItemsSource="{Binding All_vac}" SelectedItem="{Binding SelectedVac}" HorizontalAlignment="Left" >
+            <ListView ItemsSource="{Binding All_vac}" SelectedItem="{Binding SelectedVac}" HorizontalAlignment="Left">
                 <ListView.View >
                     <GridView  >
-                        <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Title}" />
+                        <GridViewColumn Header="Специализация" DisplayMemberBinding="{Binding Title}" />
                         <GridViewColumn Header="Сфера деятельности" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>

@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 
 namespace CURSE.Model
 {
-   public class Human
+    public class Human
     {
-
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Middle_Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public string Login {  get; set; }
+        public string Login { get; set; }
         public string Password { get; set; }
-        public string Gender { get; set; }
+        public int id_Gender { get; set; }
+        public byte [] Photo {get; set;}
         public DateTime Birthday { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace CURSE.Model
         public int HumanId {  get; set; }
         public int Id_City { get; set; }
         public int XP { get; set; }
-        public int Salary { get; set; }
+        public double Salary { get; set; }
         public List<Field_of_Activity> FieldofActivity { get; set; } = new();
         public int IdEducation { get; set; }
         public bool IsFlexibleSchedule { get; set; } //график

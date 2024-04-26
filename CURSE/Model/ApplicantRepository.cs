@@ -43,17 +43,17 @@ namespace CURSE.Model
                         applicant = new Applicant();
                         result.Add(applicant);
                         applicant.Id = id;
-                        applicant.HumanId = reader.GetInt32("HumanId");
+                        applicant.HumanId = reader.GetInt32("id_human");
                         applicant.XP = reader.GetInt32("XP");
-                        applicant.Id_City = reader.GetInt32("Id_City");
-                        applicant.Salary = reader.GetInt32("Salary");
+                        applicant.Id_City = reader.GetInt32("id_city");
+                        applicant.Salary = reader.GetDouble("Salary");
                         applicant.IsFullEmployment = reader.GetBoolean("IsFullEmployment");
                         applicant.IsFlexibleSchedule = reader.GetBoolean("IsFlexibleSchedule");
-                        applicant.IdEducation = reader.GetInt32("IdEducation");
+                        applicant.IdEducation = reader.GetInt32("id_Education");
                     }
                     applicant.FieldofActivity.Add(new Field_of_Activity
                     {
-                        Id = reader.GetInt32("foaId"),
+                        Id = reader.GetInt32("id"),
                         Title = reader.GetString("foaTitle"),
                     });
                 }
@@ -69,7 +69,7 @@ namespace CURSE.Model
 
             int id = MySqlDB.Instance.GetAutoID("Applicant");
 
-            string sql = "INSERT INTO Applicant VALUES (0, @xp, @id_foa, @id_education, @id_city, " +
+            string sql = "INSERT INTO Applicant VALUES (0, @h_id, @xp, @id_foa, @id_education, @id_city, " +
                 "@salary, @isfull-employment, @isflex-schedule)";
             using (var mc = new MySqlCommand(sql, connect))
             {
@@ -82,14 +82,14 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("salary", applicant.Salary));
                 mc.Parameters.Add(new MySqlParameter("isfull-employment", applicant.IsFullEmployment));
                 mc.Parameters.Add(new MySqlParameter("isflex-schedule", applicant.IsFlexibleSchedule));
-                //if (mc.ExecuteNonQuery() > 0)
-                //{
-                //    sql = "";
-                //    foreach (var tag in drink.Tags)
-                //        sql += "INSERT INTO CrossDrinkTag VALUES (" + id + "," + tag.ID + ");";
-                //    using (var mcCross = new MySqlCommand(sql, connect))
-                //        mcCross.ExecuteNonQuery();
-                //}            сложный способ?
+                if (mc.ExecuteNonQuery() > 0)
+                {
+                    sql = "";
+                    foreach (var field in applicant.FieldofActivity)
+                        sql += "INSERT INTO `Cross_Vacancy_Field-of-activity` VALUES (" + id + "," + field.Id + ");";
+                    using (var mcCross = new MySqlCommand(sql, connect))
+                        mcCross.ExecuteNonQuery();
+                }
             }
         }
 

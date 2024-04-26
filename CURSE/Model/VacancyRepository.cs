@@ -83,7 +83,6 @@ namespace CURSE.Model
             {
                 mc.Parameters.Add(new MySqlParameter("empl_id", vacancy.EmployerId));
                 mc.Parameters.Add(new MySqlParameter("xp", vacancy.XP));
-               // mc.Parameters.Add(new MySqlParameter("id_foa", vacancy.FieldofActivity));
                 mc.Parameters.Add(new MySqlParameter("id_reqeducation", vacancy.IdRequiredEducation));
                 mc.Parameters.Add(new MySqlParameter("id_city", vacancy.Id_City));
                 mc.Parameters.Add(new MySqlParameter("minsalary", vacancy.MINSalary));
@@ -101,7 +100,6 @@ namespace CURSE.Model
                     using (var mcCross = new MySqlCommand(sql, connect))
                         mcCross.ExecuteNonQuery();
                 }
-                //сложный способ?
             }
         }
 
@@ -161,7 +159,6 @@ namespace CURSE.Model
             {
                 mc.Parameters.Add(new MySqlParameter("empl_id", vacancy.EmployerId));
                 mc.Parameters.Add(new MySqlParameter("xp", vacancy.XP));
-                //mc.Parameters.Add(new MySqlParameter("id_foa", vacancy.FieldofActivity));
                 mc.Parameters.Add(new MySqlParameter("id_reqeducation", vacancy.IdRequiredEducation));
                 mc.Parameters.Add(new MySqlParameter("id_city", vacancy.Id_City));
                 mc.Parameters.Add(new MySqlParameter("minsalary", vacancy.MINSalary));

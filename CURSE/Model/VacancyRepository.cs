@@ -51,9 +51,10 @@ namespace CURSE.Model
                         vacancy.Id_City = reader.GetInt32("Id_City");
                         vacancy.MINSalary = reader.GetInt32("MINSalary");
                         vacancy.MAXSalary = reader.GetInt32("MAXSalary");
-                        vacancy.DescriptionResponsibilities = reader.GetString("DescriptionResponsibilities");
-                        vacancy.DescriptionRequirements = reader.GetString("DescriptionRequirements");
-                        vacancy.DescriptionConditions = reader.GetString("DescriptionConditions");
+                        vacancy.Responsibilities = reader.GetString("Responsibilities");
+                        vacancy.Requirements = reader.GetString("Requirements");
+                        vacancy.Conditions = reader.GetString("Conditions");
+                        vacancy.Description = reader.GetString("Description");
                         vacancy.IsFlexibleSchedule = reader.GetBoolean("IsFlexibleSchedule");
                         vacancy.IdRequiredEducation = reader.GetInt32("id_Required-Education");
                     }
@@ -78,7 +79,7 @@ namespace CURSE.Model
             int id = MySqlDB.Instance.GetAutoID("Vacancy");
 
             string sql = "INSERT INTO Vacancy VALUES (0, @empl_id, @xp, @id_foa, @id_reqeducation, @id_city, " +
-                "@minsalary, @maxsalary, @descr_resp, @descr_require, @descr_cond, @isflex_schedule, @title)";
+                "@minsalary, @maxsalary, @resp, @require, @cond, @descr, @isflex_schedule, @title)";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("empl_id", vacancy.EmployerId));
@@ -87,9 +88,10 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("id_city", vacancy.Id_City));
                 mc.Parameters.Add(new MySqlParameter("minsalary", vacancy.MINSalary));
                 mc.Parameters.Add(new MySqlParameter("maxsalary", vacancy.MAXSalary));
-                mc.Parameters.Add(new MySqlParameter("descr_resp", vacancy.DescriptionResponsibilities));
-                mc.Parameters.Add(new MySqlParameter("descr_require", vacancy.DescriptionRequirements));
-                mc.Parameters.Add(new MySqlParameter("descr_cond", vacancy.DescriptionConditions));
+                mc.Parameters.Add(new MySqlParameter("resp", vacancy.Responsibilities));
+                mc.Parameters.Add(new MySqlParameter("require", vacancy.Requirements));
+                mc.Parameters.Add(new MySqlParameter("cond", vacancy.Conditions));
+                mc.Parameters.Add(new MySqlParameter("descr", vacancy.Description));
                 mc.Parameters.Add(new MySqlParameter("isflex_schedule", vacancy.IsFlexibleSchedule));
                 mc.Parameters.Add(new MySqlParameter("title", vacancy.Title));
                 if (mc.ExecuteNonQuery() > 0)
@@ -118,7 +120,7 @@ namespace CURSE.Model
 
         internal IEnumerable<Vacancy> Search(string searchText)//, Field_of_Activity field)
         {
-            string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.DescriptionResponsibilities, v.DescriptionRequirements, v.DescriptionConditions, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID ORDER by v.ID ";
+            string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID ORDER by v.ID; ";
             //sql += " AND (d.Title LIKE '%" + searchText + "%'";
             //sql += " OR d.Description LIKE '%" + searchText + "%')";
 
@@ -154,7 +156,7 @@ namespace CURSE.Model
             using (var mcCross = new MySqlCommand(sql, connect))
                 mcCross.ExecuteNonQuery();
 
-            sql = "UPDATE CURSE.Vacancy SET employer_id = @empl_id, `Required-XP` = @xp, `id_Required-Education` = @id_reqeducation, id_city = @id_city, MINSalary = @minsalary, MAXsalary = @maxsalary, DescriptionResponsibilities = @descr_resp, DescriptionRequirements = @descr_require, DescriptionConditions = @descr_cond, IsFlexibleSchedule = @isflex_schedule, Title = @title WHERE ID =" + vacancy.Id;
+            sql = "UPDATE CURSE.Vacancy SET employer_id = @empl_id, `Required-XP` = @xp, `id_Required-Education` = @id_reqeducation, id_city = @id_city, MINSalary = @minsalary, MAXsalary = @maxsalary, Responsibilities = @resp, Requirements = @require, Conditions = @cond, Description = @descr, IsFlexibleSchedule = @isflex_schedule, Title = @title WHERE ID =" + vacancy.Id;
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("empl_id", vacancy.EmployerId));
@@ -163,9 +165,10 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("id_city", vacancy.Id_City));
                 mc.Parameters.Add(new MySqlParameter("minsalary", vacancy.MINSalary));
                 mc.Parameters.Add(new MySqlParameter("maxsalary", vacancy.MAXSalary));
-                mc.Parameters.Add(new MySqlParameter("descr_resp", vacancy.DescriptionResponsibilities));
-                mc.Parameters.Add(new MySqlParameter("descr_require", vacancy.DescriptionRequirements));
-                mc.Parameters.Add(new MySqlParameter("descr_cond", vacancy.DescriptionConditions));
+                mc.Parameters.Add(new MySqlParameter("resp", vacancy.Responsibilities));
+                mc.Parameters.Add(new MySqlParameter("require", vacancy.Requirements));
+                mc.Parameters.Add(new MySqlParameter("cond", vacancy.Conditions));
+                mc.Parameters.Add(new MySqlParameter("descr", vacancy.Description));
                 mc.Parameters.Add(new MySqlParameter("isflex_schedule", vacancy.IsFlexibleSchedule));
                 mc.Parameters.Add(new MySqlParameter("title", vacancy.Title));
                 mc.ExecuteNonQuery();

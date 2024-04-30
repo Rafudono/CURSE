@@ -29,7 +29,7 @@
             <ListView ItemsSource="{Binding All_vac}" SelectedItem="{Binding SelectedVac}" HorizontalAlignment="Left">
                 <ListView.View >
                     <GridView  >
-                        <GridViewColumn Header="Специализация" DisplayMemberBinding="{Binding Title}" />
+                        <GridViewColumn Header="Специализация" DisplayMemberBinding="{Binding Title}"/>
                         <GridViewColumn Header="Сфера деятельности" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -48,9 +48,10 @@
             </ListView>
         </StackPanel>
         <StackPanel Grid.Column="6" Grid.Row="9">
-            <TextBlock Text="{Binding SelectedVac.DescriptionRequirements}" TextWrapping="Wrap"/>
-            <TextBlock Text="{Binding SelectedVac.DescriptionConditions}" TextWrapping="Wrap"/>
-            <TextBlock Text="{Binding SelectedVac.DescriptionResponsibilities}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding SelectedVac.Description}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding SelectedVac.Requirements}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding SelectedVac.Conditions}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding SelectedVac.Responsibilities}" TextWrapping="Wrap"/>
         </StackPanel>
     </Grid>
 </Page>

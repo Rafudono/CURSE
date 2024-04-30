@@ -18,9 +18,10 @@ namespace CURSE.Model
         public int Id_City { get; set; } //получить из id
         public int  MINSalary { get; set; }
         public int MAXSalary { get; set; }
-        public string DescriptionResponsibilities { get; set; }
-        public string DescriptionRequirements { get; set; }
-        public string DescriptionConditions { get; set; }
+        public string Responsibilities { get; set; }
+        public string Requirements { get; set; }
+        public string Conditions { get; set; }
+        public string Description {  get; set; }
         public bool IsFlexibleSchedule { get; set; }
         public int IdRequiredEducation { get; set; }
     }

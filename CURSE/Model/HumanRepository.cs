@@ -50,7 +50,6 @@ namespace CURSE.Model
                         hum.PhoneNumber = reader.GetString("PhoneNumber");
                         hum.Login = reader.GetString("Login");
                         hum.Password = reader.GetString("Password");
-                        hum.id_Gender = reader.GetInt32("Gender");
                         hum.Birthday = reader.GetDateTime("Birthday");
                         int index = reader.GetOrdinal("Photo");
                         using (var stream = reader.GetStream(index))
@@ -84,7 +83,6 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("PhoneNumber", hum.PhoneNumber));
                 mc.Parameters.Add(new MySqlParameter("Login", hum.Login));
                 mc.Parameters.Add(new MySqlParameter("Password", hum.Password));
-                mc.Parameters.Add(new MySqlParameter("id_g", hum.id_Gender));
                 mc.Parameters.Add(new MySqlParameter("Birthday", hum.Birthday));
                 mc.Parameters.Add(new MySqlParameter("Photo", hum.Photo));
 
@@ -105,7 +103,7 @@ namespace CURSE.Model
 
         internal IEnumerable<Human> Search(string searchText)
         {
-            string sql = "SELECT hum.ID, hum.LOGIN, hum.PASSWORD, hum.EMAIL, hum.PHONE_NUMBER, hum.Name, hum.Middle_name, hum.Surname, hum.Birthday, hum.id_Gender, hum.Photo from CURSE.Human hum;";
+            string sql = "SELECT hum.ID, hum.LOGIN, hum.PASSWORD, hum.EMAIL, hum.PHONE_NUMBER, hum.Name, hum.Middle_name, hum.Surname, hum.Birthday, hum.Photo from CURSE.Human hum;";
             return GetPeople(sql);
         }
 
@@ -133,7 +131,6 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("PhoneNumber", hum.PhoneNumber));
                 mc.Parameters.Add(new MySqlParameter("Login", hum.Login));
                 mc.Parameters.Add(new MySqlParameter("Password", hum.Password));
-                mc.Parameters.Add(new MySqlParameter("id_g", hum.id_Gender));
                 mc.Parameters.Add(new MySqlParameter("Birthday", hum.Birthday));
                 mc.Parameters.Add(new MySqlParameter("Photo", hum.Photo));
                 mc.ExecuteNonQuery();

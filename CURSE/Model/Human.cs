@@ -16,7 +16,6 @@ namespace CURSE.Model
         public string PhoneNumber { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
-        public int id_Gender { get; set; }
         public byte [] Photo {get; set;}
         public DateTime Birthday { get; set; }
     }

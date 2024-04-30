@@ -50,6 +50,12 @@ namespace CURSE.Model
                         applicant.IsFullEmployment = reader.GetBoolean("IsFullEmployment");
                         applicant.IsFlexibleSchedule = reader.GetBoolean("IsFlexibleSchedule");
                         applicant.IdEducation = reader.GetInt32("id_Education");
+                        applicant.Name = reader.GetString("Name");
+                        applicant.Middle_Name = reader.GetString("Middle_name");
+                        applicant.Surname = reader.GetString("Surname");
+                        applicant.Email = reader.GetString("EMAIL");
+                        applicant.PhoneNumber = reader.GetString("PHONE_NUMBER");
+                        applicant.Birthday = reader.GetDateTime("Birthday");
                     }
                     applicant.FieldofActivity.Add(new Field_of_Activity
                     {
@@ -61,7 +67,7 @@ namespace CURSE.Model
             return result;
         }
 
-        internal void AddVacancy(Applicant applicant)
+        internal void AddApplicant(Applicant applicant)
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)

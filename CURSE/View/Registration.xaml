@@ -22,6 +22,8 @@
             <TextBox/>
             <Label Content="Фамилия"/>
             <TextBox/>
+            <Label Content="Отчество"/>
+            <TextBox/>
             <Button Content="Назад" Command="{Binding ChangePrevVisibility}"/>
             <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
         </StackPanel>

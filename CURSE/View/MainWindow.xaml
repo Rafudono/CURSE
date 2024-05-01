@@ -43,7 +43,8 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Моё резюме" />
+                <TextBlock Text="Моё резюме"/>
+                <TextBlock Text="Мои вакансии"/>
                 <TextBlock Text="Уведомления" Grid.Column="1"/>
                 <TextBlock Text="Настройки" Grid.Column="2"/>
             </Grid>

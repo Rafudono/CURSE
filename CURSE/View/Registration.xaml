@@ -13,16 +13,20 @@
     </Window.Resources>
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step0}" >
-        <Label Content="Почта"/>
-        <TextBox/>
-            <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
-    </StackPanel>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step1}" >
             <Label Content="Имя"/>
             <TextBox/>
             <Label Content="Фамилия"/>
             <TextBox/>
             <Label Content="Отчество"/>
+            <TextBox/>
+            <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
+    </StackPanel>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step1}" >
+            <Label Content="Почта"/>
+            <TextBox/>
+            <Label Content="Придумайте пароль"/>
+            <TextBox/>
+            <Label Content="Подтвердите пароль"/>
             <TextBox/>
             <Button Content="Назад" Command="{Binding ChangePrevVisibility}"/>
             <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
@@ -36,8 +40,8 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step3}">
             <Label Content="Зарегистрироваться как"/>
             <StackPanel Orientation="Horizontal">
-                <Button Content="Соискатель"/>
-                <Button Content="Работодатель"/>
+                <RadioButton Content="Соискатель"/>
+                <RadioButton Content="Работодатель"/>
             </StackPanel>
             <Button Content="Назад" Command="{Binding ChangePrevVisibility}"/>
             <Button Content="Зарегисрироваться!" Command="{Binding ChangeNEXTVisibility}"/>

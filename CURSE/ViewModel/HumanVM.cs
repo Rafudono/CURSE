@@ -1,4 +1,5 @@
 ﻿using CURSE.Model;
+using CURSE.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,7 +15,7 @@ namespace CURSE.ViewModel
         private string searchText = "";
         private ObservableCollection<Human> people;
         private Human selectedHuman;
-        //public VmCommand Create { get; set; }
+        public VmCommand Save { get; set; }
         //public VmCommand Edit { get; set; }
         //public VmCommand Delete { get; set; }
 
@@ -55,6 +56,10 @@ namespace CURSE.ViewModel
             //SelectedField = Fields[0];
             string sql = " ";
             People = new ObservableCollection<Human>(HumanRepository.Instance.GetPeople(sql));
+            Save = new VmCommand(() =>
+            {
+                new Registration().Show();
+            });
         }
         internal void SetMainVM(MainVM mainVM)
         {
@@ -67,3 +72,4 @@ namespace CURSE.ViewModel
         }
     }
 }
+// где-то надо создать human заполнить его свойства при регистрации, внести в таблицу 

@@ -1,15 +1,19 @@
-﻿using CURSE.View;
+﻿using CURSE.Model;
+using CURSE.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xaml;
 
 namespace CURSE.ViewModel
 {
     public class RegistrationVM : BaseVM
     {
+        private MainVM mainVM;
+
 
         private Visibility step0 = Visibility.Visible;
         private Visibility step1 = Visibility.Hidden;
@@ -22,6 +26,11 @@ namespace CURSE.ViewModel
         public Visibility Step3 { get => step3; set { step3 = value; Signal(); } }
         public VmCommand ChangeNEXTVisibility {  get; set; }
         public VmCommand ChangePrevVisibility { get; set; }
+        public Human registrateHuman { get; set; }
+        public bool regLikeApplicant {  get; set; }
+        public bool regLikeEmp {  get; set; }
+        public string password1 {  get; set; }
+        public string password2 { get; set; }
 
         public RegistrationVM()
         {
@@ -35,6 +44,11 @@ namespace CURSE.ViewModel
                 }
                 else if (Step1 == Visibility.Visible)
                 {
+                    if (password1 != password2)
+                    {
+                        MessageBox.Show("Введите одинаковые пароли в поля");
+                        return;
+                    }
                     Step1 = Visibility.Hidden;
                     Step2 = Visibility.Visible;
                 }
@@ -45,8 +59,22 @@ namespace CURSE.ViewModel
                 }
                 else
                 {
-                    registration.Close();
-                    MessageBox.Show("Вы успешно зарегистрировались!");
+                    registrateHuman.Password = password2;
+                    int id = HumanRepository.Instance.AddHuman(registrateHuman);
+                    if (id != 0)
+                    {
+                        if (regLikeApplicant)
+                        { 
+                        ApplicantRepository.Instance.AddApplicant(new Applicant {  HumanId = id });
+                        }
+                        if (regLikeEmp)
+                        {
+                            EmployerRepository.Instance.AddEmployer(new Employer { id_human = id});
+                        }
+                        registration.Close();
+                        MessageBox.Show("Вы успешно зарегистрировались!");
+                    }
+
                 }
             });
             ChangePrevVisibility = new VmCommand(() =>
@@ -72,6 +100,10 @@ namespace CURSE.ViewModel
         internal void RegisterWindow(Registration registration)
         {
             this.registration = registration;   
+        }
+        internal void SetMainVM(MainVM mainVM)
+        {
+            this.mainVM = mainVM;
         }
     }
 }

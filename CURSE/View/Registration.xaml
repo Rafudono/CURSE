@@ -11,37 +11,39 @@
     <Window.Resources>
         <vm:RegistrationVM x:Key="vm" />
     </Window.Resources>
-    <Grid>
+    <Grid >
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step0}" >
             <Label Content="Имя"/>
-            <TextBox/>
+            <TextBox Text="{Binding registrateHuman.Name}"/>
             <Label Content="Фамилия"/>
-            <TextBox/>
+            <TextBox Text="{Binding registrateHuman.Surname}"/>
             <Label Content="Отчество"/>
-            <TextBox/>
+            <TextBox Text="{Binding registrateHuman.Middle_Name}"/>
+            <Label Content="День рожднеия"/>
+            <TextBox Text="{Binding registrateHuman.Birthday}"/>
             <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
     </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step1}" >
             <Label Content="Почта"/>
-            <TextBox/>
+            <TextBox Text="{Binding registrateHuman.Email}"/>
             <Label Content="Придумайте пароль"/>
-            <TextBox/>
+            <TextBox Text="{Binding password1}"/>
             <Label Content="Подтвердите пароль"/>
-            <TextBox/>
+            <TextBox Text="{Binding password2}"/>
             <Button Content="Назад" Command="{Binding ChangePrevVisibility}"/>
             <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step2}">
             <Label Content="Телефон"/>
-            <TextBox/>
+            <TextBox Text="{Binding  registrateHuman.PhoneNumber}"/>
             <Button Content="Назад" Command="{Binding ChangePrevVisibility}"/>
             <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step3}">
             <Label Content="Зарегистрироваться как"/>
             <StackPanel Orientation="Horizontal">
-                <RadioButton Content="Соискатель"/>
-                <RadioButton Content="Работодатель"/>
+                <RadioButton Content="Соискатель" IsChecked="{Binding regLikeApplicant}"/>
+                <RadioButton Content="Работодатель" IsChecked="{Binding regLikeEmp}"/>
             </StackPanel>
             <Button Content="Назад" Command="{Binding ChangePrevVisibility}"/>
             <Button Content="Зарегисрироваться!" Command="{Binding ChangeNEXTVisibility}"/>

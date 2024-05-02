@@ -63,11 +63,11 @@ namespace CURSE.Model
             return result;
         }
 
-        internal void AddHuman(Human hum)
+        internal int AddHuman(Human hum)
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
-                return;
+                return 0;
 
             int id = MySqlDB.Instance.GetAutoID("Human");
 
@@ -85,8 +85,9 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("Password", hum.Password));
                 mc.Parameters.Add(new MySqlParameter("Birthday", hum.Birthday));
                 mc.Parameters.Add(new MySqlParameter("Photo", hum.Photo));
-
+                mc.ExecuteNonQuery();
             }
+            return id;
         }
 
         internal void Remove(Human hum)

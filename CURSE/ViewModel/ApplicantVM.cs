@@ -50,9 +50,6 @@ namespace CURSE.ViewModel
 
         public ApplicantVM()
         {
-            //Fields = new ObservableCollection<Field_of_Activity>(FoaRepository.Instance.GetFields());
-            //Fields.Insert(0, new Field_of_Activity { Id = 0, Title = "Все виды!!!!!" });     //!!!!
-            //SelectedField = Fields[0];
             string sql = "SELECT a.ID, a.id_human, a.XP, a.id_Education, a.id_city, a.Salary , a.IsFullEmployment , a.IsFlexibleSchedule , foa.ID AS foaId, foa.Field_name AS foaTitle FROM CURSE.`Cross_Applicant_Field-of-activity` cafoa, CURSE.Applicant a, CURSE.`Fields-of-activity` foa WHERE cafoa.id_applicant = a.ID AND cafoa.id_field = foa.ID;";
             Applicants = new ObservableCollection<Applicant>(ApplicantRepository.Instance.GetAllResume(sql));
         }

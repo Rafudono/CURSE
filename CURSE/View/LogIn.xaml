@@ -12,7 +12,7 @@
         <vm:MainVM x:Key="vm"/>
     </Window.Resources>
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
-        <Label Content="Логин"/>
+        <Label Content="Почта"/>
         <TextBox/>
         <Label Content="Пароль"/>
         <TextBox/>

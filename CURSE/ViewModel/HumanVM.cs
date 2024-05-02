@@ -65,11 +65,11 @@ namespace CURSE.ViewModel
         {
             this.mainVM = mainVM;
         }
-        private void SearchVacancy()
-        {
-            People = new ObservableCollection<Human>(
-                   HumanRepository.Instance.Search(SearchText));
-        }
+        //private void SearchVacancy()
+        //{
+        //    People = new ObservableCollection<Human>(
+        //           HumanRepository.Instance.Search(SearchText));
+        //}
     }
 }
 // где-то надо создать human заполнить его свойства при регистрации, внести в таблицу 

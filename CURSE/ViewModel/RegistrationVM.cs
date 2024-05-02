@@ -59,7 +59,7 @@ namespace CURSE.ViewModel
                 }
                 else
                 {
-                    registrateHuman.Password = password2;
+                    registrateHuman.Password = Md5.HashPassword(password2);
                     int id = HumanRepository.Instance.AddHuman(registrateHuman);
                     if (id != 0)
                     {

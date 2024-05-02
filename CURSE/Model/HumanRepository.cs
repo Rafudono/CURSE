@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -62,7 +63,6 @@ namespace CURSE.Model
             }
             return result;
         }
-
         internal int AddHuman(Human hum)
         {
             var connect = MySqlDB.Instance.GetConnection();
@@ -89,7 +89,32 @@ namespace CURSE.Model
             }
             return id;
         }
+        
+        internal int LoginHuman(string email, string password) 
+        {
+          
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null)
+                return 0;
+            string sql = "SELECT * FROM Human h WHERE h.EMAIL =" + email + " h.PASSWORD =" + password + ";";
+            Human hum = new Human();
 
+            using (var mc = new MySqlCommand(sql, connect))
+            {
+                mc.Parameters.Add(new MySqlParameter("id", hum.Id));
+                mc.Parameters.Add(new MySqlParameter("Surname", hum.Surname));
+                mc.Parameters.Add(new MySqlParameter("Name", hum.Name));
+                mc.Parameters.Add(new MySqlParameter("Middle_Name", hum.Middle_Name));
+                mc.Parameters.Add(new MySqlParameter("Email", hum.Email));
+                mc.Parameters.Add(new MySqlParameter("PhoneNumber", hum.PhoneNumber));
+                mc.Parameters.Add(new MySqlParameter("Login", hum.Login));
+                mc.Parameters.Add(new MySqlParameter("Password", hum.Password));
+                mc.Parameters.Add(new MySqlParameter("Birthday", hum.Birthday));
+                mc.Parameters.Add(new MySqlParameter("Photo", hum.Photo));
+                mc.ExecuteNonQuery();
+            }
+            return hum.Id;
+        }
         internal void Remove(Human hum)
         {
             var connect = MySqlDB.Instance.GetConnection();
@@ -102,11 +127,11 @@ namespace CURSE.Model
                 mc.ExecuteNonQuery();
         }
 
-        internal IEnumerable<Human> Search(string searchText)
-        {
-            string sql = "SELECT hum.ID, hum.LOGIN, hum.PASSWORD, hum.EMAIL, hum.PHONE_NUMBER, hum.Name, hum.Middle_name, hum.Surname, hum.Birthday, hum.Photo from CURSE.Human hum;";
-            return GetPeople(sql);
-        }
+        //internal IEnumerable<Human> Search(string searchText)
+        //{
+        //    string sql = "SELECT hum.ID, hum.LOGIN, hum.PASSWORD, hum.EMAIL, hum.PHONE_NUMBER, hum.Name, hum.Middle_name, hum.Surname, hum.Birthday, hum.Photo from CURSE.Human hum;";
+        //    return GetPeople(sql);
+        //}
 
         internal void UpdateResume(Human hum)
         {

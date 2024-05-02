@@ -9,14 +9,14 @@
         mc:Ignorable="d"
         Title="LogIn" Height="450" Width="800">
     <Window.Resources>
-        <vm:MainVM x:Key="vm"/>
+        <vm:LoginVM x:Key="vm"/>
     </Window.Resources>
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
         <Label Content="Почта"/>
-        <TextBox/>
+        <TextBox Text="{Binding loginEmail}"/>
         <Label Content="Пароль"/>
-        <TextBox/>
-        <Button Content="Войти"/>
+        <TextBox Text="{Binding loginPassword}"/>
+        <Button Content="Войти" />
     </StackPanel>
    
 </Window>

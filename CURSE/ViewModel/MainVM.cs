@@ -15,37 +15,48 @@ namespace CURSE.ViewModel
         public VmCommand Registration { get; }
         public VmCommand Search { get; }
 
-        private Page currentPage;
-        private Page nextPage;
+        private Page vacancyPage;
+        private Page resumePage;
+        private Page authorizationPage;
+        private MainVM mainVM;
 
-        public Page CurrentPage
+        public Page VacancyPage
         {
-            get => currentPage;
+            get => vacancyPage;
             set
             {
-                currentPage = value;
+                vacancyPage = value;
                 Signal();
             }
         }
-        public Page NextPage
+        public Page ResumePage
         {
-            get => nextPage;
+            get => resumePage;
             set
             {
-                nextPage = value;
+                resumePage = value;
+                Signal();
+            }
+        }
+        public Page AuthorizationPage
+        {
+            get => authorizationPage;
+            set
+            {
+                authorizationPage = value;
                 Signal();
             }
         }
         public MainVM()
         {
-            Login = new VmCommand(() =>
-            {
-                LogIn taskwindow = new LogIn();
-                taskwindow.ShowDialog();
-            });
             Registration = new VmCommand(() =>
             {
                 Registration taskwindow = new Registration();
+                taskwindow.ShowDialog();
+            });
+            Login = new VmCommand(() =>
+            {
+                LogIn taskwindow = new LogIn();
                 taskwindow.ShowDialog();
             });
             Search = new VmCommand(() =>
@@ -59,8 +70,9 @@ namespace CURSE.ViewModel
         //public Page employerView = new EmployerView();
         private void OpenSearch()
         {
-            CurrentPage = new ApplicantView(this);
-            NextPage = new EmployerView(this); //rfr
+            VacancyPage = new ApplicantView(this);
+            ResumePage = new EmployerView(this); 
+           // AuthorizationPage = new LogIn(this);
         }
 
     }

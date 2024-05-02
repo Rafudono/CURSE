@@ -26,10 +26,10 @@
 
         <TabControl Grid.Row="3" >
             <TabItem Header="Соискатель" >
-                <Frame Content="{Binding CurrentPage}"/>
+                <Frame Content="{Binding VacancyPage}"/>
             </TabItem>
             <TabItem Header="Работодатель">
-                <Frame Content="{Binding NextPage}"/>
+                <Frame Content="{Binding ResumePage}"/>
             </TabItem>
         </TabControl>
         <StackPanel Grid.Column="9">

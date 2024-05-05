@@ -26,7 +26,7 @@ namespace CURSE.ViewModel
         public Visibility Step3 { get => step3; set { step3 = value; Signal(); } }
         public VmCommand ChangeNEXTVisibility {  get; set; }
         public VmCommand ChangePrevVisibility { get; set; }
-        public Human registrateHuman { get; set; }
+        public Human registrateHuman { get; set; } = new();
         public bool regLikeApplicant {  get; set; }
         public bool regLikeEmp {  get; set; }
         public string password1 {  get; set; }

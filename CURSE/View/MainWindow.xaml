@@ -43,10 +43,10 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Моё резюме"/>
-                <TextBlock Text="Мои вакансии"/>
-                <TextBlock Text="Уведомления" Grid.Column="1"/>
-                <TextBlock Text="Настройки" Grid.Column="2"/>
+                <TextBlock Text="Моё резюме" Visibility="{Binding Resume}"/>
+                <TextBlock Text="Мои вакансии" Visibility="{Binding Vacancy}"/>
+                <TextBlock Text="Уведомления" Grid.Column="1" Visibility="{Binding Notice}"/>
+                <TextBlock Text="Настройки" Grid.Column="2" Visibility="{Binding Settings}"/>
             </Grid>
            
         </StackPanel>

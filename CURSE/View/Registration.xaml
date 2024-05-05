@@ -7,12 +7,16 @@
         xmlns:vm="clr-namespace:CURSE.ViewModel" 
         DataContext="{DynamicResource vm}"
         mc:Ignorable="d"
-        Title="Registration" Height="450" Width="800">
+        Title="Registration" Height="400" Width="600">
     <Window.Resources>
         <vm:RegistrationVM x:Key="vm" />
     </Window.Resources>
     <Grid >
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step0}" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step0}" Grid.Row="1">
             <Label Content="Имя"/>
             <TextBox Text="{Binding registrateHuman.Name}"/>
             <Label Content="Фамилия"/>
@@ -22,8 +26,8 @@
             <Label Content="День рожднеия"/>
             <TextBox Text="{Binding registrateHuman.Birthday}"/>
             <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
-    </StackPanel>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step1}" >
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step1}" Grid.Row="1">
             <Label Content="Почта"/>
             <TextBox Text="{Binding registrateHuman.Email}"/>
             <Label Content="Придумайте пароль"/>
@@ -33,13 +37,13 @@
             <Button Content="Назад" Command="{Binding ChangePrevVisibility}"/>
             <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
         </StackPanel>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step2}">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step2}" Grid.Row="1">
             <Label Content="Телефон"/>
             <TextBox Text="{Binding  registrateHuman.PhoneNumber}"/>
             <Button Content="Назад" Command="{Binding ChangePrevVisibility}"/>
             <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
         </StackPanel>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step3}">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step3}" Grid.Row="1">
             <Label Content="Зарегистрироваться как"/>
             <StackPanel Orientation="Horizontal">
                 <RadioButton Content="Соискатель" IsChecked="{Binding regLikeApplicant}"/>

@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:CURSE.ViewModel" 
         DataContext="{DynamicResource vm}"
         mc:Ignorable="d"
-        Title="LogIn" Height="450" Width="800">
+        Title="LogIn"  Height="400" Width="600">
     <Window.Resources>
         <vm:LoginVM x:Key="vm"/>
     </Window.Resources>

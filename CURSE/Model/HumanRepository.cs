@@ -72,7 +72,7 @@ namespace CURSE.Model
             int id = MySqlDB.Instance.GetAutoID("Human");
 
             string sql = "INSERT INTO Applicant VALUES (0, @Surname, @Name, @Middle_Name, @Email, " +
-                "@PhoneNumber, @Login, @Password, @id_g, @Birthday, @Photo)";
+                "@PhoneNumber, @Login, @Password, @Birthday, @Photo)";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("id", hum.Id));

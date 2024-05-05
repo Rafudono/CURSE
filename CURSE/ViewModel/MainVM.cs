@@ -5,6 +5,7 @@ using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace CURSE.ViewModel
@@ -20,6 +21,16 @@ namespace CURSE.ViewModel
         private Page authorizationPage;
         private MainVM mainVM;
 
+
+        private Visibility resume = Visibility.Hidden;
+        private Visibility vacancy = Visibility.Hidden;
+        private Visibility notice = Visibility.Hidden;
+        private Visibility settings = Visibility.Hidden;
+        public Visibility Resume { get => resume; set { resume = value; Signal(); } }
+
+        public Visibility Vacancy { get => vacancy; set { vacancy = value; Signal(); } }
+        public Visibility Notice { get => notice; set { notice = value; Signal(); } }
+        public Visibility Settings { get => settings; set { settings = value; Signal(); } }
         public Page VacancyPage
         {
             get => vacancyPage;
@@ -59,6 +70,7 @@ namespace CURSE.ViewModel
                 LogIn taskwindow = new LogIn();
                 taskwindow.ShowDialog();
             });
+           
             Search = new VmCommand(() =>
             {
                 OpenSearch();

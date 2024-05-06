@@ -49,7 +49,6 @@ namespace CURSE.Model
                         hum.Middle_Name = reader.GetString("Middle_Name");
                         hum.Email = reader.GetString("Email");
                         hum.PhoneNumber = reader.GetString("PhoneNumber");
-                        hum.Login = reader.GetString("Login");
                         hum.Password = reader.GetString("Password");
                         hum.Birthday = reader.GetDateTime("Birthday");
                         int index = reader.GetOrdinal("Photo");
@@ -71,8 +70,8 @@ namespace CURSE.Model
 
             int id = MySqlDB.Instance.GetAutoID("Human");
 
-            string sql = "INSERT INTO Applicant VALUES (0, @Surname, @Name, @Middle_Name, @Email, " +
-                "@PhoneNumber, @Login, @Password, @Birthday, @Photo)";
+            string sql = "INSERT INTO Human VALUES (0, @Surname, @Name, @Middle_Name, @Email, " +
+                "@PhoneNumber, @Password, @Birthday, @Photo)";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("id", hum.Id));
@@ -81,7 +80,6 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("Middle_Name", hum.Middle_Name));
                 mc.Parameters.Add(new MySqlParameter("Email", hum.Email));
                 mc.Parameters.Add(new MySqlParameter("PhoneNumber", hum.PhoneNumber));
-                mc.Parameters.Add(new MySqlParameter("Login", hum.Login));
                 mc.Parameters.Add(new MySqlParameter("Password", hum.Password));
                 mc.Parameters.Add(new MySqlParameter("Birthday", hum.Birthday));
                 mc.Parameters.Add(new MySqlParameter("Photo", hum.Photo));
@@ -107,7 +105,6 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("Middle_Name", hum.Middle_Name));
                 mc.Parameters.Add(new MySqlParameter("Email", hum.Email));
                 mc.Parameters.Add(new MySqlParameter("PhoneNumber", hum.PhoneNumber));
-                mc.Parameters.Add(new MySqlParameter("Login", hum.Login));
                 mc.Parameters.Add(new MySqlParameter("Password", hum.Password));
                 mc.Parameters.Add(new MySqlParameter("Birthday", hum.Birthday));
                 mc.Parameters.Add(new MySqlParameter("Photo", hum.Photo));
@@ -155,7 +152,6 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("Middle_Name", hum.Middle_Name));
                 mc.Parameters.Add(new MySqlParameter("Email", hum.Email));
                 mc.Parameters.Add(new MySqlParameter("PhoneNumber", hum.PhoneNumber));
-                mc.Parameters.Add(new MySqlParameter("Login", hum.Login));
                 mc.Parameters.Add(new MySqlParameter("Password", hum.Password));
                 mc.Parameters.Add(new MySqlParameter("Birthday", hum.Birthday));
                 mc.Parameters.Add(new MySqlParameter("Photo", hum.Photo));

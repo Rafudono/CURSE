@@ -75,19 +75,20 @@ namespace CURSE.Model
 
             int id = MySqlDB.Instance.GetAutoID("Applicant");
 
-            string sql = "INSERT INTO Applicant VALUES (0, @h_id, @xp, @id_foa, @id_education, @id_city, " +
-                "@salary, @isfull-employment, @isflex-schedule)";
+            string sql = "INSERT INTO Applicant VALUES (0, @h_id, @xp, @id_education, @id_city, " +
+                "@salary, @isfullEmployment, @isflexSchedule, @descr)";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("id", applicant.Id));
                 mc.Parameters.Add(new MySqlParameter("h_id", applicant.HumanId));
                 mc.Parameters.Add(new MySqlParameter("xp", applicant.XP));
-                mc.Parameters.Add(new MySqlParameter("id_foa", applicant.FieldofActivity));
                 mc.Parameters.Add(new MySqlParameter("id_education", applicant.IdEducation));
                 mc.Parameters.Add(new MySqlParameter("id_city", applicant.Id_City));
                 mc.Parameters.Add(new MySqlParameter("salary", applicant.Salary));
-                mc.Parameters.Add(new MySqlParameter("isfull-employment", applicant.IsFullEmployment));
-                mc.Parameters.Add(new MySqlParameter("isflex-schedule", applicant.IsFlexibleSchedule));
+                mc.Parameters.Add(new MySqlParameter("isfullEmployment", applicant.IsFullEmployment));
+                mc.Parameters.Add(new MySqlParameter("isflexSchedule", applicant.IsFlexibleSchedule));
+                mc.Parameters.Add(new MySqlParameter("descr", applicant.Description));
+
                 if (mc.ExecuteNonQuery() > 0)
                 {
                     sql = "";
@@ -114,7 +115,7 @@ namespace CURSE.Model
 
         internal IEnumerable<Applicant> Search(string searchText)
         {
-            string sql = "SELECT a.ID, a.id_human, a.XP, a.id_Education, a.id_city, a.Salary , a.IsFullEmployment , a.IsFlexibleSchedule , foa.ID AS foaId, foa.Field_name AS foaTitle FROM CURSE.`Cross_Applicant_Field-of-activity` cafoa, CURSE.Applicant a, CURSE.`Fields-of-activity` foa WHERE cafoa.id_applicant = a.ID AND cafoa.id_field = foa.ID;";
+            string sql = "SELECT a.ID, a.id_human, a.XP, a.id_Education, a.id_city, a.Salary , a.IsFullEmployment , a.IsFlexibleSchedule , foa.ID AS foaId, foa.Field_name AS foaTitle, h.Name, h.Middle_name , h.Surname, h.EMAIL, h.PHONE_NUMBER, h.Birthday FROM CURSE.`Cross_Applicant_Field-of-activity` cafoa, CURSE.Applicant a, Curse.Human h , CURSE.`Fields-of-activity` foa, CURSE.Education e WHERE cafoa.id_applicant = a.ID AND cafoa.id_field = foa.ID and a.id_human = h.ID AND a.id_Education=e.ID;";
             return GetAllResume(sql);
         }
 
@@ -140,12 +141,12 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("id", applicant.Id));
                 mc.Parameters.Add(new MySqlParameter("h_id", applicant.HumanId));
                 mc.Parameters.Add(new MySqlParameter("xp", applicant.XP));
-                mc.Parameters.Add(new MySqlParameter("id_foa", applicant.FieldofActivity));
                 mc.Parameters.Add(new MySqlParameter("id_education", applicant.IdEducation));
                 mc.Parameters.Add(new MySqlParameter("id_city", applicant.Id_City));
                 mc.Parameters.Add(new MySqlParameter("salary", applicant.Salary));
-                mc.Parameters.Add(new MySqlParameter("isfull-employment", applicant.IsFullEmployment));
-                mc.Parameters.Add(new MySqlParameter("isflex-schedule", applicant.IsFlexibleSchedule));
+                mc.Parameters.Add(new MySqlParameter("isfullEmployment", applicant.IsFullEmployment));
+                mc.Parameters.Add(new MySqlParameter("isflexSchedule", applicant.IsFlexibleSchedule));
+                mc.Parameters.Add(new MySqlParameter("descr", applicant.Description));
                 mc.ExecuteNonQuery();
             }
         }

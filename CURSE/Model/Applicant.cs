@@ -14,9 +14,10 @@ namespace CURSE.Model
         public int XP { get; set; }
         public double Salary { get; set; }
         public List<Field_of_Activity> FieldofActivity { get; set; } = new();
-        public int IdEducation { get; set; }
+        public int IdEducation { get; set; } = 5;
         public bool IsFlexibleSchedule { get; set; } //график
        public bool IsFullEmployment {  get; set; }//занятость  
+        public string Description { get; set; }
 
     }
 }

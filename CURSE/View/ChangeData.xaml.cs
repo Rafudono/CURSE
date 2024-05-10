@@ -1,5 +1,4 @@
-﻿using CURSE.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,14 +15,13 @@ using System.Windows.Shapes;
 namespace CURSE.View
 {
     /// <summary>
-    /// Логика взаимодействия для LogIn.xaml
+    /// Логика взаимодействия для ChangeData.xaml
     /// </summary>
-    public partial class LogIn : Window
+    public partial class ChangeData : Window
     {
-        public LogIn()
+        public ChangeData()
         {
             InitializeComponent();
-            ((LoginVM)DataContext).SetClose(Close);
         }
     }
 }

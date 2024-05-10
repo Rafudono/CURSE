@@ -2,36 +2,36 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CURSE.Model
 {
-    public class EducationRepository
+    public class CityRepository
     {
-        private EducationRepository()
+
+        private CityRepository()
         {
         }
 
-        static EducationRepository instance;
-        public static EducationRepository Instance
+        static CityRepository instance;
+        public static CityRepository Instance
         {
             get
             {
                 if (instance == null)
-                    instance = new EducationRepository();
+                    instance = new CityRepository();
                 return instance;
             }
         }
 
-        internal IEnumerable<Education> GetEducation()
+        internal IEnumerable<City> GetAllCity()
         {
-            var result = new List<Education>();
+            var result = new List<City>();
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return result;
-            string sql= "SELECT * FROM Education";
+            string sql = "SELECT * FROM City;";
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
@@ -39,15 +39,17 @@ namespace CURSE.Model
                 while (reader.Read())
                 {
 
-                    Education ed = new Education();
-                    { 
-                        ed.Id = reader.GetInt32("id");
-                        ed.Title = reader.GetString("Title");
+                    City city = new City();
+                    {
+                        city.Id = reader.GetInt32("ID");
+                        city.City_Name = reader.GetString("City_Name");
                     }
-                    result.Add(ed);
+                    result.Add(city);
                 }
             }
             return result;
         }
     }
+    
 }
+

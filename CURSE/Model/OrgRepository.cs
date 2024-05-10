@@ -2,52 +2,53 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CURSE.Model
 {
-    public class EducationRepository
+    public class OrgRepository
     {
-        private EducationRepository()
+        private OrgRepository()
         {
         }
 
-        static EducationRepository instance;
-        public static EducationRepository Instance
+        static OrgRepository instance;
+        public static OrgRepository Instance
         {
             get
             {
                 if (instance == null)
-                    instance = new EducationRepository();
+                    instance = new OrgRepository();
                 return instance;
             }
         }
 
-        internal IEnumerable<Education> GetEducation()
+        internal IEnumerable<Organization> GetEducation(string sql)
         {
-            var result = new List<Education>();
+            var result = new List<Organization>();
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return result;
-            string sql= "SELECT * FROM Education";
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
+                Organization org = new Organization();
                 int id;
                 while (reader.Read())
                 {
-
-                    Education ed = new Education();
-                    { 
-                        ed.Id = reader.GetInt32("id");
-                        ed.Title = reader.GetString("Title");
+                    id = reader.GetInt32("id");
+                    if (org.Id != id)
+                    {
+                        org = new Organization();
+                        result.Add(org);
+                        org.Id = id;
+                        org.Org_Name = reader.GetString("Title");
                     }
-                    result.Add(ed);
                 }
             }
             return result;
         }
     }
 }
+

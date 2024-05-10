@@ -67,5 +67,29 @@
             <TextBlock Text="День рождения" Grid.Row="2"/>
             <TextBlock Text="{Binding SelectedResume.Birthday, StringFormat=dd MMMM yyyy, ConverterCulture='ru-Ru'}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2"/>
         </Grid>
+        <StackPanel HorizontalAlignment="Right" Grid.Row="6" Grid.Column="2">
+            <Label Content="Выберите фильтры"/>
+            <Label Content="Город или регион"/>
+            <ComboBox DisplayMemberPath="City_Name"
+SelectedItem="{Binding SelectedCity}" 
+ItemsSource="{Binding Citys}"/>
+            <Label Content="Сфера деятельности"/>
+            <ComboBox DisplayMemberPath="Title"
+          SelectedItem="{Binding SelectedField}" 
+          ItemsSource="{Binding Fields}"/>
+            <Label Content="Опыт работы (лет)"/>
+            <TextBox Text="" MinWidth="10"/>
+            <Label Content="Образование"/>
+            <ComboBox DisplayMemberPath="Title"
+SelectedItem="{Binding SelectedEducation}" 
+ItemsSource="{Binding Educations}"/>
+            <Label Content="Заработная плата"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="min"/>
+                <TextBox Text="" MinWidth="40"/>
+            </StackPanel>
+            <CheckBox Content="Гибкий график"/>
+            <CheckBox Content="Полная занятость"/>
+        </StackPanel>
     </Grid>
 </Page>

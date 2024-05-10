@@ -21,8 +21,8 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Horizontal" >
-            <TextBox Width="350"/>
+        <StackPanel Orientation="Horizontal">
+            <TextBox Width="350" Text="{Binding SearchText}"/>
             <TextBlock Text="Поиск"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="6">
@@ -52,6 +52,30 @@
             <TextBlock Text="{Binding SelectedVac.Requirements}" TextWrapping="Wrap"/>
             <TextBlock Text="{Binding SelectedVac.Conditions}" TextWrapping="Wrap"/>
             <TextBlock Text="{Binding SelectedVac.Responsibilities}" TextWrapping="Wrap"/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Right" Grid.Row="6" Grid.Column="2">
+            <Label Content="Выберите фильтры"/>
+            <Label Content="Город или регион"/>
+            <ComboBox DisplayMemberPath="City_Name"
+SelectedItem="{Binding SelectedCity}" 
+ItemsSource="{Binding Citys}"/>
+            <Label Content="Сфера деятельности"/>
+            <ComboBox DisplayMemberPath="Title"
+          SelectedItem="{Binding SelectedField}" 
+          ItemsSource="{Binding Fields}"/>
+            <Label Content="Опыт работы (лет)"/>
+            <TextBox Text="" MinWidth="10"/>
+            <Label Content="Образование"/>
+            <ComboBox DisplayMemberPath="Title"
+SelectedItem="{Binding SelectedEducation}" 
+ItemsSource="{Binding Educations}"/>
+            <Label Content="Заработная плата"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="min"/>
+                <TextBox Text="" MinWidth="40"/>
+            </StackPanel>
+            <CheckBox Content="Гибкий график"/>
+            <CheckBox Content="Полная занятость"/>
         </StackPanel>
     </Grid>
 </Page>

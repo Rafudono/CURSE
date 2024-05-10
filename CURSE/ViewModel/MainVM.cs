@@ -1,4 +1,5 @@
-﻿using CURSE.View;
+﻿using CURSE.Model;
+using CURSE.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -19,7 +20,6 @@ namespace CURSE.ViewModel
         private Page vacancyPage;
         private Page resumePage;
         private Page authorizationPage;
-        private MainVM mainVM;
 
 
         private Visibility resume = Visibility.Hidden;
@@ -78,6 +78,17 @@ namespace CURSE.ViewModel
 
             OpenSearch();
         }
+        static MainVM instance;
+        public static MainVM Instance
+        {
+            get
+            {
+                if (instance == null)
+
+                    instance = new MainVM();
+                return instance;
+            }
+        }
         //public Page applicantView = new ApplicantView(); //не сигнал
         //public Page employerView = new EmployerView();
         private void OpenSearch()
@@ -86,6 +97,15 @@ namespace CURSE.ViewModel
             ResumePage = new EmployerView(this); 
            // AuthorizationPage = new LogIn(this);
         }
-
+        public void ChangeVisibilityVac()
+        {
+            if (HumAuthorization.Instance.loginHuman.Name != null)
+            {
+                Vacancy = Visibility.Visible;
+                Notice = Visibility.Visible;
+                Settings = Visibility.Visible;
+                Signal();
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CURSE.Model
 {
@@ -39,7 +40,7 @@ namespace CURSE.Model
                 while (reader.Read())
                 {
                     id = reader.GetInt32("id");
-                    if (hum.Id != id)
+                    if (hum.Id !=0 )
                     {
                         hum = new Applicant();
                         result.Add(hum);
@@ -87,30 +88,42 @@ namespace CURSE.Model
             }
             return id;
         }
-        
-        internal int LoginHuman(string email, string password) 
+
+        internal Human LoginHuman(string email, string password)
         {
-          
+
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
-                return 0;
-            string sql = "SELECT * FROM Human h WHERE h.EMAIL =" + email + " h.PASSWORD =" + password + ";";
+                MessageBox.Show("нет соединения с бд");
             Human hum = new Human();
+            string sql = "SELECT * FROM Human h WHERE (h.EMAIL ='" + email + "') and (h.PASSWORD ='" + password + "');";
+
 
             using (var mc = new MySqlCommand(sql, connect))
+            using (var reader = mc.ExecuteReader())
             {
-                mc.Parameters.Add(new MySqlParameter("id", hum.Id));
-                mc.Parameters.Add(new MySqlParameter("Surname", hum.Surname));
-                mc.Parameters.Add(new MySqlParameter("Name", hum.Name));
-                mc.Parameters.Add(new MySqlParameter("Middle_Name", hum.Middle_Name));
-                mc.Parameters.Add(new MySqlParameter("Email", hum.Email));
-                mc.Parameters.Add(new MySqlParameter("PhoneNumber", hum.PhoneNumber));
-                mc.Parameters.Add(new MySqlParameter("Password", hum.Password));
-                mc.Parameters.Add(new MySqlParameter("Birthday", hum.Birthday));
-                mc.Parameters.Add(new MySqlParameter("Photo", hum.Photo));
-                mc.ExecuteNonQuery();
+
+                if (reader.Read())
+                {
+                    hum.Id = reader.GetInt32("id");
+                    hum.Password = reader.GetString("Password");
+                    hum.Email = reader.GetString("Email");
+                    hum.PhoneNumber = reader.GetString("PHONE_NUMBER");
+                    hum.Name = reader.GetString("Name");
+                    hum.Middle_Name = reader.GetString("Middle_Name");
+                    hum.Surname = reader.GetString("Surname");
+                    hum.Birthday = reader.GetDateTime("Birthday");
+                    //int index = reader.GetOrdinal("Photo");
+                    //using (var stream = reader.GetStream(index))
+                    //{
+                    //    hum.Photo = new byte[stream.Length];
+                    //    stream.Read(hum.Photo, 0, (int)stream.Length);
+                    //}
+                }
+
+                return hum;
+
             }
-            return hum.Id;
         }
         internal void Remove(Human hum)
         {

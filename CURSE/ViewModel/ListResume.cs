@@ -13,8 +13,11 @@ namespace CURSE.ViewModel
         private MainVM mainVM;
         private string searchText = "";
         private ObservableCollection<Applicant> all_resume;
+        private City selectedCity;
+        private Education selectedEducation;
         private Field_of_Activity selectedField;
         private Applicant selectedResume;
+        private List<Field_of_Activity> Listfoa=new();
         //public VmCommand Create { get; set; }
         //public VmCommand Edit { get; set; }
         //public VmCommand Delete { get; set; }
@@ -26,7 +29,27 @@ namespace CURSE.ViewModel
             {
                 selectedField = value;
                 Signal();
-                //  Search();
+                SearchResume();
+            }
+        }
+        public Education SelectedEducation
+        {
+            get => selectedEducation;
+            set
+            {
+                selectedEducation = value;
+                Signal();
+                SearchResume();
+            }
+        }
+        public City SelectedCity
+        {
+            get => selectedCity;
+            set
+            {
+                selectedCity = value;
+                Signal();
+                SearchResume();
             }
         }
 
@@ -36,11 +59,13 @@ namespace CURSE.ViewModel
             set
             {
                 searchText = value;
-                //   Search();
+                SearchResume();
             }
         }
 
         public ObservableCollection<Field_of_Activity> Fields { get; set; }
+        public ObservableCollection<Education> Educations { get; set; } = new ObservableCollection<Education>();
+        public ObservableCollection<City> Citys { get; set; } = new ObservableCollection<City>();
         public Applicant SelectedResume
         {
             get => selectedResume;
@@ -48,7 +73,6 @@ namespace CURSE.ViewModel
             {
                 selectedResume = value;
                 Signal();
-                //   Search();
             }
         }
         public ObservableCollection<Applicant> All_resume
@@ -63,13 +87,16 @@ namespace CURSE.ViewModel
 
         public ListResume()
         {
-            //Fields = new ObservableCollection<Field_of_Activity>(FoaRepository.Instance.GetFields());
-            //Fields.Insert(0, new Field_of_Activity { Id = 0, Title = "Все виды!!!!!" });     //!!!!
-            //SelectedField = Fields[0];
-            //string sql = "SELECT a.ID, a.id_human, a.XP, a.id_Education, a.id_city, a.Salary , a.IsFullEmployment , a.IsFlexibleSchedule , foa.ID AS foaId, foa.Field_name AS foaTitle FROM CURSE.`Cross_Applicant_Field-of-activity` cafoa, CURSE.Applicant a, CURSE.`Fields-of-activity` foa WHERE cafoa.id_applicant = a.ID AND cafoa.id_field = foa.ID;";
-           
-            string sql = "SELECT a.ID, a.id_human, a.XP, a.id_Education, a.id_city, a.Salary , a.IsFullEmployment , a.IsFlexibleSchedule , foa.ID AS foaId, foa.Field_name AS foaTitle, h.Name, h.Middle_name , h.Surname, h.EMAIL, h.PHONE_NUMBER, h.Birthday, e.Title FROM CURSE.`Cross_Applicant_Field-of-activity` cafoa, CURSE.Applicant a, Curse.Human h, CURSE.`Fields-of-activity` foa, CURSE.Education e WHERE cafoa.id_applicant = a.ID AND cafoa.id_field = foa.ID and a.id_human = h.ID and a.id_Education =e.ID;";
+            string sql = "SELECT a.ID, a.id_human, a.XP, a.id_Education, a.id_city, a.Salary , a.IsFullEmployment , a.IsFlexibleSchedule,  a.Description, a.ResumeTitle, foa.ID AS foaId, foa.Field_name AS foaTitle, h.Name, h.Middle_name , h.Surname, h.EMAIL, h.PHONE_NUMBER, h.Birthday, e.Title FROM CURSE.`Cross_Applicant_Field-of-activity` cafoa, CURSE.Applicant a, Curse.Human h, CURSE.`Fields-of-activity` foa, CURSE.Education e WHERE cafoa.id_applicant = a.ID AND cafoa.id_field = foa.ID and a.id_human = h.ID and a.id_Education =e.ID;";
             All_resume = new ObservableCollection<Applicant>(ApplicantRepository.Instance.GetAllResume(sql));
+            Listfoa= new List<Field_of_Activity>(FoaRepository.Instance.GetFields());
+            Educations = new ObservableCollection<Education>(EducationRepository.Instance.GetEducation());
+            Fields = new ObservableCollection<Field_of_Activity>(FoaRepository.Instance.GetFields());
+            Citys = new ObservableCollection<City>(CityRepository.Instance.GetAllCity());
+            Fields.Insert(0, new Field_of_Activity { Id = 0, Title = "Все" });
+            SelectedField = Fields[0];
+            Educations.Insert(0, new Education { Id = 0, Title = "Любое" });
+            SelectedEducation = Educations[0];
         }
         internal void SetMainVM(MainVM mainVM)
         {
@@ -78,7 +105,7 @@ namespace CURSE.ViewModel
         private void SearchResume()
         {
             All_resume = new ObservableCollection<Applicant>(
-                   ApplicantRepository.Instance.Search(SearchText));
+                   ApplicantRepository.Instance.Search(SearchText, SelectedField));
         }
     }
 

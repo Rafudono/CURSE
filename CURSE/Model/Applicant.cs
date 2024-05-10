@@ -18,6 +18,7 @@ namespace CURSE.Model
         public bool IsFlexibleSchedule { get; set; } //график
        public bool IsFullEmployment {  get; set; }//занятость  
         public string Description { get; set; }
+        public string RTitle { get; set; }
 
     }
 }

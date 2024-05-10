@@ -16,7 +16,7 @@
         <TextBox Text="{Binding loginEmail}"/>
         <Label Content="Пароль"/>
         <TextBox Text="{Binding loginPassword}"/>
-        <Button Content="Войти" />
+        <Button Content="Войти" Command="{Binding loginCommand}"/>
     </StackPanel>
    
 </Window>

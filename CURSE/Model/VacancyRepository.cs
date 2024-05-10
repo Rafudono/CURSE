@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
@@ -118,27 +119,25 @@ namespace CURSE.Model
                 mc.ExecuteNonQuery();
         }
 
-        internal IEnumerable<Vacancy> Search(string searchText)//, Field_of_Activity field)
+        internal IEnumerable<Vacancy> Search(string searchText, Field_of_Activity selectedField)
         {
             string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID ORDER by v.ID; ";
-            //sql += " AND (d.Title LIKE '%" + searchText + "%'";
-            //sql += " OR d.Description LIKE '%" + searchText + "%')";
-
-            //if (selectedTag.ID != 0)
-            //{
-            //    var result = WatchAllVacancy(sql).Where(s => s.Tags.FirstOrDefault(s => s.ID == selectedTag.ID) != null);
-            //    return result;                
-            //}                                       сложный способ?
+            sql += " AND (v.Title LIKE '%" + searchText + "%'";
+            //if (selectedField != null && selectedField.Id != 0)
+            //    sql += "AND foa.ID =" + selectedField.Id;             //ничего не выдаёт тк 1)запрос закрыт ';' 2) заканчивается на order by а не на where
+            if (selectedField.Id != 0)
+            { 
+                var list = GetAllVacancy(sql).Where(s => s.FieldofActivity.FirstOrDefault(s => s.Id == selectedField.Id) != null); //выбирает все))))))))) я хз как переделывать лямбда-выражения
+                return list;
+            }
             return GetAllVacancy(sql);
+
             //return drinks.Where(s => 
-            //    s.Title.Contains(searchText) ||
-            //    s.Description.Contains(searchText));
+            //    s.Title.Contains(searchText));
             //else
-            //    return drinks.Where(s =>
-            //    (s.Title.Contains(searchText) ||
-            //    s.Description.Contains(searchText)) &&
-            //    s.Tags.Contains(selectedTag));
+            //    return drinks.
         }
+        
 
         internal void UpdateVacancy(Vacancy vacancy)
         {

@@ -14,6 +14,8 @@ namespace CURSE.ViewModel
         private MainVM mainVM;
         private string searchText = "";
         private ObservableCollection<Vacancy> all_vac;
+        private City selectedCity;
+        private Education selectedEducation;    
         private Field_of_Activity selectedField;
         private Vacancy selectedVac;
         //public VmCommand Create { get; set; }
@@ -27,21 +29,41 @@ namespace CURSE.ViewModel
             {
                 selectedField = value;
                 Signal();
-                //  Search();
+                SearchVacancy();
             }
         }
-
+        public Education SelectedEducation
+        {
+            get => selectedEducation;
+            set
+            {
+                selectedEducation = value;
+                Signal();
+                SearchVacancy();
+            }
+        }
+        public City SelectedCity
+        {
+            get => selectedCity;
+            set
+            {
+                selectedCity = value;
+                Signal();
+                SearchVacancy();
+            }
+        }
         public string SearchText
         {
             get => searchText;
             set
             {
                 searchText = value;
-                //   Search();
+                SearchVacancy();
             }
         }
-
         public ObservableCollection<Field_of_Activity> Fields { get; set; }
+        public ObservableCollection<Education > Educations { get; set; } = new ObservableCollection<Education>();
+        public ObservableCollection<City> Citys { get; set; } = new ObservableCollection<City>();
         public Vacancy SelectedVac
         {
             get => selectedVac;
@@ -49,7 +71,6 @@ namespace CURSE.ViewModel
             {
                 selectedVac = value;
                 Signal();
-                //   Search();
             }
         }
         public ObservableCollection<Vacancy> All_vac
@@ -64,14 +85,19 @@ namespace CURSE.ViewModel
 
         public ListVacancy()
         {
-
-            //Fields = new ObservableCollection<Field_of_Activity>(FoaRepository.Instance.GetFields());
-            //Fields.Insert(0, new Field_of_Activity { Id = 0, Title = "Все виды!!!!!" });     //!!!!
-            //SelectedField = Fields[0];
-            string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID ORDER by v.ID;";
-
-            All_vac = new ObservableCollection<Vacancy>(VacancyRepository.Instance.GetAllVacancy(sql));
-
+            try
+            {
+                string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID ORDER by v.ID;";
+                All_vac = new ObservableCollection<Vacancy>(VacancyRepository.Instance.GetAllVacancy(sql));
+                Educations = new ObservableCollection<Education>(EducationRepository.Instance.GetEducation());
+                Fields = new ObservableCollection<Field_of_Activity>(FoaRepository.Instance.GetFields());
+                Citys = new ObservableCollection<City>(CityRepository.Instance.GetAllCity());
+                Fields.Insert(0, new Field_of_Activity { Id = 0, Title = "Все" });
+                SelectedField = Fields[0];
+                Educations.Insert(0, new Education { Id = 0, Title = "Любое" });
+                SelectedEducation = Educations[0];
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
             //Create = new VmCommand(() =>
             //{
             //    mainVM.CurrentPage = new EditorDrink(mainVM);
@@ -102,7 +128,7 @@ namespace CURSE.ViewModel
         private void SearchVacancy()
         {
             All_vac = new ObservableCollection<Vacancy>(
-                    VacancyRepository.Instance.Search(SearchText));//, SelectedField));
+                    VacancyRepository.Instance.Search(SearchText, SelectedField));
 
         }
     }

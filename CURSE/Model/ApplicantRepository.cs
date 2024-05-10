@@ -1,4 +1,5 @@
-﻿using MySqlConnector;
+﻿using CURSE.View;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,6 +57,8 @@ namespace CURSE.Model
                         applicant.Email = reader.GetString("EMAIL");
                         applicant.PhoneNumber = reader.GetString("PHONE_NUMBER");
                         applicant.Birthday = reader.GetDateTime("Birthday");
+                        applicant.Description= reader.GetString("Description");
+                        applicant.RTitle = reader.GetString("ResumeTitle");
                     }
                     applicant.FieldofActivity.Add(new Field_of_Activity
                     {
@@ -76,7 +79,7 @@ namespace CURSE.Model
             int id = MySqlDB.Instance.GetAutoID("Applicant");
 
             string sql = "INSERT INTO Applicant VALUES (0, @h_id, @xp, @id_education, @id_city, " +
-                "@salary, @isfullEmployment, @isflexSchedule, @descr)";
+                "@salary, @isfullEmployment, @isflexSchedule, @descr, @rtitle)";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("id", applicant.Id));
@@ -88,7 +91,7 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("isfullEmployment", applicant.IsFullEmployment));
                 mc.Parameters.Add(new MySqlParameter("isflexSchedule", applicant.IsFlexibleSchedule));
                 mc.Parameters.Add(new MySqlParameter("descr", applicant.Description));
-
+                mc.Parameters.Add(new MySqlParameter("rtitle", applicant.RTitle));
                 if (mc.ExecuteNonQuery() > 0)
                 {
                     sql = "";
@@ -113,9 +116,16 @@ namespace CURSE.Model
                 mc.ExecuteNonQuery();
         }
 
-        internal IEnumerable<Applicant> Search(string searchText)
+        internal IEnumerable<Applicant> Search(string searchText, Field_of_Activity selectedField)
         {
-            string sql = "SELECT a.ID, a.id_human, a.XP, a.id_Education, a.id_city, a.Salary , a.IsFullEmployment , a.IsFlexibleSchedule , foa.ID AS foaId, foa.Field_name AS foaTitle, h.Name, h.Middle_name , h.Surname, h.EMAIL, h.PHONE_NUMBER, h.Birthday FROM CURSE.`Cross_Applicant_Field-of-activity` cafoa, CURSE.Applicant a, Curse.Human h , CURSE.`Fields-of-activity` foa, CURSE.Education e WHERE cafoa.id_applicant = a.ID AND cafoa.id_field = foa.ID and a.id_human = h.ID AND a.id_Education=e.ID;";
+            string sql = "SELECT a.ID, a.id_human, a.XP, a.id_Education, a.id_city, a.Salary , a.IsFullEmployment , a.IsFlexibleSchedule, a.Description, a.ResumeTitle, foa.ID AS foaId, foa.Field_name AS foaTitle, h.Name, h.Middle_name , h.Surname, h.EMAIL, h.PHONE_NUMBER, h.Birthday FROM CURSE.`Cross_Applicant_Field-of-activity` cafoa, CURSE.Applicant a, Curse.Human h , CURSE.`Fields-of-activity` foa, CURSE.Education e WHERE cafoa.id_applicant = a.ID AND cafoa.id_field = foa.ID and a.id_human = h.ID AND a.id_Education=e.ID;";
+            sql += " AND (a.ResumeTitle LIKE '%" + searchText + "%'";
+            if (selectedField.Id != 0)
+            { // это не включено в запрос, так как в противном случае потеряются теги
+                var result = GetAllResume(sql).Where(s => s.FieldofActivity.FirstOrDefault(s => s.Id == selectedField.Id) != null);
+                return result;
+            }
+           
             return GetAllResume(sql);
         }
 

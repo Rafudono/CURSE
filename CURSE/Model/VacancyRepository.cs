@@ -118,27 +118,43 @@ namespace CURSE.Model
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
         }
-
-        internal IEnumerable<Vacancy> Search(string searchText, Field_of_Activity selectedField)
+        internal IEnumerable<Vacancy> Search(string searchText, Field_of_Activity selectedField, Education selectedEd, City selectedCity)
         {
-            string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID ORDER by v.ID; ";
-            sql += " AND (v.Title LIKE '%" + searchText + "%'";
-            //if (selectedField != null && selectedField.Id != 0)
-            //    sql += "AND foa.ID =" + selectedField.Id;             //ничего не выдаёт тк 1)запрос закрыт ';' 2) заканчивается на order by а не на where
-            if (selectedField.Id != 0)
-            { 
-                var list = GetAllVacancy(sql).Where(s => s.FieldofActivity.FirstOrDefault(s => s.Id == selectedField.Id) != null); //выбирает все))))))))) я хз как переделывать лямбда-выражения
-                return list;
-            }
-            return GetAllVacancy(sql);
+            string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa , Education e WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID AND v.`id_Required-Education` =e.ID  ";
+            sql += " AND (v.Title LIKE '%" + searchText + "%')";
+            //if (selectedField.Id != 0)
+            //{ 
+            //    var list = GetAllVacancy(sql).Where(s => s.FieldofActivity.FirstOrDefault(s => s.Id == selectedField.Id) != null); //выбирает все))))))))) я хз как переделывать лямбда-выражения
+            //    return list;
+            //}
+            if (selectedField != null && selectedField.Id != 0&& selectedCity != null && selectedCity.Id != 0&& selectedEd != null && selectedEd.Id != 0)
+                sql += "AND foa.ID =" + selectedField.Id + " AND v.id_city =" + selectedCity.Id + " and v.`id_Required-Education`=" + selectedEd.Id + "  ORDER by v.ID;";
+
+            else if (selectedField != null && selectedField.Id != 0 && selectedCity != null && selectedCity.Id != 0)
+                sql += "AND foa.ID =" + selectedField.Id + " AND v.id_city =" + selectedCity.Id + " ORDER by v.ID;";
+            else if (selectedField != null && selectedField.Id != 0&& selectedEd != null && selectedEd.Id != 0)
+                sql += "AND foa.ID =" + selectedField.Id + " AND  v.`id_Required-Education` =" + selectedEd.Id + " ORDER by v.ID;";
+            else if(selectedCity != null && selectedCity.Id != 0 && selectedEd != null && selectedEd.Id != 0)
+                sql += "AND v.id_city =" + selectedCity.Id + "and v.`id_Required-Education`=" + selectedEd.Id + " ORDER by v.ID;";
+
+            else if (selectedCity != null && selectedCity.Id != 0)
+                sql += "AND v.id_city =" + selectedCity.Id + " ORDER by v.ID;";
+           else if (selectedField != null && selectedField.Id != 0)
+                sql += "AND foa.ID =" + selectedField.Id + " ORDER by v.ID;";
+           else if (selectedEd != null && selectedEd.Id != 0)
+                sql += "and v.`id_Required-Education`=" + selectedEd.Id + " ORDER by v.ID;";
+            else
+                sql += " ORDER by v.ID;";
+            string result=sql;
+            return GetAllVacancy(result);
 
             //return drinks.Where(s => 
             //    s.Title.Contains(searchText));
             //else
             //    return drinks.
         }
-        
 
+        //работает, но убирает все теги кроме выбранного -_-"
         internal void UpdateVacancy(Vacancy vacancy)
         {
             var connect = MySqlDB.Instance.GetConnection();

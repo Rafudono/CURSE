@@ -128,7 +128,7 @@ namespace CURSE.ViewModel
         private void SearchVacancy()
         {
             All_vac = new ObservableCollection<Vacancy>(
-                    VacancyRepository.Instance.Search(SearchText, SelectedField));
+                    VacancyRepository.Instance.Search(SearchText, SelectedField, SelectedEducation, SelectedCity));
 
         }
     }

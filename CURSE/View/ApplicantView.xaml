@@ -22,7 +22,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal">
-            <TextBox Width="350" Text="{Binding SearchText}"/>
+            <TextBox Width="350" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Поиск"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="6">

@@ -27,7 +27,6 @@ namespace CURSE.ViewModel
         private Visibility notice = Visibility.Hidden;
         private Visibility settings = Visibility.Hidden;
         public Visibility Resume { get => resume; set { resume = value; Signal(); } }
-
         public Visibility Vacancy { get => vacancy; set { vacancy = value; Signal(); } }
         public Visibility Notice { get => notice; set { notice = value; Signal(); } }
         public Visibility Settings { get => settings; set { settings = value; Signal(); } }
@@ -70,7 +69,6 @@ namespace CURSE.ViewModel
                 LogIn taskwindow = new LogIn();
                 taskwindow.ShowDialog();
             });
-           
             Search = new VmCommand(() =>
             {
                 OpenSearch();
@@ -78,17 +76,17 @@ namespace CURSE.ViewModel
 
             OpenSearch();
         }
-        static MainVM instance;
-        public static MainVM Instance
-        {
-            get
-            {
-                if (instance == null)
+        //static MainVM instance;
+        //public static MainVM Instance
+        //{
+        //    get
+        //    {
+        //        if (instance == null)
 
-                    instance = new MainVM();
-                return instance;
-            }
-        }
+        //            instance = new MainVM();
+        //        return instance;
+        //    }
+        //}
         //public Page applicantView = new ApplicantView(); //не сигнал
         //public Page employerView = new EmployerView();
         private void OpenSearch()
@@ -97,15 +95,15 @@ namespace CURSE.ViewModel
             ResumePage = new EmployerView(this); 
            // AuthorizationPage = new LogIn(this);
         }
-        public void ChangeVisibilityVac()
-        {
-            if (HumAuthorization.Instance.loginHuman.Name != null)
-            {
-                Vacancy = Visibility.Visible;
-                Notice = Visibility.Visible;
-                Settings = Visibility.Visible;
-                Signal();
-            }
-        }
+        //public void ChangeVisibilityVac()
+        //{
+        //    if (HumAuthorization.Instance.loginHuman.Name != null)
+        //    {
+        //        Vacancy = Visibility.Visible;
+        //        Notice = Visibility.Visible;
+        //        Settings = Visibility.Visible;
+        //        Signal();
+        //    }
+        //}
     }
 }

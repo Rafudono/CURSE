@@ -41,6 +41,7 @@ namespace CURSE.Model
                 while (reader.Read())
                 {
                     id = reader.GetInt32("id");
+                    hum.Id = id;
                     if (hum.Id != 0)
                     {
                         hum = new Applicant();
@@ -50,7 +51,7 @@ namespace CURSE.Model
                         hum.Name = reader.GetString("Name");
                         hum.Middle_Name = reader.GetString("Middle_Name");
                         hum.Email = reader.GetString("Email");
-                        hum.PhoneNumber = reader.GetString("PhoneNumber");
+                        hum.PhoneNumber = reader.GetString("PHONE_NUMBER");
                         hum.Password = reader.GetString("Password");
                         hum.Birthday = reader.GetDateTime("Birthday");
                         int index = reader.GetOrdinal("Photo");

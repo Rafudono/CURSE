@@ -43,11 +43,10 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Моё резюме"  />
-                <TextBlock Text="Мои вакансии" />
-                <TextBlock Text="Уведомления" Grid.Column="1"/>
+                <TextBlock Text="Моё резюме" Visibility = "{Binding Resume}" />
+                <TextBlock Text="Мои вакансии" Visibility="{Binding Vacancy}" Grid.Column="1"/>
                 <!--<Button Content="Настройки"  Command="{ Binding SettingsWindow}" Grid.Column="2"/>-->
-                <ComboBox Grid.Column="2" x:Name="ComboSettings">
+                <ComboBox Grid.Column="2" x:Name="ComboSettings" Visibility="{Binding Settings}">
                     <StackPanel>
                         <Button Content="Мой профиль" Command="{Binding SettingsWindow}"/>
                         <Button Content="Удалить аккаунт"/>

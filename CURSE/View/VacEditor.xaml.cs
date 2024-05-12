@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace CURSE.View
 {
     /// <summary>
-    /// Логика взаимодействия для ChangeVacancy.xaml
+    /// Логика взаимодействия для VacEditor.xaml
     /// </summary>
-    public partial class ChangeVacancy : Window
+    public partial class VacEditor : Page
     {
-        public ChangeVacancy()
+        public VacEditor()
         {
             InitializeComponent();
         }

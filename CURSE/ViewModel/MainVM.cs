@@ -21,13 +21,11 @@ namespace CURSE.ViewModel
         private Page vacancyPage;
         private Page resumePage;
 
-        private Visibility resume = Visibility.Hidden;
-        private Visibility vacancy = Visibility.Hidden;
-        private Visibility notice = Visibility.Hidden;
-        private Visibility settings = Visibility.Hidden;
+        private Visibility resume = Visibility.Visible;
+        private Visibility vacancy = Visibility.Visible;
+        private Visibility settings = Visibility.Visible;
         public Visibility Resume { get => resume; set { resume = value; Signal(); } }
         public Visibility Vacancy { get => vacancy; set { vacancy = value; Signal(); } }
-        public Visibility Notice { get => notice; set { notice = value; Signal(); } }
         public Visibility Settings { get => settings; set { settings = value; Signal(); } }
         public Page VacancyPage
         {
@@ -58,6 +56,7 @@ namespace CURSE.ViewModel
             {
                 LogIn taskwindow = new LogIn();
                 taskwindow.ShowDialog();
+                Signal(); //visibility не меняется!!! 
             });
             Search = new VmCommand(() =>
             {

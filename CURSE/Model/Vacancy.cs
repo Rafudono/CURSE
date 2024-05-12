@@ -23,6 +23,7 @@ namespace CURSE.Model
         public string Conditions { get; set; }
         public string Description {  get; set; }
         public bool IsFlexibleSchedule { get; set; }
+        public bool IsFullEmployment { get; set; }
         public int IdRequiredEducation { get; set; }
     }
 }

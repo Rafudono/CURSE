@@ -66,7 +66,7 @@ namespace CURSE.ViewModel
                         if (regLikeApplicant)
                         { 
                         ApplicantRepository.Instance.AddApplicant(new Applicant {  HumanId = id });
-                            //INSERT into Applicant (id_human) select ID from Human;
+                            //INSERT into Applicant (id_human) select ID from Human;                         +ДЕФОЛТНОЕ ИЗОБРАЖЕНИЕ
                         }
                         if (regLikeEmp)
                         {

@@ -80,7 +80,7 @@ namespace CURSE.Model
             int id = MySqlDB.Instance.GetAutoID("Vacancy");
 
             string sql = "INSERT INTO Vacancy VALUES (0, @empl_id, @xp, @id_foa, @id_reqeducation, @id_city, " +
-                "@minsalary, @maxsalary, @resp, @require, @cond, @descr, @isflex_schedule, @title)";
+                "@minsalary, @maxsalary, @resp, @require, @cond, @descr, @isflex_schedule, @title, @isfullempl)";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("empl_id", vacancy.EmployerId));
@@ -95,6 +95,7 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("descr", vacancy.Description));
                 mc.Parameters.Add(new MySqlParameter("isflex_schedule", vacancy.IsFlexibleSchedule));
                 mc.Parameters.Add(new MySqlParameter("title", vacancy.Title));
+                mc.Parameters.Add(new MySqlParameter("isfullempl", vacancy.IsFullEmployment));
                 if (mc.ExecuteNonQuery() > 0)
                 {
                     sql = "";
@@ -118,10 +119,14 @@ namespace CURSE.Model
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
         }
-        internal IEnumerable<Vacancy> Search(string searchText, Field_of_Activity selectedField, Education selectedEd, City selectedCity)
+        internal IEnumerable<Vacancy> Search(string searchText, int minSalary, int xp, bool isflex, bool isfull, Field_of_Activity selectedField, Education selectedEd, City selectedCity)
         {
-            string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa , Education e WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID AND v.`id_Required-Education` =e.ID  ";
+            string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, v.IsFullEmployment, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa , Education e WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID AND v.`id_Required-Education` =e.ID  ";
             sql += " AND (v.Title LIKE '%" + searchText + "%')";
+            sql+="AND (v.MAXSalary >="+ minSalary + ")";
+            sql += "AND (v.`Required-XP` <=" + xp + ")";
+            sql+= "AND (v.IsFlexibleSchedule ="+ isflex+ ")";
+            sql += "AND(v.IsFullEmployment=" + isfull + ")";
             //if (selectedField.Id != 0)
             //{ 
             //    var list = GetAllVacancy(sql).Where(s => s.FieldofActivity.FirstOrDefault(s => s.Id == selectedField.Id) != null); //выбирает все))))))))) я хз как переделывать лямбда-выражения
@@ -135,7 +140,7 @@ namespace CURSE.Model
             else if (selectedField != null && selectedField.Id != 0&& selectedEd != null && selectedEd.Id != 0)
                 sql += "AND foa.ID =" + selectedField.Id + " AND  v.`id_Required-Education` =" + selectedEd.Id + " ORDER by v.ID;";
             else if(selectedCity != null && selectedCity.Id != 0 && selectedEd != null && selectedEd.Id != 0)
-                sql += "AND v.id_city =" + selectedCity.Id + "and v.`id_Required-Education`=" + selectedEd.Id + " ORDER by v.ID;";
+                sql += "AND v.id_city =" + selectedCity.Id + " and v.`id_Required-Education`=" + selectedEd.Id + " ORDER by v.ID;";
 
             else if (selectedCity != null && selectedCity.Id != 0)
                 sql += "AND v.id_city =" + selectedCity.Id + " ORDER by v.ID;";
@@ -143,6 +148,7 @@ namespace CURSE.Model
                 sql += "AND foa.ID =" + selectedField.Id + " ORDER by v.ID;";
            else if (selectedEd != null && selectedEd.Id != 0)
                 sql += "and v.`id_Required-Education`=" + selectedEd.Id + " ORDER by v.ID;";
+
             else
                 sql += " ORDER by v.ID;";
             string result=sql;

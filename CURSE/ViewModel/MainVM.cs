@@ -13,14 +13,13 @@ namespace CURSE.ViewModel
 {
     public class MainVM : BaseVM
     {
+        
         public VmCommand Login { get; }
         public VmCommand Registration { get; }
         public VmCommand Search { get; }
-
+        public VmCommand SettingsWindow { get; }
         private Page vacancyPage;
         private Page resumePage;
-        private Page authorizationPage;
-
 
         private Visibility resume = Visibility.Hidden;
         private Visibility vacancy = Visibility.Hidden;
@@ -48,15 +47,6 @@ namespace CURSE.ViewModel
                 Signal();
             }
         }
-        public Page AuthorizationPage
-        {
-            get => authorizationPage;
-            set
-            {
-                authorizationPage = value;
-                Signal();
-            }
-        }
         public MainVM()
         {
             Registration = new VmCommand(() =>
@@ -73,7 +63,16 @@ namespace CURSE.ViewModel
             {
                 OpenSearch();
             });
-
+            SettingsWindow = new VmCommand(() =>
+            {
+                if (HumAuthorization.Instance.loginHuman.Name != null)
+                {
+                    ChangeData taskwindow = new ChangeData();
+                    taskwindow.ShowDialog();
+                }
+                else
+                    MessageBox.Show("Войдите в аккаунт");
+            });
             OpenSearch();
         }
         //static MainVM instance;

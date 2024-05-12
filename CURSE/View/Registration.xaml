@@ -24,7 +24,7 @@
             <Label Content="Отчество"/>
             <TextBox Text="{Binding registrateHuman.Middle_Name}"/>
             <Label Content="День рожднеия"/>
-            <TextBox Text="{Binding registrateHuman.Birthday}"/>
+            <DatePickerTextBox Text="{Binding registrateHuman.Birthday, StringFormat= dd mm yyyy}"/>
             <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step1}" Grid.Row="1">

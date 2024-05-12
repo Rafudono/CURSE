@@ -64,7 +64,7 @@ ItemsSource="{Binding Citys}"/>
           SelectedItem="{Binding SelectedField}" 
           ItemsSource="{Binding Fields}"/>
             <Label Content="Опыт работы (лет)"/>
-            <TextBox Text="" MinWidth="10"/>
+            <TextBox Text="{Binding XP, UpdateSourceTrigger=PropertyChanged}" MinWidth="10"/>
             <Label Content="Образование"/>
             <ComboBox DisplayMemberPath="Title"
 SelectedItem="{Binding SelectedEducation}" 
@@ -72,10 +72,10 @@ ItemsSource="{Binding Educations}"/>
             <Label Content="Заработная плата"/>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="min"/>
-                <TextBox Text="" MinWidth="40"/>
+                <TextBox Text="{Binding MinSalary, UpdateSourceTrigger=PropertyChanged}" MinWidth="40"/>
             </StackPanel>
-            <CheckBox Content="Гибкий график"/>
-            <CheckBox Content="Полная занятость"/>
+            <CheckBox Content="Гибкий график" IsChecked="{Binding IsFlexShedule, UpdateSourceTrigger=PropertyChanged}" x:Name="flex"/>
+            <CheckBox Content="Полная занятость" IsChecked="{Binding IsFullEmp, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
     </Grid>
 </Page>

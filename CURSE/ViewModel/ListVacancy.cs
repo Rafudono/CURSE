@@ -13,6 +13,10 @@ namespace CURSE.ViewModel
     {
         private MainVM mainVM;
         private string searchText = "";
+        private int minSalary = 0;
+        private int xp = 100;
+        private bool isFullEmp;
+        private bool isFlexShedule;
         private ObservableCollection<Vacancy> all_vac;
         private City selectedCity;
         private Education selectedEducation;    
@@ -58,6 +62,42 @@ namespace CURSE.ViewModel
             set
             {
                 searchText = value;
+                SearchVacancy();
+            }
+        }
+        public int MinSalary
+        {
+            get => minSalary;
+            set
+            {
+                minSalary = value;
+                SearchVacancy();
+            }
+        }
+        public int XP
+        {
+            get => xp;
+            set
+            {
+                xp = value;
+                SearchVacancy();
+            }
+        }
+        public bool IsFullEmp
+        {
+            get => isFullEmp;
+            set
+            {
+                isFullEmp = value;
+                SearchVacancy();
+            }
+        }
+        public bool IsFlexShedule
+        {
+            get => isFlexShedule;
+            set
+            {
+                isFlexShedule = value;
                 SearchVacancy();
             }
         }
@@ -128,7 +168,7 @@ namespace CURSE.ViewModel
         private void SearchVacancy()
         {
             All_vac = new ObservableCollection<Vacancy>(
-                    VacancyRepository.Instance.Search(SearchText, SelectedField, SelectedEducation, SelectedCity));
+                    VacancyRepository.Instance.Search(SearchText, MinSalary, XP, IsFlexShedule, IsFullEmp, SelectedField, SelectedEducation, SelectedCity));
 
         }
     }

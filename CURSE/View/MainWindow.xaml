@@ -46,7 +46,13 @@
                 <TextBlock Text="Моё резюме"  />
                 <TextBlock Text="Мои вакансии" />
                 <TextBlock Text="Уведомления" Grid.Column="1"/>
-                <TextBlock Text="Настройки" Grid.Column="2"/>
+                <!--<Button Content="Настройки"  Command="{ Binding SettingsWindow}" Grid.Column="2"/>-->
+                <ComboBox Grid.Column="2" x:Name="ComboSettings">
+                    <StackPanel>
+                        <Button Content="Мой профиль" Command="{Binding SettingsWindow}"/>
+                        <Button Content="Удалить аккаунт"/>
+                    </StackPanel>
+                </ComboBox>
             </Grid>
            
         </StackPanel>

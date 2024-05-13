@@ -78,12 +78,12 @@ namespace CURSE.Model
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("id", hum.Id));
-                mc.Parameters.Add(new MySqlParameter("Surname", hum.Surname));
-                mc.Parameters.Add(new MySqlParameter("Name", hum.Name));
-                mc.Parameters.Add(new MySqlParameter("Middle_Name", hum.Middle_Name));
+                mc.Parameters.Add(new MySqlParameter("Password", hum.Password));
                 mc.Parameters.Add(new MySqlParameter("Email", hum.Email));
                 mc.Parameters.Add(new MySqlParameter("PhoneNumber", hum.PhoneNumber));
-                mc.Parameters.Add(new MySqlParameter("Password", hum.Password));
+                mc.Parameters.Add(new MySqlParameter("Name", hum.Name));
+                mc.Parameters.Add(new MySqlParameter("Middle_Name", hum.Middle_Name));
+                mc.Parameters.Add(new MySqlParameter("Surname", hum.Surname));
                 mc.Parameters.Add(new MySqlParameter("Birthday", hum.Birthday));
                 mc.Parameters.Add(new MySqlParameter("Photo", hum.Photo));
                 mc.ExecuteNonQuery();

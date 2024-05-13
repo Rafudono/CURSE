@@ -23,7 +23,7 @@
                 <Image/>
                 <Label Content="CURSE"/>
             </StackPanel>
-
+        <Frame Content="{Binding MyVacPage}"  Grid.Row="3"/>
         <TabControl Grid.Row="3" >
             <TabItem Header="Соискатель" >
                 <Frame Content="{Binding VacancyPage}"/>
@@ -43,7 +43,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Моё резюме" Visibility = "{Binding Resume}" />
+                <Button Content="Моё резюме" Visibility = "{Binding Resume}" Command="{Binding ChangeResWindow}" />
                 <TextBlock Text="Мои вакансии" Visibility="{Binding Vacancy}" Grid.Column="1"/>
                 <!--<Button Content="Настройки"  Command="{ Binding SettingsWindow}" Grid.Column="2"/>-->
                 <ComboBox Grid.Column="2" x:Name="ComboSettings" Visibility="{Binding Settings}">

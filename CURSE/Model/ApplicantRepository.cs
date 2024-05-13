@@ -1,10 +1,12 @@
 ﻿using CURSE.View;
+using CURSE.ViewModel;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CURSE.Model
 {
@@ -95,15 +97,55 @@ namespace CURSE.Model
                 if (mc.ExecuteNonQuery() > 0)
                 {
                     sql = "";
-                    foreach (var field in applicant.FieldofActivity)
-                        sql += "INSERT INTO `Cross_Vacancy_Field-of-activity` VALUES (" + id + "," + field.Id + ");";
-                    using (var mcCross = new MySqlCommand(sql, connect))
-                        mcCross.ExecuteNonQuery();
+                    if (applicant.FieldofActivity.Count > 0)
+                    {
+                        foreach (var field in applicant.FieldofActivity)
+                            sql += "INSERT INTO `Cross_Vacancy_Field-of-activity` VALUES (" + id + "," + field.Id + ");";
+                        using (var mcCross = new MySqlCommand(sql, connect))
+                            mcCross.ExecuteNonQuery();
+                    }
                 }
+
             }
         }
 
-        internal void Remove(Applicant applicant)
+        internal Applicant LoginApplicant(int id_hum)
+        {
+
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null)
+                MessageBox.Show("нет соединения с бд");
+            Applicant applicant = new Applicant();
+            string sql = "SELECT a.ID, a.id_human, a.XP, a.id_Education, a.id_city, a.Salary , a.IsFullEmployment , a.IsFlexibleSchedule, a.Description, a.ResumeTitle, foa.ID AS foaId, foa.Field_name AS foaTitle FROM CURSE.`Cross_Applicant_Field-of-activity` cafoa, CURSE.Applicant a, CURSE.`Fields-of-activity` foa WHERE cafoa.id_applicant = a.ID AND cafoa.id_field = foa.ID and (a.id_human ='" + id_hum + "');";
+
+
+            using (var mc = new MySqlCommand(sql, connect))
+            using (var reader = mc.ExecuteReader())
+            {
+
+                if (reader.Read())
+                {
+                    applicant.Id = reader.GetInt32("id");
+                    applicant.HumanId = reader.GetInt32("id_human");
+                    applicant.XP = reader.GetInt32("XP");
+                    applicant.Id_City = reader.GetInt32("id_city");
+                    applicant.Salary = reader.GetDouble("Salary");
+                    applicant.IsFullEmployment = reader.GetBoolean("IsFullEmployment");
+                    applicant.IsFlexibleSchedule = reader.GetBoolean("IsFlexibleSchedule");
+                    applicant.IdEducation = reader.GetInt32("id_Education");
+                    applicant.Description = reader.GetString("Description");
+                    applicant.RTitle = reader.GetString("ResumeTitle");
+                }
+                applicant.FieldofActivity.Add(new Field_of_Activity
+                {
+                    Id = reader.GetInt32("id"),
+                    Title = reader.GetString("foaTitle"),
+                });
+            }
+
+            return applicant;
+        }
+           internal void Remove(Applicant applicant)
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)

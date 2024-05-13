@@ -18,8 +18,10 @@ namespace CURSE.ViewModel
         public VmCommand Registration { get; }
         public VmCommand Search { get; }
         public VmCommand SettingsWindow { get; }
+        public VmCommand ChangeResWindow { get; }
         private Page vacancyPage;
         private Page resumePage;
+        private Page myVacPage;
 
         private Visibility resume = Visibility.Visible;
         private Visibility vacancy = Visibility.Visible;
@@ -45,6 +47,15 @@ namespace CURSE.ViewModel
                 Signal();
             }
         }
+        public Page MyVacPage
+        {
+            get => myVacPage;
+            set
+            {
+                myVacPage = value;
+                Signal();
+            }
+        }
         public MainVM()
         {
             Registration = new VmCommand(() =>
@@ -64,9 +75,20 @@ namespace CURSE.ViewModel
             });
             SettingsWindow = new VmCommand(() =>
             {
-                if (HumAuthorization.Instance.loginHuman.Name != null)
+                if (HumAuthorization.Instance.loginHuman.Name != null&& HumAuthorization.Instance.loginHuman.Password!=null)
                 {
                     ChangeData taskwindow = new ChangeData();
+                    taskwindow.ShowDialog();
+                }
+                else
+                    MessageBox.Show("Войдите в аккаунт");
+            });
+
+            ChangeResWindow = new VmCommand(() =>
+            {
+                if (HumAuthorization.Instance.loginHuman.Name != null && HumAuthorization.Instance.loginHuman.Password != null)
+                {
+                    ChangeResume taskwindow = new ChangeResume();
                     taskwindow.ShowDialog();
                 }
                 else

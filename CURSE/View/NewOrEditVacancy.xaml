@@ -1,0 +1,37 @@
+﻿<Window x:Class="CURSE.View.NewOrEditVacancy"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CURSE.View"
+        mc:Ignorable="d"
+        Title="NewOrEditVacancy" Height="450" Width="800">
+    <StackPanel>
+        <Label Content="Специальность(название вакансии)"/>
+        <TextBox Text=""/>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Требуемый опыт"/>
+            <TextBox Text=" "/>
+        </StackPanel>
+        <Label Content="Заработная плата"/>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="от"/>
+            <TextBox Text=" "/>
+            <Label Content="до"/>
+            <TextBox Text=" "/>
+        </StackPanel>
+        <Label Content="Описание"/>
+        <TextBox Text=" " TextWrapping="Wrap"/>
+        <Label Content="Обязанности"/>
+        <TextBox Text=" " TextWrapping="Wrap"/>
+        <Label Content="Требования"/>
+        <TextBox Text=" " TextWrapping="Wrap"/>
+        <Label Content="Условия"/>
+        <TextBox Text=" " TextWrapping="Wrap"/>
+        <StackPanel Orientation="Horizontal">
+            <CheckBox Content="Только полная занятость"/>
+            <CheckBox Content="Возможен гибкий график работы"/>
+        </StackPanel>
+        <Button Content="Save" HorizontalAlignment="Center"/>
+    </StackPanel>
+</Window>

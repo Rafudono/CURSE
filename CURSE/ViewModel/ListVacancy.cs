@@ -136,6 +136,8 @@ namespace CURSE.ViewModel
                 SelectedField = Fields[0];
                 Educations.Insert(0, new Education { Id = 0, Title = "Любое" });
                 SelectedEducation = Educations[0];
+                Citys.Insert(0, new City { Id = 0, City_Name = "Город" });
+                SelectedCity = Citys[0];
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
             //Create = new VmCommand(() =>

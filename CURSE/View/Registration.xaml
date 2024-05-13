@@ -23,8 +23,6 @@
             <TextBox Text="{Binding registrateHuman.Surname}"/>
             <Label Content="Отчество"/>
             <TextBox Text="{Binding registrateHuman.Middle_Name}"/>
-            <Label Content="День рожднеия"/>
-            <DatePickerTextBox Text="{Binding registrateHuman.Birthday, StringFormat= dd mm yyyy}"/>
             <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step1}" Grid.Row="1">

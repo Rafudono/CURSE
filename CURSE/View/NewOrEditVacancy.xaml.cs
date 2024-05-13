@@ -1,5 +1,4 @@
-﻿using CURSE.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,14 +15,13 @@ using System.Windows.Shapes;
 namespace CURSE.View
 {
     /// <summary>
-    /// Логика взаимодействия для Registration.xaml
+    /// Логика взаимодействия для NewOrEditVacancy.xaml
     /// </summary>
-    public partial class Registration : Window
+    public partial class NewOrEditVacancy : Window
     {
-        public Registration()
+        public NewOrEditVacancy()
         {
             InitializeComponent();
-            ((RegistrationVM)DataContext).SetClose(Close);
         }
     }
 }

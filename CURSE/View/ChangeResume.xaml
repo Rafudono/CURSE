@@ -3,10 +3,66 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CURSE.View"
+          xmlns:local="clr-namespace:CURSE.Converters"
+        xmlns:vm="clr-namespace:CURSE.ViewModel" 
+       DataContext="{DynamicResource vm}"
         mc:Ignorable="d"
-        Title="ChangeResume" Height="450" Width="800">
+        Title="ChangeResume"  Height="500" Width="450">
+    <Window.Resources>
+        <local:NullImageConverter x:Key="nullImageConverter"/>
+        <vm:ChangeResumeVM x:Key="vm"/>
+    </Window.Resources>
     <Grid>
-        
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Image Height="160" Width="120" Source="{Binding Hum.Photo, Converter={StaticResource nullImageConverter}}"/>
+        <StackPanel Grid.Column="1" >
+            <TextBlock Text="Имя"/>
+            <TextBox Text="{Binding Hum.Name}"/>
+            <TextBlock Text="Фамилия"/>
+            <TextBox Text="{Binding Hum.Surname}"/>
+            <TextBlock Text="Отчество"/>
+            <TextBox Text="{Binding Hum.Middle_Name}"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+                <Label Content="Город"/>
+                <ComboBox DisplayMemberPath="City_Name" 
+SelectedItem="{Binding SelectedCity}" 
+ItemsSource="{Binding Citys}"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+        <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
+            <Label Content="Специальность"/>
+            <TextBox Text="{Binding Appl.RTitle}"/>
+        </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Опыт"/>
+                <TextBox Text="{Binding Appl.XP}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Желаемая заработная плата"/>
+                <TextBox Text="{Binding Appl.Salary}"/>
+            </StackPanel>
+            <Label Content="Дополнительная информация (описание)"/>
+            <WrapPanel>
+                <TextBox Text="{Binding Appl.Description}" TextWrapping="Wrap"/>
+            </WrapPanel>
+            <CheckBox Content="Согласен на полную занятость" IsChecked="{Binding Appl.IsFullEmployment}"/>
+            <CheckBox Content="Только гибкий график" IsChecked="{Binding Appl.IsFlexibleSchedule}"/>
+        </StackPanel>
+        <Label Content="Текущий пароль" Grid.Row="2" HorizontalAlignment="Right"/>
+        <TextBox Text=" " Grid.Row="2" Grid.Column="1"/>
+        <StackPanel Grid.Row="4" Grid.ColumnSpan="2">
+            <Button Content="Сохранить" HorizontalAlignment="Center" Command="{Binding Save}"/>
+        </StackPanel>
     </Grid>
 </Window>

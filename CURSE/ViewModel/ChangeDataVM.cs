@@ -38,7 +38,7 @@ namespace CURSE.ViewModel
                 if (CurPassword == Hum.Password)
                 {
                     if (NewPassword != null) 
-                        Hum.Password = NewPassword;
+                        Hum.Password = Md5.HashPassword(NewPassword);
                     HumanRepository.Instance.UpdateData(Hum);
                     close?.Invoke();
                 }

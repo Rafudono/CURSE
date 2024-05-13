@@ -44,7 +44,7 @@ namespace CURSE.Model
                     hum.Id = id;
                     if (hum.Id != 0)
                     {
-                        hum = new Applicant();
+                        hum = new Human();
                         result.Add(hum);
                         hum.Id = id;
                         hum.Surname = reader.GetString("Surname");

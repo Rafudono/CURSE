@@ -88,25 +88,14 @@ namespace CURSE.ViewModel
             {
                 if (HumAuthorization.Instance.loginHuman.Name != null && HumAuthorization.Instance.loginHuman.Password != null)
                 {
-                    ChangeResume taskwindow = new ChangeResume();
-                    taskwindow.ShowDialog();
+                    ChangeResume taskwindow = new ChangeResume(ApplAuthorized.Instance.loginAppl);
+                     taskwindow.ShowDialog();
                 }
                 else
                     MessageBox.Show("Войдите в аккаунт");
             });
             OpenSearch();
         }
-        //static MainVM instance;
-        //public static MainVM Instance
-        //{
-        //    get
-        //    {
-        //        if (instance == null)
-
-        //            instance = new MainVM();
-        //        return instance;
-        //    }
-        //}
         //public Page applicantView = new ApplicantView(); //не сигнал
         //public Page employerView = new EmployerView();
         private void OpenSearch()

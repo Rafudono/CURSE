@@ -6,15 +6,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace CURSE.ViewModel
 {
     public class ChangeResumeVM:BaseVM
     {
+        MainVM mainVM;
+
         Action close;
+        ListBox listFoa;
         private Human hum = new();
         private Applicant applicant = new Applicant();
         private City selectedCity;
+        private Field_of_Activity selectedField;
         public string CurPassword { get; set; }
         public Human Hum
         {
@@ -43,15 +48,25 @@ namespace CURSE.ViewModel
                 Signal();
             }
         }
+        public Field_of_Activity SelectedField
+        {
+            get => selectedField;
+            set
+            {
+                selectedField = value;
+                Signal();
+            }
+        }
         public VmCommand Save { get; set; }
-        public ObservableCollection<City> Citys { get; set; } = new ObservableCollection<City>();
+        public List<Field_of_Activity> Fields { get; set; }
+        public ObservableCollection<City> Citys { get; set; } 
 
         public ChangeResumeVM()
         {
             Hum = HumAuthorization.Instance.loginHuman;
             Appl = ApplAuthorized.Instance.loginAppl;
             Citys = new ObservableCollection<City>(CityRepository.Instance.GetAllCity());
-            int i;
+            Fields = FoaRepository.Instance.GetFields();
             foreach (City city in Citys) 
             { 
                 if (city.Id == Appl.Id_City) 
@@ -60,19 +75,42 @@ namespace CURSE.ViewModel
             string sql = "";
             Save = new VmCommand(() =>
             {
-                if (CurPassword == Hum.Password)
+                if (CurPassword != null)
                 {
-                    Appl.Id_City=SelectedCity.Id;
-                    ApplicantRepository.Instance.UpdateResume(Appl);
-                    close?.Invoke();
+                    if (Md5.HashPassword(CurPassword) == Hum.Password)
+                    {
+                        
+                        Appl.FieldofActivity.Clear();
+                        foreach (Field_of_Activity foa in listFoa.SelectedItems)
+                            Appl.FieldofActivity.Add(foa);
+                        Appl.Id_City = SelectedCity.Id;
+                        ApplicantRepository.Instance.UpdateResume(Appl);
+                        close?.Invoke();
+                    }
                 }
                 else { MessageBox.Show("Необходимо указать текущий пароль"); }
+                
             });
         }
         internal void SetClose(Action close)
         {
-            this.close = close;
+            this.close= close;
         }
-        
+        internal void SetMainVM(ListBox listTags)
+        {
+            this.listFoa = listTags;
+        }
+        internal void SetEditDrink(Applicant selectedAppl, System.Windows.Threading.Dispatcher dispatcher)
+        {
+            Appl = selectedAppl;
+            foreach (var foa in Appl.FieldofActivity)
+            {
+                var search = Fields.FirstOrDefault(s => s.Title == foa.Title); // сендер имеет тип foa и мы сравниваем его с foa xdddddd
+                if (search != null)
+                {
+                    search.Selected = true;
+                }
+            }
+        }
     }
 }

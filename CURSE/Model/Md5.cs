@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CURSE.Model
 {
@@ -24,16 +25,20 @@ namespace CURSE.Model
         public static string HashPassword (string password)
         {
             {
-                var bytes = Encoding.ASCII.GetBytes(password);
-                StringBuilder result = new StringBuilder();
-                using (var md5 = MD5.Create())
-                using (var ms = new MemoryStream(bytes))
+                if (password != null)
                 {
-                    var hash = md5.ComputeHash(ms);
-                    foreach (var b in hash)
-                        result.Append(b.ToString("x2"));
+                    var bytes = Encoding.ASCII.GetBytes(password);
+                    StringBuilder result = new StringBuilder();
+                    using (var md5 = MD5.Create())
+                    using (var ms = new MemoryStream(bytes))
+                    {
+                        var hash = md5.ComputeHash(ms);
+                        foreach (var b in hash)
+                            result.Append(b.ToString("x2"));
+                    }
+                    return result.ToString();
                 }
-                return result.ToString();
+                else { MessageBox.Show("пароль пустой!");  return password; }
             }
         }
     }

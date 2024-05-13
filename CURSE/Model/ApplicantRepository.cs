@@ -53,12 +53,6 @@ namespace CURSE.Model
                         applicant.IsFullEmployment = reader.GetBoolean("IsFullEmployment");
                         applicant.IsFlexibleSchedule = reader.GetBoolean("IsFlexibleSchedule");
                         applicant.IdEducation = reader.GetInt32("id_Education");
-                        applicant.Name = reader.GetString("Name");
-                        applicant.Middle_Name = reader.GetString("Middle_name");
-                        applicant.Surname = reader.GetString("Surname");
-                        applicant.Email = reader.GetString("EMAIL");
-                        applicant.PhoneNumber = reader.GetString("PHONE_NUMBER");
-                        applicant.Birthday = reader.GetDateTime("Birthday");
                         applicant.Description= reader.GetString("Description");
                         applicant.RTitle = reader.GetString("ResumeTitle");
                     }
@@ -117,33 +111,35 @@ namespace CURSE.Model
                 MessageBox.Show("нет соединения с бд");
             Applicant applicant = new Applicant();
             string sql = "SELECT a.ID, a.id_human, a.XP, a.id_Education, a.id_city, a.Salary , a.IsFullEmployment , a.IsFlexibleSchedule, a.Description, a.ResumeTitle, foa.ID AS foaId, foa.Field_name AS foaTitle FROM CURSE.`Cross_Applicant_Field-of-activity` cafoa, CURSE.Applicant a, CURSE.`Fields-of-activity` foa WHERE cafoa.id_applicant = a.ID AND cafoa.id_field = foa.ID and (a.id_human ='" + id_hum + "');";
-
-
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
-
-                if (reader.Read())
+                int id;
+                while (reader.Read())
                 {
-                    applicant.Id = reader.GetInt32("id");
-                    applicant.HumanId = reader.GetInt32("id_human");
-                    applicant.XP = reader.GetInt32("XP");
-                    applicant.Id_City = reader.GetInt32("id_city");
-                    applicant.Salary = reader.GetDouble("Salary");
-                    applicant.IsFullEmployment = reader.GetBoolean("IsFullEmployment");
-                    applicant.IsFlexibleSchedule = reader.GetBoolean("IsFlexibleSchedule");
-                    applicant.IdEducation = reader.GetInt32("id_Education");
-                    applicant.Description = reader.GetString("Description");
-                    applicant.RTitle = reader.GetString("ResumeTitle");
+                    id = reader.GetInt32("id");
+                    if (applicant.Id != id)
+                    {
+                        applicant.Id = id;
+                        applicant.HumanId = reader.GetInt32("id_human");
+                        applicant.XP = reader.GetInt32("XP");
+                        applicant.Id_City = reader.GetInt32("id_city");
+                        applicant.Salary = reader.GetDouble("Salary");
+                        applicant.IsFullEmployment = reader.GetBoolean("IsFullEmployment");
+                        applicant.IsFlexibleSchedule = reader.GetBoolean("IsFlexibleSchedule");
+                        applicant.IdEducation = reader.GetInt32("id_Education");
+                        applicant.Description = reader.GetString("Description");
+                        applicant.RTitle = reader.GetString("ResumeTitle");
+                    }
+                    applicant.FieldofActivity.Add(new Field_of_Activity
+                    {
+                        Id = reader.GetInt32("id"),
+                        Title = reader.GetString("foaTitle"),
+                    });
                 }
-                applicant.FieldofActivity.Add(new Field_of_Activity
-                {
-                    Id = reader.GetInt32("id"),
-                    Title = reader.GetString("foaTitle"),
-                });
             }
-
-            return applicant;
+                return applicant;
+            
         }
            internal void Remove(Applicant applicant)
         {
@@ -187,7 +183,7 @@ namespace CURSE.Model
             using (var mcCross = new MySqlCommand(sql, connect))
                 mcCross.ExecuteNonQuery();
 
-            sql = "UPDATE Drink SET Title = @title, Capacity = @capacity, Price = @price, Description = @description WHERE Id = " + applicant.Id;
+            sql = "UPDATE Applicant SET id_human = @h_id, XP = @xp, id_education = @id_education, id_city=@id_city, Salary = @salary, IsFullEmployment=@isfullEmployment, IsFlexibleSchedule=@isflexSchedule, Description =@descr, ResumeTitle=@RTitle WHERE Id = " + applicant.Id;
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("id", applicant.Id));
@@ -199,6 +195,7 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("isfullEmployment", applicant.IsFullEmployment));
                 mc.Parameters.Add(new MySqlParameter("isflexSchedule", applicant.IsFlexibleSchedule));
                 mc.Parameters.Add(new MySqlParameter("descr", applicant.Description));
+                mc.Parameters.Add(new MySqlParameter("RTitle", applicant.RTitle));
                 mc.ExecuteNonQuery();
             }
         }

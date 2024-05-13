@@ -7,16 +7,20 @@
         xmlns:vm="clr-namespace:CURSE.ViewModel" 
        DataContext="{DynamicResource vm}"
         mc:Ignorable="d"
-        Title="ChangeResume"  Height="500" Width="450">
+        Title="ChangeResume"  Height="500" Width="600">
     <Window.Resources>
         <local:NullImageConverter x:Key="nullImageConverter"/>
         <vm:ChangeResumeVM x:Key="vm"/>
+        <Style x:Key="listItemFoa" TargetType="ListBoxItem">
+            <Setter Property="IsSelected" Value="{Binding Selected}"/>
+        </Style>
     </Window.Resources>
     <Grid>
 
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -40,10 +44,10 @@ ItemsSource="{Binding Citys}"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
-        <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
-            <Label Content="Специальность"/>
-            <TextBox Text="{Binding Appl.RTitle}"/>
-        </StackPanel>
+            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
+                <Label Content="Специальность"/>
+                <TextBox Text="{Binding Appl.RTitle}"/>
+            </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Опыт"/>
                 <TextBox Text="{Binding Appl.XP}"/>
@@ -53,16 +57,21 @@ ItemsSource="{Binding Citys}"/>
                 <TextBox Text="{Binding Appl.Salary}"/>
             </StackPanel>
             <Label Content="Дополнительная информация (описание)"/>
-            <WrapPanel>
-                <TextBox Text="{Binding Appl.Description}" TextWrapping="Wrap"/>
+            <WrapPanel HorizontalAlignment="Center">
+                <TextBox Text="{Binding Appl.Description}" TextWrapping="Wrap" MinLines="7" MinWidth="415"/>
             </WrapPanel>
             <CheckBox Content="Согласен на полную занятость" IsChecked="{Binding Appl.IsFullEmployment}"/>
             <CheckBox Content="Только гибкий график" IsChecked="{Binding Appl.IsFlexibleSchedule}"/>
         </StackPanel>
         <Label Content="Текущий пароль" Grid.Row="2" HorizontalAlignment="Right"/>
-        <TextBox Text=" " Grid.Row="2" Grid.Column="1"/>
-        <StackPanel Grid.Row="4" Grid.ColumnSpan="2">
+        <TextBox Text="{Binding CurPassword}" Grid.Row="2" Grid.Column="1"/>
+        <StackPanel Grid.Row="4" Grid.ColumnSpan="3">
             <Button Content="Сохранить" HorizontalAlignment="Center" Command="{Binding Save}"/>
         </StackPanel>
+        <ListBox DisplayMemberPath="Title" Grid.Column="3" Grid.RowSpan="2"
+          ItemContainerStyle="{StaticResource listItemFoa}"
+          ItemsSource="{Binding Fields}"
+          SelectionMode="Multiple"
+     x:Name="listFoa"/>
     </Grid>
 </Window>

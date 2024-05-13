@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CURSE.Model;
+using CURSE.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,12 @@ namespace CURSE.View
     /// </summary>
     public partial class ChangeResume : Window
     {
-        public ChangeResume()
+        public ChangeResume(Applicant selectedAppl)
         {
             InitializeComponent();
+            var vm = ((ChangeResumeVM)DataContext);
+            vm.SetMainVM(listFoa);
+            ((ChangeResumeVM)DataContext).SetEditDrink(selectedAppl, Dispatcher);
         }
     }
 }

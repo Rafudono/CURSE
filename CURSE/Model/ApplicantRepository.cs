@@ -212,7 +212,7 @@ namespace CURSE.Model
             sql += "AND (a.XP <=" + xp + ")";
             if(!isflex)
             sql += "AND (a.IsFlexibleSchedule =" + isflex + ")";
-            if(!isfull)
+            if(isfull)
             sql += "AND(a.IsFullEmployment=" + isfull + ")";
             if (selectedField != null && selectedField.Id != 0)
             {

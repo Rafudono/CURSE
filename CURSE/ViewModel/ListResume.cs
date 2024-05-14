@@ -26,7 +26,7 @@ namespace CURSE.ViewModel
         private int minSalary = 1000000;
         private int xp = 100;
         private bool isFullEmp;
-        private bool isFlexShedule;
+        private bool isFlexShedule=true;
         //public VmCommand Create { get; set; }
         //public VmCommand Edit { get; set; }
         //public VmCommand Delete { get; set; }

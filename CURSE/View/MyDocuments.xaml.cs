@@ -1,6 +1,4 @@
-﻿using CURSE.Model;
-using CURSE.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,17 +15,13 @@ using System.Windows.Shapes;
 namespace CURSE.View
 {
     /// <summary>
-    /// Логика взаимодействия для ChangeResume.xaml
+    /// Логика взаимодействия для MyDocuments.xaml
     /// </summary>
-    public partial class ChangeResume : Window
+    public partial class MyDocuments : Window
     {
-        public ChangeResume(Applicant selectedAppl)
+        public MyDocuments()
         {
             InitializeComponent();
-            var vm = ((ChangeResumeVM)DataContext);
-            vm.SetMainVM(listFoa);
-            ((ChangeResumeVM)DataContext).SetEditResume(selectedAppl, Dispatcher);
-            ((ChangeResumeVM)DataContext).SetClose(Close);
         }
     }
 }

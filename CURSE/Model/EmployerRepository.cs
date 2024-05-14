@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CURSE.Model
 {
@@ -69,7 +70,33 @@ namespace CURSE.Model
                 mc.ExecuteNonQuery();
             }
         }
+        internal Employer LoginEmployer(int id_hum)
+        {
 
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null)
+                MessageBox.Show("нет соединения с бд");
+
+            Employer employer = new Employer();
+            string sql = "SELECT * FROM CURSE.Employer e Where (e.id_human = " + id_hum + ");";
+            using (var mc = new MySqlCommand(sql, connect))
+            using (var reader = mc.ExecuteReader())
+            {
+                int id;
+                while (reader.Read())
+                {
+                    id = reader.GetInt32("id");
+                    if (employer.Id != id)
+                    {
+                        employer.Id = id;
+                        employer.id_human = reader.GetInt32("id_human");
+                        employer.id_organization = reader.GetInt32("id_organization");
+                    }
+                }
+            }
+            return employer;
+
+        }
         internal void UpdateEmployer(Employer employer)
         {
             var connect = MySqlDB.Instance.GetConnection();

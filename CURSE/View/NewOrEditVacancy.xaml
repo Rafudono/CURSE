@@ -6,6 +6,12 @@
         xmlns:local="clr-namespace:CURSE.View"
         mc:Ignorable="d"
         Title="NewOrEditVacancy" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+    
     <StackPanel>
         <Label Content="Специальность(название вакансии)"/>
         <TextBox Text=""/>
@@ -27,11 +33,10 @@
         <Label Content="Требования"/>
         <TextBox Text=" " TextWrapping="Wrap"/>
         <Label Content="Условия"/>
-        <TextBox Text=" " TextWrapping="Wrap"/>
-        <StackPanel Orientation="Horizontal">
+            <TextBox Text=" " TextWrapping="Wrap"/>
             <CheckBox Content="Только полная занятость"/>
             <CheckBox Content="Возможен гибкий график работы"/>
-        </StackPanel>
-        <Button Content="Save" HorizontalAlignment="Center"/>
+            <Button Content="Save" HorizontalAlignment="Center"/>
     </StackPanel>
+    </Grid>
 </Window>

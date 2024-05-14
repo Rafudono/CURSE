@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CURSE.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,13 +17,15 @@ using System.Windows.Shapes;
 namespace CURSE.View
 {
     /// <summary>
-    /// Логика взаимодействия для VacEditor.xaml
+    /// Логика взаимодействия для MyVac.xaml
     /// </summary>
-    public partial class VacEditor : Page
+    public partial class MyVac : Page
     {
-        public VacEditor()
+        public MyVac(ViewModel.MainVM mainVM)
         {
             InitializeComponent();
+            var vm = DataContext as MyVacVM;
+            vm?.SetMainVM(mainVM);
         }
     }
 }

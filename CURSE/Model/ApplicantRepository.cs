@@ -53,7 +53,19 @@ namespace CURSE.Model
                         applicant.IsFullEmployment = reader.GetBoolean("IsFullEmployment");
                         applicant.IsFlexibleSchedule = reader.GetBoolean("IsFlexibleSchedule");
                         applicant.IdEducation = reader.GetInt32("id_Education");
-                        applicant.Description= reader.GetString("Description");
+                        applicant.Name = reader.GetString("Name");
+                        applicant.Middle_Name = reader.GetString("Middle_name");
+                        applicant.Surname = reader.GetString("Surname");
+                        applicant.Email = reader.GetString("EMAIL");
+                        applicant.PhoneNumber = reader.GetString("PHONE_NUMBER");
+                        applicant.Birthday = reader.GetDateTime("Birthday");
+                        int index = reader.GetOrdinal("Photo");
+                        using (var stream = reader.GetStream(index))
+                        {
+                            applicant.Photo = new byte[stream.Length];
+                            stream.Read(applicant.Photo, 0, (int)stream.Length);
+                        }
+                        applicant.Description = reader.GetString("Description");
                         applicant.RTitle = reader.GetString("ResumeTitle");
                     }
                     applicant.FieldofActivity.Add(new Field_of_Activity
@@ -109,8 +121,9 @@ namespace CURSE.Model
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 MessageBox.Show("нет соединения с бд");
+
             Applicant applicant = new Applicant();
-            string sql = "SELECT a.ID, a.id_human, a.XP, a.id_Education, a.id_city, a.Salary , a.IsFullEmployment , a.IsFlexibleSchedule, a.Description, a.ResumeTitle, foa.ID AS foaId, foa.Field_name AS foaTitle FROM CURSE.`Cross_Applicant_Field-of-activity` cafoa, CURSE.Applicant a, CURSE.`Fields-of-activity` foa WHERE cafoa.id_applicant = a.ID AND cafoa.id_field = foa.ID and (a.id_human ='" + id_hum + "');";
+            string sql = "SELECT * FROM CURSE.Applicant a Where (a.id_human = " + id_hum + ");";
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
@@ -131,14 +144,46 @@ namespace CURSE.Model
                         applicant.Description = reader.GetString("Description");
                         applicant.RTitle = reader.GetString("ResumeTitle");
                     }
-                    applicant.FieldofActivity.Add(new Field_of_Activity
-                    {
-                        Id = reader.GetInt32("id"),
-                        Title = reader.GetString("foaTitle"),
-                    });
                 }
             }
-                return applicant;
+                    string cross = "SELECT * from CURSE.`Cross_Applicant_Field-of-activity` cafoa Where id_applicant = "+applicant.Id+";";
+                    var listcross =CrossApplFieldRepository.Instance.GetCross(cross);
+                if (listcross != null && listcross.Count != 0)
+                {
+                    applicant = new Applicant();
+                    sql = "";
+                    sql = "SELECT a.ID, a.id_human, a.XP, a.id_Education, a.id_city, a.Salary , a.IsFullEmployment , a.IsFlexibleSchedule,  a.Description, a.ResumeTitle, foa.ID AS foaId, foa.Field_name AS foaTitle, h.Name, h.Middle_name , h.Surname, h.EMAIL, h.PHONE_NUMBER, h.Birthday, e.Title FROM CURSE.`Cross_Applicant_Field-of-activity` cafoa, CURSE.Applicant a, Curse.Human h, CURSE.`Fields-of-activity` foa, CURSE.Education e WHERE cafoa.id_applicant = a.ID AND cafoa.id_field = foa.ID and a.id_human = "+id_hum+" and a.id_Education =e.ID;";
+                    using (var mc = new MySqlCommand(sql, connect))
+                    using (var reader = mc.ExecuteReader())
+                    {
+                    int id;
+                    while (reader.Read())
+                        {
+                            id = reader.GetInt32("id");
+                            if (applicant.Id != id)
+                            {
+                                applicant.Id = id;
+                                applicant.HumanId = reader.GetInt32("id_human");
+                                applicant.XP = reader.GetInt32("XP");
+                                applicant.Id_City = reader.GetInt32("id_city");
+                                applicant.Salary = reader.GetDouble("Salary");
+                                applicant.IsFullEmployment = reader.GetBoolean("IsFullEmployment");
+                                applicant.IsFlexibleSchedule = reader.GetBoolean("IsFlexibleSchedule");
+                                applicant.IdEducation = reader.GetInt32("id_Education");
+                                applicant.Description = reader.GetString("Description");
+                                applicant.RTitle = reader.GetString("ResumeTitle");
+                            }
+                            applicant.FieldofActivity.Add(new Field_of_Activity
+                            {
+                                Id = reader.GetInt32("id"),
+                                Title = reader.GetString("foaTitle"),
+                            });
+                        }
+                    }
+                
+            }
+           
+            return applicant;
             
         }
            internal void Remove(Applicant applicant)
@@ -154,16 +199,45 @@ namespace CURSE.Model
                 mc.ExecuteNonQuery();
         }
 
-        internal IEnumerable<Applicant> Search(string searchText, Field_of_Activity selectedField)
+        internal IEnumerable<Applicant> Search(string searchText, int minSalary, int xp, bool isflex, bool isfull, Field_of_Activity selectedField, Education selectedEd, City selectedCity)
         {
-            string sql = "SELECT a.ID, a.id_human, a.XP, a.id_Education, a.id_city, a.Salary , a.IsFullEmployment , a.IsFlexibleSchedule, a.Description, a.ResumeTitle, foa.ID AS foaId, foa.Field_name AS foaTitle, h.Name, h.Middle_name , h.Surname, h.EMAIL, h.PHONE_NUMBER, h.Birthday FROM CURSE.`Cross_Applicant_Field-of-activity` cafoa, CURSE.Applicant a, Curse.Human h , CURSE.`Fields-of-activity` foa, CURSE.Education e WHERE cafoa.id_applicant = a.ID AND cafoa.id_field = foa.ID and a.id_human = h.ID AND a.id_Education=e.ID;";
-            sql += " AND (a.ResumeTitle LIKE '%" + searchText + "%'";
-            if (selectedField.Id != 0)
-            { // это не включено в запрос, так как в противном случае потеряются теги
-                var result = GetAllResume(sql).Where(s => s.FieldofActivity.FirstOrDefault(s => s.Id == selectedField.Id) != null);
-                return result;
+            string sql = "SELECT a.ID, a.id_human, a.XP, a.id_Education, a.id_city, a.Salary , a.IsFullEmployment , a.IsFlexibleSchedule, a.Description, a.ResumeTitle, foa.ID AS foaId, foa.Field_name AS foaTitle, h.Name, h.Middle_name , h.Surname, h.EMAIL, h.PHONE_NUMBER, h.Birthday, h.Photo FROM CURSE.`Cross_Applicant_Field-of-activity` cafoa, CURSE.Applicant a, Curse.Human h , CURSE.`Fields-of-activity` foa, CURSE.Education e WHERE cafoa.id_applicant = a.ID AND cafoa.id_field = foa.ID and a.id_human = h.ID AND a.id_Education=e.ID";
+            sql += " AND (a.ResumeTitle LIKE '%" + searchText + "%')";
+            //if (selectedField.Id != 0)
+            //{
+            //    var result = GetAllResume(sql).Where(s => s.FieldofActivity.FirstOrDefault(s => s.Id == selectedField.Id) != null);
+            //    return result;
+            //}
+            sql += "AND (a.Salary <=" + minSalary + ")";
+            sql += "AND (a.XP <=" + xp + ")";
+            if(!isflex)
+            sql += "AND (a.IsFlexibleSchedule =" + isflex + ")";
+            if(!isfull)
+            sql += "AND(a.IsFullEmployment=" + isfull + ")";
+            if (selectedField != null && selectedField.Id != 0)
+            {
+                var list = GetAllResume(sql).Where(s => s.FieldofActivity.FirstOrDefault(s => s.Title == selectedField.Title) != null);
+                return list;
             }
-           
+            if (selectedField != null && selectedField.Id != 0 && selectedCity != null && selectedCity.Id != 0 && selectedEd != null && selectedEd.Id != 0)
+                sql += "AND foa.ID =" + selectedField.Id + " AND a.id_city =" + selectedCity.Id + " and a.id_Education=" + selectedEd.Id + "  ORDER by a.ID;";
+
+            else if (selectedField != null && selectedField.Id != 0 && selectedCity != null && selectedCity.Id != 0)
+                sql += "AND foa.ID =" + selectedField.Id + " AND v.id_city =" + selectedCity.Id + " ORDER by a.ID;";
+            else if (selectedField != null && selectedField.Id != 0 && selectedEd != null && selectedEd.Id != 0)
+                sql += "AND foa.ID =" + selectedField.Id + " AND  a.id_Education =" + selectedEd.Id + " ORDER by a.ID;";
+            else if (selectedCity != null && selectedCity.Id != 0 && selectedEd != null && selectedEd.Id != 0)
+                sql += "AND v.id_city =" + selectedCity.Id + " and a.id_Education=" + selectedEd.Id + " ORDER by a.ID;";
+
+            else if (selectedCity != null && selectedCity.Id != 0)
+                sql += "AND v.id_city =" + selectedCity.Id + " ORDER by a.ID;";
+            else if (selectedField != null && selectedField.Id != 0)
+                sql += "AND foa.ID =" + selectedField.Id +  " ORDER by a.ID;";
+            else if (selectedEd != null && selectedEd.Id != 0)
+                sql += "and a.id_Education =" + selectedEd.Id + " ORDER by a.ID;";
+
+            else
+                sql += " ORDER by a.ID;";
             return GetAllResume(sql);
         }
 

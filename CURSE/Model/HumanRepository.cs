@@ -41,8 +41,7 @@ namespace CURSE.Model
                 while (reader.Read())
                 {
                     id = reader.GetInt32("id");
-                    hum.Id = id;
-                    if (hum.Id != 0)
+                    if (hum.Id != id)
                     {
                         hum = new Human();
                         result.Add(hum);
@@ -52,7 +51,7 @@ namespace CURSE.Model
                         hum.Middle_Name = reader.GetString("Middle_Name");
                         hum.Email = reader.GetString("Email");
                         hum.PhoneNumber = reader.GetString("PHONE_NUMBER");
-                        hum.Password = reader.GetString("Password");
+                        hum.Password = reader.GetString("PASSWORD");
                         hum.Birthday = reader.GetDateTime("Birthday");
                         int index = reader.GetOrdinal("Photo");
                         using (var stream = reader.GetStream(index))
@@ -73,8 +72,8 @@ namespace CURSE.Model
 
             int id = MySqlDB.Instance.GetAutoID("Human");
 
-            string sql = "INSERT INTO Human VALUES (0, @Surname, @Name, @Middle_Name, @Email, " +
-                "@PhoneNumber, @Password, @Birthday, @Photo)";
+            string sql = "INSERT INTO Human VALUES (0, @Password, @Email, @PhoneNumber, @Name, " +
+                "@Middle_Name, @Surname, @Birthday, @Photo)";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("id", hum.Id));
@@ -127,13 +126,13 @@ namespace CURSE.Model
 
             }
         }
-        internal void Remove(Human hum)
+        internal void Delete(Human hum)
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return;
 
-            string sql = "DELETE FROM Human WHERE Id = '" + hum.Id + "';";
+            string sql = "DELETE FROM Human WHERE ID = '" + hum.Id + "';";
 
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
@@ -166,21 +165,6 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("photo", hum.Photo));
                 mc.ExecuteNonQuery();
             }
-            // hum = new Applicant();
-            //result.Add(hum);
-            //hum.Id = id;
-            //hum.Surname = reader.GetString("Surname");
-            //hum.Name = reader.GetString("Name");
-            //hum.Middle_Name = reader.GetString("Middle_Name");
-            //hum.Email = reader.GetString("Email");
-            //hum.PhoneNumber = reader.GetString("PhoneNumber");
-            //hum.Password = reader.GetString("Password");
-            //hum.Birthday = reader.GetDateTime("Birthday");
-            //int index = reader.GetOrdinal("Photo");
-            //using (var stream = reader.GetStream(index))
-            //{
-            //    hum.Photo = new byte[stream.Length];
-            //    stream.Read(hum.Photo, 0, (int)stream.Length);
         }
     }
 }

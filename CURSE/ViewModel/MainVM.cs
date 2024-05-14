@@ -19,6 +19,7 @@ namespace CURSE.ViewModel
         public VmCommand Search { get; }
         public VmCommand SettingsWindow { get; }
         public VmCommand ChangeResWindow { get; }
+        public VmCommand DelUser { get; }
         private Page vacancyPage;
         private Page resumePage;
         private Page myVacPage;
@@ -90,6 +91,17 @@ namespace CURSE.ViewModel
                 {
                     ChangeResume taskwindow = new ChangeResume(ApplAuthorized.Instance.loginAppl);
                      taskwindow.ShowDialog();
+                }
+                else
+                    MessageBox.Show("Войдите в аккаунт");
+            });
+            DelUser = new VmCommand(() =>
+            {
+                if (HumAuthorization.Instance.loginHuman.Name != null && HumAuthorization.Instance.loginHuman.Password != null)
+                {
+                    MessageBox.Show("Вы правда хотите удалить аккаунт?", "",MessageBoxButton.YesNo);
+                    DeleteUser taskwindow = new DeleteUser();
+                    taskwindow.ShowDialog();
                 }
                 else
                     MessageBox.Show("Войдите в аккаунт");

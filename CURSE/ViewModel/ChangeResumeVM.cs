@@ -94,13 +94,13 @@ namespace CURSE.ViewModel
         }
         internal void SetClose(Action close)
         {
-            this.close= close;
+            this.close = close;
         }
         internal void SetMainVM(ListBox listTags)
         {
             this.listFoa = listTags;
         }
-        internal void SetEditDrink(Applicant selectedAppl, System.Windows.Threading.Dispatcher dispatcher)
+        internal void SetEditResume(Applicant selectedAppl, System.Windows.Threading.Dispatcher dispatcher)
         {
             Appl = selectedAppl;
             foreach (var foa in Appl.FieldofActivity)

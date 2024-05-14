@@ -49,7 +49,7 @@
                 <ComboBox Grid.Column="2" x:Name="ComboSettings" Visibility="{Binding Settings}">
                     <StackPanel>
                         <Button Content="Мой профиль" Command="{Binding SettingsWindow}"/>
-                        <Button Content="Удалить аккаунт"/>
+                        <Button Content="Удалить аккаунт" Command="{Binding DelUser}"/>
                     </StackPanel>
                 </ComboBox>
             </Grid>

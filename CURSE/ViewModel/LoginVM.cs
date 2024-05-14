@@ -26,7 +26,7 @@ namespace CURSE.ViewModel
                 // var hash = Md5.HashPassword(loginPassword);
                 Human login = HumanRepository.Instance.LoginHuman(loginEmail, Md5.HashPassword(loginPassword));
                 HumAuthorization.Instance.loginHuman = login;
-               string sql = "SELECT h.ID, h.Surname, h.Name, h.Middle_Name, h.Email, h.PHONE_NUMBER, h.Password, h.Birthday, h.Photo, a.id_human  from Human h, CURSE.Applicant a  WHERE h.ID = " + HumAuthorization.Instance.loginHuman.Id + " and h.ID =a.id_human ;";
+               string sql = "SELECT h.ID, h.Surname, h.Name, h.Middle_Name, h.Email, h.PHONE_NUMBER, h.PASSWORD, h.Birthday, h.Photo, a.id_human  from Human h, CURSE.Applicant a  WHERE h.ID = " + HumAuthorization.Instance.loginHuman.Id + " and h.ID =a.id_human ;";
                var contains= HumanRepository.Instance.GetPeople(sql);
             if (contains.Count()!=0)
                 {

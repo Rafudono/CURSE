@@ -125,28 +125,30 @@ namespace CURSE.Model
             sql += " AND (v.Title LIKE '%" + searchText + "%')";
             sql+="AND (v.MAXSalary >="+ minSalary + ")";
             sql += "AND (v.`Required-XP` <=" + xp + ")";
+            if(isflex)
             sql+= "AND (v.IsFlexibleSchedule ="+ isflex+ ")";
+            if(!isfull)
             sql += "AND(v.IsFullEmployment=" + isfull + ")";
-            //if (selectedField.Id != 0)
-            //{ 
-            //    var list = GetAllVacancy(sql).Where(s => s.FieldofActivity.FirstOrDefault(s => s.Id == selectedField.Id) != null); //выбирает все))))))))) я хз как переделывать лямбда-выражения
-            //    return list;
-            //}
-            if (selectedField != null && selectedField.Id != 0&& selectedCity != null && selectedCity.Id != 0&& selectedEd != null && selectedEd.Id != 0)
+            if (selectedField != null && selectedField.Id != 0)
+            {
+                var list = GetAllVacancy(sql).Where(s => s.FieldofActivity.FirstOrDefault(s => s.Title == selectedField.Title) != null);
+                return list;
+            }
+            if (selectedField != null && selectedField.Id != 0 && selectedCity != null && selectedCity.Id != 0 && selectedEd != null && selectedEd.Id != 0)
                 sql += "AND foa.ID =" + selectedField.Id + " AND v.id_city =" + selectedCity.Id + " and v.`id_Required-Education`=" + selectedEd.Id + "  ORDER by v.ID;";
 
             else if (selectedField != null && selectedField.Id != 0 && selectedCity != null && selectedCity.Id != 0)
                 sql += "AND foa.ID =" + selectedField.Id + " AND v.id_city =" + selectedCity.Id + " ORDER by v.ID;";
-            else if (selectedField != null && selectedField.Id != 0&& selectedEd != null && selectedEd.Id != 0)
+            else if (selectedField != null && selectedField.Id != 0 && selectedEd != null && selectedEd.Id != 0)
                 sql += "AND foa.ID =" + selectedField.Id + " AND  v.`id_Required-Education` =" + selectedEd.Id + " ORDER by v.ID;";
-            else if(selectedCity != null && selectedCity.Id != 0 && selectedEd != null && selectedEd.Id != 0)
+            else if (selectedCity != null && selectedCity.Id != 0 && selectedEd != null && selectedEd.Id != 0)
                 sql += "AND v.id_city =" + selectedCity.Id + " and v.`id_Required-Education`=" + selectedEd.Id + " ORDER by v.ID;";
 
             else if (selectedCity != null && selectedCity.Id != 0)
                 sql += "AND v.id_city =" + selectedCity.Id + " ORDER by v.ID;";
-           else if (selectedField != null && selectedField.Id != 0)
+            else if (selectedField != null && selectedField.Id != 0)
                 sql += "AND foa.ID =" + selectedField.Id + " ORDER by v.ID;";
-           else if (selectedEd != null && selectedEd.Id != 0)
+            else if (selectedEd != null && selectedEd.Id != 0)
                 sql += "and v.`id_Required-Education`=" + selectedEd.Id + " ORDER by v.ID;";
 
             else

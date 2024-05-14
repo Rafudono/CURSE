@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CURSE.Model
 {
-   public class Applicant 
+   public class Applicant:Human
     {
         public int Id { get; set; }
         public int HumanId {  get; set; }
@@ -17,8 +17,8 @@ namespace CURSE.Model
         public int IdEducation { get; set; } = 5;
         public bool IsFlexibleSchedule { get; set; } //график
        public bool IsFullEmployment {  get; set; }//занятость  
-        public string Description { get; set; }
-        public string RTitle { get; set; }
+        public string Description { get; set; } = " ";
+        public string RTitle { get; set; } =  " ";
 
     }
 }

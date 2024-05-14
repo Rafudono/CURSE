@@ -3,48 +3,52 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-     xmlns:local="clr-namespace:CURSE.Model"
+     xmlns:local="clr-namespace:CURSE.Converters"
   xmlns:vm="clr-namespace:CURSE.ViewModel" 
        DataContext="{DynamicResource vm}"
      mc:Ignorable="d" 
      d:DesignHeight="450" d:DesignWidth="800"
      Title="EmployerView">
     <Page.Resources>
+        <local:NullImageConverter x:Key="nullImageConverter"/>
         <vm:ListResume x:Key="vm"/>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal" >
-            <TextBox Width="300"/>
+            <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Width="350"/>
             <TextBlock Text="Поиск"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="6">
-            <ListBox ItemsSource="{Binding All_resume}" SelectedItem="{Binding SelectedResume}" HorizontalAlignment="Left" >
-                
+            <ListBox ItemsSource="{Binding All_resume}" SelectedItem="{Binding SelectedResume}" HorizontalAlignment="Left" Width="384" >
                 <ListBox.ItemTemplate>
-                    
                     <DataTemplate>
+                        <StackPanel>
+                            <Label Content="{Binding RTitle}"/>
+                        
                         <StackPanel Orientation="Horizontal">
+                            
                             <StackPanel >
-                                <!--<Image Width="100" Source="{Binding Photo}"/>-->
+                                <Image Source="{Binding Photo}" Width="130"/>
                                 <TextBlock Text="{Binding Surname}"/>
                                 <TextBlock Text="{Binding Name}"/>
                                 <TextBlock Text="{Binding Middle_Name}"/>
                             </StackPanel>
-                            <ItemsControl ItemsSource="{Binding FieldofActivity}" DisplayMemberPath="Title">
+                            <ItemsControl  ItemsSource="{Binding FieldofActivity}"  DisplayMemberPath="Title">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel Orientation="Vertical"/>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
+                        </StackPanel>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -60,8 +64,8 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Образование"/>
-            <TextBlock Text="{Binding SelectedResume.IdEducation}" TextWrapping="Wrap" Grid.Column="1"/>
+            <TextBlock Text="О себе"/>
+            <TextBlock Text="{Binding SelectedResume.Description}" TextWrapping="Wrap" Grid.Column="1"/>
             <TextBlock Text="Заработная плата" Grid.Row="1"/>
             <TextBlock Text="{Binding SelectedResume.Salary}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1"/>
             <TextBlock Text="День рождения" Grid.Row="2"/>
@@ -78,7 +82,7 @@ ItemsSource="{Binding Citys}"/>
           SelectedItem="{Binding SelectedField}" 
           ItemsSource="{Binding Fields}"/>
             <Label Content="Опыт работы (лет)"/>
-            <TextBox Text="" MinWidth="10"/>
+            <TextBox Text="{Binding XP, UpdateSourceTrigger=PropertyChanged}" MinWidth="10"/>
             <Label Content="Образование"/>
             <ComboBox DisplayMemberPath="Title"
 SelectedItem="{Binding SelectedEducation}" 
@@ -86,10 +90,10 @@ ItemsSource="{Binding Educations}"/>
             <Label Content="Заработная плата"/>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="min"/>
-                <TextBox Text="" MinWidth="40"/>
+                <TextBox Text="{Binding MinSalary, UpdateSourceTrigger=PropertyChanged}" MinWidth="40"/>
             </StackPanel>
-            <CheckBox Content="Гибкий график"/>
-            <CheckBox Content="Полная занятость"/>
+            <CheckBox Content="Гибкий график" IsChecked="{Binding IsFlexShedule, UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Content="Полная занятость" IsChecked="{Binding IsFullEmp, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
     </Grid>
 </Page>

@@ -22,10 +22,6 @@ namespace CURSE.ViewModel
         private Education selectedEducation;    
         private Field_of_Activity selectedField;
         private Vacancy selectedVac;
-        //public VmCommand Create { get; set; }
-        //public VmCommand Edit { get; set; }
-        //public VmCommand Delete { get; set; }
-
         public Field_of_Activity SelectedField
         {
             get => selectedField;
@@ -101,9 +97,10 @@ namespace CURSE.ViewModel
                 SearchVacancy();
             }
         }
-        public ObservableCollection<Field_of_Activity> Fields { get; set; }
+       
         public ObservableCollection<Education > Educations { get; set; } = new ObservableCollection<Education>();
         public ObservableCollection<City> Citys { get; set; } = new ObservableCollection<City>();
+        public ObservableCollection<Field_of_Activity> Fields { get; set; }
         public Vacancy SelectedVac
         {
             get => selectedVac;

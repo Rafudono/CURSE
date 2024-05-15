@@ -107,7 +107,7 @@ namespace CURSE.Model
             }
         }
 
-        internal void Remove(Vacancy Vacancy)
+        internal void DeleteVac(Vacancy Vacancy)
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
@@ -161,8 +161,6 @@ namespace CURSE.Model
             //else
             //    return drinks.
         }
-
-        //работает, но убирает все теги кроме выбранного -_-"
         internal void UpdateVacancy(Vacancy vacancy)
         {
             var connect = MySqlDB.Instance.GetConnection();

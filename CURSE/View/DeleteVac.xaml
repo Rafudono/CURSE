@@ -4,9 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CURSE.View"
+                       xmlns:vm="clr-namespace:CURSE.ViewModel" 
+DataContext="{DynamicResource vm}"
         mc:Ignorable="d"
-        Title="DeleteVac" Height="450" Width="800">
+        Title="DeleteUser" Height="300" Width="300">
+    <Window.Resources>
+        <vm:DelteVacVM x:Key="vm"/>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Content="Удаление вакансии" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <StackPanel Grid.Row="1">
+            <Label Content="Введите текущий пароль"/>
+            <TextBox Text="{Binding password}"/>
+        </StackPanel>
+        <Button Content="Удалить" Grid.Row="3" HorizontalAlignment="Center"/>
     </Grid>
 </Window>

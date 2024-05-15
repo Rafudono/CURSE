@@ -4,8 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CURSE.View"
+          xmlns:vm="clr-namespace:CURSE.ViewModel" 
+ DataContext="{DynamicResource vm}"
         mc:Ignorable="d"
         Title="NewOrEditVacancy" Height="450" Width="800">
+    <Window.Resources>
+        <vm:NewOrEditVacancyVM x:Key="vm"/>
+        <Style x:Key="listItemFoa" TargetType="ListBoxItem">
+            <Setter Property="IsSelected" Value="{Binding Selected}"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -14,29 +22,47 @@
     
     <StackPanel>
         <Label Content="Специальность(название вакансии)"/>
-        <TextBox Text=""/>
-        <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal"><TextBox Text="{Binding Vac.Title}"/>
+                <ComboBox ItemsSource="{Binding Citys}" SelectedItem="{Binding SelectedCity}" HorizontalAlignment="Right"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
             <Label Content="Требуемый опыт"/>
-            <TextBox Text=" "/>
-        </StackPanel>
-        <Label Content="Заработная плата"/>
+                <TextBox Text="{Binding Vac.XP}"/>
+                <ComboBox DisplayMemberPath="City_Name" 
+SelectedItem="{Binding SelectedEducation}" 
+ItemsSource="{Binding Educations}"/>
+            </StackPanel>
+        
         <StackPanel Orientation="Horizontal">
+            <Label Content="Заработная плата"/>
             <Label Content="от"/>
-            <TextBox Text=" "/>
+                <TextBox Text="{Binding Vac.MINSalary}"/>
             <Label Content="до"/>
-            <TextBox Text=" "/>
+                <TextBox Text="{Binding Vac.MAXSalary}"/>
         </StackPanel>
         <Label Content="Описание"/>
-        <TextBox Text=" " TextWrapping="Wrap"/>
+            <TextBox Text="{Binding Vac.Description}" TextWrapping="Wrap"/>
         <Label Content="Обязанности"/>
-        <TextBox Text=" " TextWrapping="Wrap"/>
+            <TextBox Text="{Binding Vac.Responsibilities}" TextWrapping="Wrap"/>
         <Label Content="Требования"/>
-        <TextBox Text=" " TextWrapping="Wrap"/>
+            <TextBox Text="{Binding Vac.Requirements}" TextWrapping="Wrap"/>
         <Label Content="Условия"/>
-            <TextBox Text=" " TextWrapping="Wrap"/>
-            <CheckBox Content="Только полная занятость"/>
-            <CheckBox Content="Возможен гибкий график работы"/>
+            <TextBox Text="{Binding Vac.Conditions}" TextWrapping="Wrap"/>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Content="Только полная занятость" IsChecked="{Binding Vac.IsFullEmployment}"/>
+                <CheckBox Content="Возможен гибкий график работы" IsChecked="{Binding Vac.IsFlexibleSchedule}"/>
+            </StackPanel>
+           
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Текущий пароль"/>
+                <TextBox Text="{Binding CurPassword}"/>
+            </StackPanel>
             <Button Content="Save" HorizontalAlignment="Center"/>
     </StackPanel>
+        <ListBox DisplayMemberPath="Title" Grid.Column="3" 
+     ItemContainerStyle="{StaticResource listItemFoa}"
+     ItemsSource="{Binding Fields}"
+     SelectionMode="Multiple"
+x:Name="listFoa"/>
     </Grid>
 </Window>

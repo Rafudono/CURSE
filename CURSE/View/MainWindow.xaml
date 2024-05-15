@@ -23,19 +23,22 @@
                 <Image/>
                 <Label Content="CURSE"/>
             </StackPanel>
-        <Frame Content="{Binding MyVacPage}" Visibility="{Binding VisMyVac}"  Grid.Row="3"/>
-        <TabControl Grid.Row="3" Visibility="{Binding Others}" >
+       
+        <TabControl Grid.Row="3" >
             <TabItem Header="Соискатель" >
                 <Frame Content="{Binding VacancyPage}"/>
             </TabItem>
             <TabItem Header="Работодатель">
                 <Frame Content="{Binding ResumePage}"/>
             </TabItem>
+            <TabItem Header="Мои вакансии" Visibility="{Binding VisMyVac}">
+                <Frame Content="{Binding MyVacPage}"/>
+            </TabItem>
         </TabControl>
         <StackPanel Grid.Column="9">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Login" Command="{Binding Login}" />
-            <Button Content="Registration" Command="{Binding Registration}"/>
+            <Button Content="Login" Command="{Binding Login}" Visibility="{Binding AuthVis}"/>
+            <Button Content="Registration" Command="{Binding Registration}" Visibility="{Binding Reg}"/>
             </StackPanel>
             <Grid Grid.Row="2" HorizontalAlignment="Right">
                 <Grid.ColumnDefinitions>
@@ -43,10 +46,8 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Content="Моё резюме" Visibility = "{Binding Resume}" Command="{Binding ChangeResWindow}" />
-                <Button Content="Документы" Visibility="{Binding Documents}" />
-                <Button Content="Мои вакансии" Visibility="{Binding Vacancy}" Grid.Column="1" Command="{Binding VisMyVacPage}"/>
-                <Button Content="На главную" Visibility="{Binding Back}" Grid.Column="1" Command="{Binding GoBack}"/>
+                <Button Content="Моё резюме" Visibility = "{Binding Resume}" Command="{Binding ChangeResWindow}" Grid.Column="1"/>
+                <Button Content="Документы" Visibility="{Binding Documents}" Grid.Column="1"/>
                 <ComboBox Grid.Column="2" x:Name="ComboSettings" Visibility="{Binding Settings}">
                     <StackPanel>
                         <Button Content="Мой профиль" Command="{Binding SettingsWindow}"/>

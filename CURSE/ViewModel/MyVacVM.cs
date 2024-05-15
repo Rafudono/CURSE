@@ -1,10 +1,13 @@
 ﻿using CURSE.Model;
+using CURSE.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace CURSE.ViewModel
 {
@@ -13,10 +16,11 @@ namespace CURSE.ViewModel
         MainVM mainVM;
         private ObservableCollection<Vacancy> all_vac;
         private Vacancy selectedVac;
-        Action close;
+
         public VmCommand NewVac { get; }
         public VmCommand EditVac { get; }
         public VmCommand DeleteVac { get; }
+        public ObservableCollection<Field_of_Activity> Fields { get; set; }
         public Vacancy SelectedVac
         {
             get => selectedVac;
@@ -35,12 +39,52 @@ namespace CURSE.ViewModel
                 Signal();
             }
         }
+        public ObservableCollection<Vacancy> MyVacancy
+        {
+            get => all_vac;
+            set
+            {
+                all_vac = value;
+                Signal();
+            }
+        }
 
         public MyVacVM()
         {
-            string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID and employer_id = "+EmpAuthorized.Instance.loginEmp.Id+" ORDER by v.ID;";
-            All_vac = new ObservableCollection<Vacancy>(VacancyRepository.Instance.GetAllVacancy(sql));
+            if (EmpAuthorized.Instance.loginEmp.id_human != 0)
+            {
+                try
+                {
+                    string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID and employer_id = " + EmpAuthorized.Instance.loginEmp.Id + " ORDER by v.ID;";
+                    MyVacancy = new ObservableCollection<Vacancy>(VacancyRepository.Instance.GetAllVacancy(sql));
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+            }
+            NewVac = new VmCommand(() =>
+            {
+                    NewOrEditVacancy taskwindow = new NewOrEditVacancy();
+                    taskwindow.ShowDialog();
+            });
+            EditVac = new VmCommand(() =>
+            {
+                if (SelectedVac != null && SelectedVac.Id != 0)
+                {
+                    SelectedVacancy.Instance.selectedVac=SelectedVac;
+                    NewOrEditVacancy taskwindow = new NewOrEditVacancy();
+                    taskwindow.ShowDialog();
+                }
+            });
+            DeleteVac = new VmCommand(() =>
+            {
+                if (SelectedVac != null && SelectedVac.Id != 0)
+                {
+                    DeleteVac taskwindow = new DeleteVac();
+                    taskwindow.ShowDialog();
+                }
+            });
         }
+        //internal bool GetMyVac()
+        //{ }
         internal void SetMainVM(MainVM mainVM)
         {
             this.mainVM = mainVM;

@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CURSE.View"
       xmlns:vm="clr-namespace:CURSE.ViewModel" 
- DataContext="{DynamicResource vm}"
+      DataContext="{DynamicResource vm}"
         mc:Ignorable="d"
        d:DesignHeight="450" d:DesignWidth="800"
        Title="MyVac">
@@ -21,12 +21,12 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3">
-            <ListView ItemsSource="{Binding All_vac}" SelectedItem="{Binding SelectedVac}" HorizontalAlignment="Left">
-                <ListView.View >
-                    <GridView  >
+        <StackPanel Orientation="Horizontal">
+            <ListView ItemsSource="{Binding MyVacancy}" SelectedItem="{Binding SelectedVac}" HorizontalAlignment="Left">
+                <ListView.View>
+                    <GridView>
                         <GridViewColumn Header="Специализация" DisplayMemberBinding="{Binding Title}"/>
-                        <GridViewColumn Header="Сфера деятельности" >
+                        <GridViewColumn Header="Сфера деятельности">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <ItemsControl ItemsSource="{Binding FieldofActivity}" DisplayMemberPath="Title">
@@ -55,9 +55,9 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Content="Новая вакансия" HorizontalAlignment="Center"/>
-            <Button Content="Изменить вакансию" HorizontalAlignment="Center" Grid.Column="1"/>
-            <Button Content="Удалить вакансию" HorizontalAlignment="Center" Grid.Column="2"/>
+            <Button Content="Новая вакансия" HorizontalAlignment="Center" Command="{Binding NewVac}"/>
+            <Button Content="Изменить вакансию" HorizontalAlignment="Center" Grid.Column="1" Command="{Binding EditVac}"/>
+            <Button Content="Удалить вакансию" HorizontalAlignment="Center" Grid.Column="2" Command="{Binding DeleteVac}"/>
         </Grid>
     </Grid>
 </Page>

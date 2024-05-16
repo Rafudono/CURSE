@@ -22,6 +22,6 @@ DataContext="{DynamicResource vm}"
             <Label Content="Введите текущий пароль"/>
             <TextBox Text="{Binding password}"/>
         </StackPanel>
-        <Button Content="Удалить" Grid.Row="3" HorizontalAlignment="Center"/>
+        <Button Content="Удалить" Grid.Row="3" HorizontalAlignment="Center" Command="{Binding Delete}"/>
     </Grid>
 </Window>

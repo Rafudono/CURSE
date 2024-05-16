@@ -41,7 +41,7 @@ namespace CURSE.Model
 
                     Education ed = new Education();
                     { 
-                        ed.Id = reader.GetInt32("id");
+                        ed.Id = reader.GetInt32("ID");
                         ed.Title = reader.GetString("Title");
                     }
                     result.Add(ed);

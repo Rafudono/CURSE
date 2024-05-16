@@ -12,7 +12,7 @@ namespace CURSE.ViewModel
     public class DeleteUserVM:BaseVM
     {
         public string password { get; set; }
-        public VmCommand Delete;
+        public VmCommand Delete {  get; set; }
         public DeleteUserVM()
         {
             Delete = new VmCommand(() =>

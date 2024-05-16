@@ -128,9 +128,13 @@ namespace CURSE.ViewModel
             {
                 if (HumAuthorization.Instance.loginHuman.Name != null && HumAuthorization.Instance.loginHuman.Password != null)
                 {
-                    MessageBox.Show("Вы правда хотите удалить аккаунт?", "",MessageBoxButton.YesNo);
-                    DeleteUser taskwindow = new DeleteUser();
-                    taskwindow.ShowDialog();
+
+                    var result= MessageBox.Show("Вы правда хотите удалить аккаунт?", "Удаление", MessageBoxButton.YesNo);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        DeleteUser taskwindow = new DeleteUser();
+                        taskwindow.ShowDialog();
+                    }
                 }
                 else
                     MessageBox.Show("Войдите в аккаунт");

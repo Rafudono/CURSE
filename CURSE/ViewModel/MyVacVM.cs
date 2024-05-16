@@ -55,14 +55,14 @@ namespace CURSE.ViewModel
             {
                 try
                 {
-                    string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID and employer_id = " + EmpAuthorized.Instance.loginEmp.Id + " ORDER by v.ID;";
+                    string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID and employer_id = " + EmpAuthorized.Instance.loginEmp.ID + " ORDER by v.ID;";
                     MyVacancy = new ObservableCollection<Vacancy>(VacancyRepository.Instance.GetAllVacancy(sql));
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
             }
             NewVac = new VmCommand(() =>
             {
-                    NewOrEditVacancy taskwindow = new NewOrEditVacancy();
+                    NEWVacancy taskwindow = new NEWVacancy();
                     taskwindow.ShowDialog();
             });
             EditVac = new VmCommand(() =>
@@ -70,7 +70,7 @@ namespace CURSE.ViewModel
                 if (SelectedVac != null && SelectedVac.Id != 0)
                 {
                     SelectedVacancy.Instance.selectedVac=SelectedVac;
-                    NewOrEditVacancy taskwindow = new NewOrEditVacancy();
+                    NewOrEditVacancy taskwindow = new NewOrEditVacancy(SelectedVac);
                     taskwindow.ShowDialog();
                 }
             });

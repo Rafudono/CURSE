@@ -20,17 +20,6 @@ namespace CURSE.View
         public MainWindow()
         {
             InitializeComponent();
-            //    try
-            //    {
-            //        var hz = VacancyRepository.Instance.Search("");
-            //    }
-            //    catch (Exception e) { MessageBox.Show(e.Message); }
-            //}
-
-            //private void TextBlock_Click(object sender, RoutedEventArgs e)
-            //{
-
-            //}
         }
     }
 }

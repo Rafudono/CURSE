@@ -52,9 +52,9 @@ ItemsSource="{Binding Citys}"/>
                 <Label Content="Опыт работы"/>
                 <TextBox Text="{Binding Appl.XP}"/>
                 <Label Content="Образование"/>
-                <ComboBox DisplayMemberPath="City_Name" 
-SelectedItem="{Binding SelectedCity}" 
-ItemsSource="{Binding Ed}"/>
+                <ComboBox DisplayMemberPath="Title" 
+SelectedItem="{Binding SelectedEducation}" 
+ItemsSource="{Binding Educations}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Желаемая заработная плата"/>

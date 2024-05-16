@@ -70,8 +70,8 @@ namespace CURSE.Model
             if (connect == null)
                 return 0;
 
-            int id = MySqlDB.Instance.GetAutoID("Human");
-
+            int id = MySqlDB.Instance.GetAutoID("Human");                 //всегда 25
+              
             string sql = "INSERT INTO Human VALUES (0, @Password, @Email, @PhoneNumber, @Name, " +
                 "@Middle_Name, @Surname, @Birthday, @Photo)";
             using (var mc = new MySqlCommand(sql, connect))
@@ -89,7 +89,27 @@ namespace CURSE.Model
             }
             return id;
         }
-
+        internal int GetTrueId(Human hum)
+        {
+            List<Human> list = new List<Human>();
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null)
+                MessageBox.Show("нет подключения к БД");
+            string sql = "SELECT h.ID  from CURSE.Human h Where h.PASSWORD= '" + hum.Password + "' and h.EMAIL ='" + hum.Email + "' and h.PHONE_NUMBER=" + hum.PhoneNumber + " and h.Name='" + hum.Name + "' and h.Middle_name = '" + hum.Middle_Name + "' and h.Surname = '" + hum.Surname + "';";
+            using (var mc = new MySqlCommand(sql, connect))
+            using (var reader = mc.ExecuteReader())
+            {
+                Human human = new Human();
+                while (reader.Read())
+                {
+                    human.Id = reader.GetInt32("id");
+                }
+                list.Add(human);
+            }
+            if (list.Count == 1)
+                return list[0].Id;
+            return -1;
+        }
         internal Human LoginHuman(string email, string password)
         {
 

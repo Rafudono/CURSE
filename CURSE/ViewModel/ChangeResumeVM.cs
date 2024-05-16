@@ -18,6 +18,7 @@ namespace CURSE.ViewModel
         ListBox listFoa;
         private Human hum = new();
         private Applicant applicant = new Applicant();
+        private Education selectedEducation;
         private City selectedCity;
         private Field_of_Activity selectedField;
         public string CurPassword { get; set; }
@@ -48,6 +49,15 @@ namespace CURSE.ViewModel
                 Signal();
             }
         }
+        public Education SelectedEducation
+        {
+            get => selectedEducation;
+            set
+            {
+                selectedEducation = value;
+                Signal();
+            }
+        }
         public Field_of_Activity SelectedField
         {
             get => selectedField;
@@ -60,17 +70,24 @@ namespace CURSE.ViewModel
         public VmCommand Save { get; set; }
         public List<Field_of_Activity> Fields { get; set; }
         public ObservableCollection<City> Citys { get; set; } 
+        public ObservableCollection<Education> Educations { get; set; }
 
         public ChangeResumeVM()
         {
             Hum = HumAuthorization.Instance.loginHuman;
             Appl = ApplAuthorized.Instance.loginAppl;
             Citys = new ObservableCollection<City>(CityRepository.Instance.GetAllCity());
+            Educations= new ObservableCollection<Education>(EducationRepository.Instance.GetEducation());
             Fields = FoaRepository.Instance.GetFields();
             foreach (City city in Citys) 
             { 
                 if (city.Id == Appl.Id_City) 
                     SelectedCity = city; 
+            }
+            foreach (Education ed in Educations)
+            {
+                if(ed.Id==Appl.IdEducation)
+                    SelectedEducation = ed;
             }
             string sql = "";
             Save = new VmCommand(() =>
@@ -105,7 +122,7 @@ namespace CURSE.ViewModel
             Appl = selectedAppl;
             foreach (var foa in Appl.FieldofActivity)
             {
-                var search = Fields.FirstOrDefault(s => s.Title == foa.Title); // сендер имеет тип foa и мы сравниваем его с foa xdddddd
+                var search = Fields.FirstOrDefault(s => s.Title == foa.Title); 
                 if (search != null)
                 {
                     search.Selected = true;

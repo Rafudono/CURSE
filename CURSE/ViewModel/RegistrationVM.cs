@@ -62,16 +62,18 @@ namespace CURSE.ViewModel
                 {
                     registrateHuman.Password = Md5.HashPassword(password2);
                     int id = HumanRepository.Instance.AddHuman(registrateHuman);
-                    if (id != 0)
+                    int trueid=HumanRepository.Instance.GetTrueId(registrateHuman);
+                    if (trueid != 0)
+                    
                     {
                         if (regLikeApplicant)
                         { 
-                        ApplicantRepository.Instance.AddApplicant(new Applicant {  HumanId = id, Id_City=5 }); 
+                        ApplicantRepository.Instance.AddApplicant(new Applicant {  HumanId = trueid, Id_City=5 }); 
                             //INSERT into Applicant (id_human) select ID from Human;                        
                         }
                         if (regLikeEmp)
                         {
-                            EmployerRepository.Instance.AddEmployer(new Employer { id_human = id});
+                            EmployerRepository.Instance.AddEmployer(new Employer { id_human = trueid });
                         }
                         close?.Invoke();
                         MessageBox.Show("Вы успешно зарегистрировались!");

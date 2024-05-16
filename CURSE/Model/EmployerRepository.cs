@@ -58,15 +58,14 @@ namespace CURSE.Model
             if (connect == null)
                 return;
 
-            int id = MySqlDB.Instance.GetAutoID("Applicant");
+            int id = MySqlDB.Instance.GetAutoID("Employer");
 
-            string sql = "INSERT INTO Applicant VALUES (0, @h_id, @xp, @id_foa, @id_education, @id_city, " +
-                "@salary, @isfull-employment, @isflex-schedule)";
+            string sql = "INSERT INTO Employer VALUES (0, @h_id, @id_organization)";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("id", employer.ID));
                 mc.Parameters.Add(new MySqlParameter("h_id", employer.id_human));
-                mc.Parameters.Add(new MySqlParameter("xp", employer.id_organization));
+                mc.Parameters.Add(new MySqlParameter("id_organization", employer.id_organization));
                 mc.ExecuteNonQuery();
             }
         }
@@ -88,7 +87,7 @@ namespace CURSE.Model
                     id = reader.GetInt32("id");
                     if (employer.Id != id)
                     {
-                        employer.Id = id;
+                        employer.ID = id;
                         employer.id_human = reader.GetInt32("id_human");
                         employer.id_organization = reader.GetInt32("id_organization");
                     }

@@ -48,7 +48,6 @@ namespace CURSE.ViewModel
                         EmpAuthorized.Instance.loginEmp=EmployerRepository.Instance.LoginEmployer(trylogin.Id);
                         close?.Invoke();
                         MessageBox.Show("Вы успешно вошли в аккаунт!");
-                        mainVM.Settings = Visibility.Visible;
                     }
                     else { MessageBox.Show("Непредвиденная ошибка)"); }
                 }

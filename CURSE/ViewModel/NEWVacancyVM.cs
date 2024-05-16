@@ -10,7 +10,7 @@ using System.Windows.Controls;
 
 namespace CURSE.ViewModel
 {
-    public class NewOrEditVacancyVM:BaseVM
+   public class NEWVacancyVM:BaseVM
     {
         Action close;
         ListBox listFoa;
@@ -69,12 +69,13 @@ namespace CURSE.ViewModel
         public List<Field_of_Activity> Fields { get; set; }
         public ObservableCollection<City> Citys { get; set; }
         public ObservableCollection<Education> Educations { get; set; }
-        public NewOrEditVacancyVM()
+        public NEWVacancyVM()
         {
-            Vac = SelectedVacancy.Instance.selectedVac;
+            Vac = new Vacancy();
             Citys = new ObservableCollection<City>(CityRepository.Instance.GetAllCity());
             Educations = new ObservableCollection<Education>(EducationRepository.Instance.GetEducation());
             Fields = FoaRepository.Instance.GetFields();
+            Hum = HumAuthorization.Instance.loginHuman;
             foreach (City city in Citys)
             {
                 if (city.Id == Vac.Id_City)
@@ -92,12 +93,13 @@ namespace CURSE.ViewModel
                 {
                     if (Md5.HashPassword(CurPassword) == Hum.Password)
                     {
-
+                        Vac.EmployerId = EmpAuthorized.Instance.loginEmp.ID;
                         Vac.FieldofActivity.Clear();
                         foreach (Field_of_Activity foa in listFoa.SelectedItems)
                             Vac.FieldofActivity.Add(foa);
                         Vac.Id_City = SelectedCity.Id;
-                        VacancyRepository.Instance.UpdateVacancy(Vac);
+                        Vac.IdRequiredEducation = SelectedEducation.Id;
+                        VacancyRepository.Instance.AddVacancy(Vac);
                         close?.Invoke();
                     }
                 }
@@ -115,16 +117,13 @@ namespace CURSE.ViewModel
         }
         internal void SetEditVacancy(Vacancy selectedVac, System.Windows.Threading.Dispatcher dispatcher)
         {
-            if (selectedVac.FieldofActivity.Count != 0)
+            Vac = selectedVac;
+            foreach (var foa in Vac.FieldofActivity)
             {
-                Vac = selectedVac;
-                foreach (var foa in Vac.FieldofActivity)
+                var search = Fields.FirstOrDefault(s => s.Title == foa.Title);
+                if (search != null)
                 {
-                    var search = Fields.FirstOrDefault(s => s.Title == foa.Title);
-                    if (search != null)
-                    {
-                        search.Selected = true;
-                    }
+                    search.Selected = true;
                 }
             }
         }

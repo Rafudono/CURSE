@@ -35,7 +35,7 @@ namespace CURSE.ViewModel
             Hum = HumAuthorization.Instance.loginHuman;
             Save = new VmCommand(() =>
             {
-                if (CurPassword == Hum.Password)
+                if (Md5.HashPassword(CurPassword) == Hum.Password)
                 {
                     if (NewPassword != null) 
                         Hum.Password = Md5.HashPassword(NewPassword);

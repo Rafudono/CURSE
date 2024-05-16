@@ -17,17 +17,16 @@ using System.Windows.Shapes;
 namespace CURSE.View
 {
     /// <summary>
-    /// Логика взаимодействия для NewOrEditVacancy.xaml
+    /// Логика взаимодействия для NEWVacancy.xaml
     /// </summary>
-    public partial class NewOrEditVacancy : Window
+    public partial class NEWVacancy : Window
     {
-        public NewOrEditVacancy(Vacancy selectedVacancy)
+        public NEWVacancy()
         {
             InitializeComponent();
-            var vm = ((NewOrEditVacancyVM)DataContext);
+            var vm = ((NEWVacancyVM)DataContext);
             vm.SetMainVM(listFoa);
-            ((NewOrEditVacancyVM)DataContext).SetEditVacancy(selectedVacancy, Dispatcher);
-            ((NewOrEditVacancyVM)DataContext).SetClose(Close);
+            ((NEWVacancyVM)DataContext).SetClose(Close);
         }
     }
 }

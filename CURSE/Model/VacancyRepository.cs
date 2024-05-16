@@ -79,7 +79,7 @@ namespace CURSE.Model
 
             int id = MySqlDB.Instance.GetAutoID("Vacancy");
 
-            string sql = "INSERT INTO Vacancy VALUES (0, @empl_id, @xp, @id_foa, @id_reqeducation, @id_city, " +
+            string sql = "INSERT INTO Vacancy VALUES (0, @empl_id, @xp, @id_reqeducation, @id_city, " +
                 "@minsalary, @maxsalary, @resp, @require, @cond, @descr, @isflex_schedule, @title, @isfullempl)";
             using (var mc = new MySqlCommand(sql, connect))
             {

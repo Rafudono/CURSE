@@ -12,18 +12,25 @@
         <vm:MainVM x:Key="vm"/>
     </Window.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-                <Image/>
-                <Label Content="CURSE"/>
-            </StackPanel>
-       
+            <Image/>
+            <Label Content="CURSE"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Роль:" Margin="0"/>
+                <Label Content="Гость" Margin="0" Grid.Column="1" Visibility="{Binding Guest}"/>
+                <Label Content="Работодатель" Margin="0" Grid.Column="1" Visibility="{Binding RoleEmp}"/>
+                <Label Content="Соискатель" Margin="0" Grid.Column="1" Visibility="{Binding RoleAppl}"/>
+            </Grid>
+        </StackPanel>
+
         <TabControl Grid.Row="3" >
             <TabItem Header="Соискатель" >
                 <Frame Content="{Binding VacancyPage}"/>
@@ -35,12 +42,19 @@
                 <Frame Content="{Binding MyVacPage}"/>
             </TabItem>
         </TabControl>
-        <StackPanel Grid.Column="9">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+        <Grid HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
             <Button Content="Login" Command="{Binding Login}" Visibility="{Binding AuthVis}"/>
-            <Button Content="Registration" Command="{Binding Registration}" Visibility="{Binding Reg}"/>
-            </StackPanel>
-            <Grid Grid.Row="2" HorizontalAlignment="Right">
+            <Button Content="Registration" Command="{Binding Registration}" Visibility="{Binding Reg}" Grid.Column="1"/>
+            <Button Content="Выйти" Command="{Binding LogOut}" Visibility="{Binding LogOutVis}" Grid.Column="1"/>
+            <Grid Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Right">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -55,7 +69,6 @@
                     </StackPanel>
                 </ComboBox>
             </Grid>
-           
-        </StackPanel>
+        </Grid>
     </Grid>
 </Window>

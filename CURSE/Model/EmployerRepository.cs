@@ -96,6 +96,17 @@ namespace CURSE.Model
             return employer;
 
         }
+        internal void Delete(Employer emp)
+        {
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null)
+                return;
+
+            string sql = "DELETE FROM Employer WHERE ID = '" + emp.ID + "';";
+
+            using (var mc = new MySqlCommand(sql, connect))
+                mc.ExecuteNonQuery();
+        }
         internal void UpdateEmployer(Employer employer)
         {
             var connect = MySqlDB.Instance.GetConnection();

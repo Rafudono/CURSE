@@ -20,8 +20,7 @@ namespace CURSE.ViewModel
         public VmCommand SettingsWindow { get; }
         public VmCommand ChangeResWindow { get; }
         public VmCommand DelUser { get; }
-        public VmCommand VisMyVacPage { get; }
-        public VmCommand GoBack { get; }
+        public VmCommand LogOut { get; }
         private Page vacancyPage;
         private Page resumePage;
         private Page myVacPage;
@@ -32,12 +31,20 @@ namespace CURSE.ViewModel
         private Visibility visMyVac = Visibility.Hidden;
         private Visibility authVis = Visibility.Visible;
         private Visibility reg = Visibility.Visible;
+        private Visibility guest = Visibility.Visible;
+        private Visibility roleEmp = Visibility.Hidden;
+        private Visibility roleAppl = Visibility.Hidden;
+        private Visibility logOut = Visibility.Hidden;
         public Visibility Resume { get => resume; set { resume = value; Signal(); } }
         public Visibility Settings { get => settings; set { settings = value; Signal(); } }
         public Visibility Documents { get => documents; set { documents = value; Signal(); } }
         public Visibility VisMyVac { get => visMyVac; set { visMyVac = value; Signal(); } }
         public Visibility AuthVis { get => authVis; set { authVis = value; Signal(); } }
         public Visibility Reg { get => reg; set { reg = value; Signal(); } }
+        public Visibility Guest { get => guest; set { guest = value; Signal(); } }
+        public Visibility RoleEmp { get => roleEmp; set { roleEmp = value; Signal(); } }
+        public Visibility RoleAppl { get => roleAppl; set { roleAppl = value; Signal(); } }
+        public Visibility LogOutVis { get => logOut; set { logOut = value; Signal(); } }
         public Page VacancyPage
         {
             get => vacancyPage;
@@ -82,6 +89,9 @@ namespace CURSE.ViewModel
                     Settings = Visibility.Visible;
                     AuthVis = Visibility.Hidden;
                     Reg = Visibility.Hidden;
+                    Guest=Visibility.Hidden;
+                    RoleAppl = Visibility.Visible;
+                    LogOutVis = Visibility.Visible;
                 }
                 if(EmpAuthorized.Instance.loginEmp.id_human != 0)
                 {
@@ -90,10 +100,32 @@ namespace CURSE.ViewModel
                     Settings = Visibility.Visible;
                     AuthVis = Visibility.Hidden;
                     Reg = Visibility.Hidden;
+                    Guest = Visibility.Hidden;
+                    RoleEmp = Visibility.Visible;
+                    LogOutVis = Visibility.Visible;
+
                     MyVacVM myVacVM = new MyVacVM();
                     MyVacPage.DataContext = myVacVM;
                 }
                 Signal();
+            });
+            LogOut = new VmCommand(() =>
+            {
+                HumAuthorization.Instance.loginHuman=new Human();
+                ApplAuthorized.Instance.loginAppl=new Applicant();
+                EmpAuthorized.Instance.loginEmp=new Employer();
+                Resume = Visibility.Hidden;
+                VisMyVac = Visibility.Hidden;
+                Documents = Visibility.Hidden;
+                Settings = Visibility.Hidden;
+                AuthVis = Visibility.Visible;
+                Reg = Visibility.Visible;
+                Guest = Visibility.Visible;
+                RoleEmp = Visibility.Hidden;
+                RoleAppl = Visibility.Hidden;
+                LogOutVis = Visibility.Hidden;
+                Signal();
+                
             });
             Search = new VmCommand(() =>
             {
@@ -101,7 +133,7 @@ namespace CURSE.ViewModel
             });
             SettingsWindow = new VmCommand(() =>
             {
-                if (HumAuthorization.Instance.loginHuman.Name != null&& HumAuthorization.Instance.loginHuman.Password!=null)
+                if (HumAuthorization.Instance.loginHuman.Id != 0&& HumAuthorization.Instance.loginHuman.Password!=null)
                 {
                     ChangeData taskwindow = new ChangeData();
                     taskwindow.ShowDialog();
@@ -118,6 +150,9 @@ namespace CURSE.ViewModel
                     {
                         ChangeResume taskwindow = new ChangeResume(ApplAuthorized.Instance.loginAppl);
                         taskwindow.ShowDialog();
+
+                        ListResume myVacVM = new ListResume();
+                        ResumePage.DataContext = myVacVM;
                     }
                     else { MessageBox.Show("У вас нет доступа к этой функции"); }
                 }
@@ -134,38 +169,26 @@ namespace CURSE.ViewModel
                     {
                         DeleteUser taskwindow = new DeleteUser();
                         taskwindow.ShowDialog();
-                    }
-                }
-                else
-                    MessageBox.Show("Войдите в аккаунт");
-            });
-            VisMyVacPage = new VmCommand(() =>
-            {
+                        if(HumAuthorization.Instance.loginHuman.Id==0) 
+                        {
+                            Resume = Visibility.Hidden;
+                            VisMyVac = Visibility.Hidden;
+                            Documents = Visibility.Hidden;
+                            Settings = Visibility.Hidden;
+                            AuthVis = Visibility.Visible;
+                            Reg = Visibility.Visible;
+                            Guest = Visibility.Visible;
+                            RoleEmp = Visibility.Hidden;
+                            RoleAppl = Visibility.Hidden;
+                            LogOutVis = Visibility.Hidden;
 
-            if (HumAuthorization.Instance.loginHuman.Name != null && HumAuthorization.Instance.loginHuman.Password != null)
-            {
-                    if (EmpAuthorized.Instance.loginEmp.id_human != 0)
-                    {
-                        Resume = Visibility.Hidden;
-                        Documents = Visibility.Visible;
-                    }
-                    else { MessageBox.Show("У вас нет доступа к этой функции"); }
-                }
-                else
-                    MessageBox.Show("Войдите в аккаунт");
-            });
-            OpenSearch();
-            GoBack = new VmCommand(() =>
-            {
+                            ListResume res = new ListResume();
+                            ResumePage.DataContext = res;
 
-                if (HumAuthorization.Instance.loginHuman.Name != null && HumAuthorization.Instance.loginHuman.Password != null)
-                {
-                    if (EmpAuthorized.Instance.loginEmp.id_human != 0)
-                    {
-                        Resume = Visibility.Visible;
-                        Documents = Visibility.Hidden;
+                            ListVacancy vac = new ListVacancy();
+                            VacancyPage.DataContext = vac;
+                        }
                     }
-                    else { MessageBox.Show("У вас нет доступа к этой функции"); }
                 }
                 else
                     MessageBox.Show("Войдите в аккаунт");

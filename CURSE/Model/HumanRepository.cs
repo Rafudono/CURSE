@@ -1,4 +1,5 @@
-﻿using MySqlConnector;
+﻿using CURSE.ViewModel;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -151,8 +152,25 @@ namespace CURSE.Model
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return;
+            string sql = "SELECT h.ID, h.Surname, h.Name, h.Middle_Name, h.Email, h.PHONE_NUMBER, h.PASSWORD, h.Birthday, h.Photo, a.id_human  from Human h, CURSE.Applicant a  WHERE h.ID = " + HumAuthorization.Instance.loginHuman.Id + " and h.ID =a.id_human ;";
+            var contains = GetPeople(sql);
+            if (contains.Count() != 0)
+            {
+                ApplicantRepository.Instance.Delete(ApplAuthorized.Instance.loginAppl);
+            }
 
-            string sql = "DELETE FROM Human WHERE ID = '" + hum.Id + "';";
+            else
+            {
+                sql = "SELECT h.ID, h.Surname, h.Name, h.Middle_Name, h.Email, h.PHONE_NUMBER, h.Password, h.Birthday, h.Photo, e.id_human  from Human h, CURSE.Employer e  WHERE h.ID = " + HumAuthorization.Instance.loginHuman.Id + " and h.ID =e.id_human ;";
+                var econtains = GetPeople(sql);
+                if (econtains.Count() != 0)
+                {
+                    EmployerRepository.Instance.Delete(EmpAuthorized.Instance.loginEmp);
+                }
+                else { MessageBox.Show("ошибка"); }
+            }
+
+            sql = "DELETE FROM Human WHERE ID = '" + hum.Id + "';"; //из apple или emlpl а потом отсюда
 
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();

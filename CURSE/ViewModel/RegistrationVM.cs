@@ -27,7 +27,7 @@ namespace CURSE.ViewModel
         public Visibility Step3 { get => step3; set { step3 = value; Signal(); } }
         public VmCommand ChangeNEXTVisibility { get; set; }
         public VmCommand ChangePrevVisibility { get; set; }
-        public Human registrateHuman { get; set; } = new Human { Photo=File.ReadAllBytes("user.png") };  // +ДЕФОЛТНОЕ ИЗОБРАЖЕНИЕ
+        public Human registrateHuman { get; set; } = new Human { Photo=File.ReadAllBytes("user.png") };
         public bool regLikeApplicant {  get; set; }
         public bool regLikeEmp {  get; set; }
         public string password1 {  get; set; }
@@ -68,8 +68,7 @@ namespace CURSE.ViewModel
                     {
                         if (regLikeApplicant)
                         { 
-                        ApplicantRepository.Instance.AddApplicant(new Applicant {  HumanId = trueid, Id_City=5 }); 
-                            //INSERT into Applicant (id_human) select ID from Human;                        
+                        ApplicantRepository.Instance.AddApplicant(new Applicant {  HumanId = trueid, Id_City=5 });           
                         }
                         if (regLikeEmp)
                         {

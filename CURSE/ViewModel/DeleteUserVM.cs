@@ -11,6 +11,7 @@ namespace CURSE.ViewModel
 {
     public class DeleteUserVM:BaseVM
     {
+        Action close;
         public string password { get; set; }
         public VmCommand Delete {  get; set; }
         public DeleteUserVM()
@@ -22,6 +23,11 @@ namespace CURSE.ViewModel
                     if (Md5.HashPassword(password) == HumAuthorization.Instance.loginHuman.Password)
                     {
                         HumanRepository.Instance.Delete(HumAuthorization.Instance.loginHuman);
+                        HumAuthorization.Instance.loginHuman = new();
+                        ApplAuthorized.Instance.loginAppl = new();
+                        EmpAuthorized.Instance.loginEmp = new();
+                        close?.Invoke();
+
                     }
                     else
                         MessageBox.Show("неверный пароль");
@@ -30,6 +36,10 @@ namespace CURSE.ViewModel
                 { MessageBox.Show("для удаления аккаунта введите текущий пароль"); }
             });
             
+        }
+        internal void SetClose(Action close)
+        {
+            this.close = close;
         }
     }
 }

@@ -41,11 +41,11 @@ namespace CURSE.Model
                 while (reader.Read())
                 {
                     id = reader.GetInt32("id");
-                    if (applicant.Id != id)
+                    if (applicant.ID != id)
                     {
                         applicant = new Applicant();
                         result.Add(applicant);
-                        applicant.Id = id;
+                        applicant.ID = id;
                         applicant.HumanId = reader.GetInt32("id_human");
                         applicant.XP = reader.GetInt32("XP");
                         applicant.Id_City = reader.GetInt32("id_city");
@@ -90,7 +90,7 @@ namespace CURSE.Model
                 "@salary, @isfullEmployment, @isflexSchedule, @descr, @rtitle)";
             using (var mc = new MySqlCommand(sql, connect))
             {
-                mc.Parameters.Add(new MySqlParameter("id", applicant.Id));
+                mc.Parameters.Add(new MySqlParameter("id", applicant.ID));
                 mc.Parameters.Add(new MySqlParameter("h_id", applicant.HumanId));
                 mc.Parameters.Add(new MySqlParameter("xp", applicant.XP));
                 mc.Parameters.Add(new MySqlParameter("id_education", applicant.IdEducation));
@@ -131,9 +131,9 @@ namespace CURSE.Model
                 while (reader.Read())
                 {
                     id = reader.GetInt32("id");
-                    if (applicant.Id != id)
+                    if (applicant.ID != id)
                     {
-                        applicant.Id = id;
+                        applicant.ID = id;
                         applicant.HumanId = reader.GetInt32("id_human");
                         applicant.XP = reader.GetInt32("XP");
                         applicant.Id_City = reader.GetInt32("id_city");
@@ -146,7 +146,7 @@ namespace CURSE.Model
                     }
                 }
             }
-                    string cross = "SELECT * from CURSE.`Cross_Applicant_Field-of-activity` cafoa Where id_applicant = "+applicant.Id+";";
+                    string cross = "SELECT * from CURSE.`Cross_Applicant_Field-of-activity` cafoa Where id_applicant = "+applicant.ID +";";
                     var listcross =CrossApplFieldRepository.Instance.GetCross(cross);
                 if (listcross != null && listcross.Count != 0)
                 {
@@ -160,9 +160,9 @@ namespace CURSE.Model
                     while (reader.Read())
                         {
                             id = reader.GetInt32("id");
-                            if (applicant.Id != id)
+                            if (applicant.ID != id)
                             {
-                                applicant.Id = id;
+                                applicant.ID = id;
                                 applicant.HumanId = reader.GetInt32("id_human");
                                 applicant.XP = reader.GetInt32("XP");
                                 applicant.Id_City = reader.GetInt32("id_city");
@@ -186,14 +186,14 @@ namespace CURSE.Model
             return applicant;
             
         }
-           internal void Remove(Applicant applicant)
+           internal void Delete(Applicant applicant)
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return;
 
-            string sql = "DELETE FROM `Cross_Applicant_Field-of-activity` WHERE id_applicant = '" + applicant.Id + "';";
-            sql += "DELETE FROM Applicant WHERE ID = '" + applicant.Id + "';";
+            string sql = "DELETE FROM `Cross_Applicant_Field-of-activity` WHERE id_applicant = '" + applicant.ID + "';";
+            sql += "DELETE FROM Applicant WHERE ID = '" + applicant.ID + "';";
 
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
@@ -208,12 +208,12 @@ namespace CURSE.Model
             //    var result = GetAllResume(sql).Where(s => s.FieldofActivity.FirstOrDefault(s => s.Id == selectedField.Id) != null);
             //    return result;
             //}
-            sql += "AND (a.Salary <=" + minSalary + ")";
-            sql += "AND (a.XP <=" + xp + ")";
+            sql += " AND (a.Salary <=" + minSalary + ")";
+            sql += " AND (a.XP <=" + xp + ")";
             if(!isflex)
-            sql += "AND (a.IsFlexibleSchedule =" + isflex + ")";
+            sql += " AND (a.IsFlexibleSchedule =" + isflex + ")";
             if(isfull)
-            sql += "AND(a.IsFullEmployment=" + isfull + ")";
+            sql += " AND(a.IsFullEmployment=" + isfull + ")";
             if (selectedField != null && selectedField.Id != 0)
             {
                 var list = GetAllResume(sql).Where(s => s.FieldofActivity.FirstOrDefault(s => s.Title == selectedField.Title) != null);
@@ -223,18 +223,18 @@ namespace CURSE.Model
                 sql += "AND foa.ID =" + selectedField.Id + " AND a.id_city =" + selectedCity.Id + " and a.id_Education=" + selectedEd.Id + "  ORDER by a.ID;";
 
             else if (selectedField != null && selectedField.Id != 0 && selectedCity != null && selectedCity.Id != 0)
-                sql += "AND foa.ID =" + selectedField.Id + " AND v.id_city =" + selectedCity.Id + " ORDER by a.ID;";
+                sql += " AND foa.ID =" + selectedField.Id + " AND a.id_city =" + selectedCity.Id + " ORDER by a.ID;";
             else if (selectedField != null && selectedField.Id != 0 && selectedEd != null && selectedEd.Id != 0)
-                sql += "AND foa.ID =" + selectedField.Id + " AND  a.id_Education =" + selectedEd.Id + " ORDER by a.ID;";
+                sql += " AND foa.ID =" + selectedField.Id + " AND  a.id_Education =" + selectedEd.Id + " ORDER by a.ID;";
             else if (selectedCity != null && selectedCity.Id != 0 && selectedEd != null && selectedEd.Id != 0)
-                sql += "AND v.id_city =" + selectedCity.Id + " and a.id_Education=" + selectedEd.Id + " ORDER by a.ID;";
+                sql += " AND a.id_city =" + selectedCity.Id + " and a.id_Education=" + selectedEd.Id + " ORDER by a.ID;";
 
             else if (selectedCity != null && selectedCity.Id != 0)
-                sql += "AND v.id_city =" + selectedCity.Id + " ORDER by a.ID;";
+                sql += " AND a.id_city =" + selectedCity.Id + " ORDER by a.ID;";
             else if (selectedField != null && selectedField.Id != 0)
-                sql += "AND foa.ID =" + selectedField.Id +  " ORDER by a.ID;";
+                sql += " AND foa.ID =" + selectedField.Id +  " ORDER by a.ID;";
             else if (selectedEd != null && selectedEd.Id != 0)
-                sql += "and a.id_Education =" + selectedEd.Id + " ORDER by a.ID;";
+                sql += " and a.id_Education =" + selectedEd.Id + " ORDER by a.ID;";
 
             else
                 sql += " ORDER by a.ID;";
@@ -247,20 +247,20 @@ namespace CURSE.Model
             if (connect == null)
                 return;
 
-            string sql = "DELETE FROM `Cross_Applicant_Field-of-activity` WHERE id_applicant = '" + applicant.Id + "';";
+            string sql = "DELETE FROM `Cross_Applicant_Field-of-activity` WHERE id_applicant = '" + applicant.ID + "';";
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
 
             sql = "";
             foreach (var foa in applicant.FieldofActivity)
-                sql += "INSERT INTO `Cross_Applicant_Field-of-activity` VALUES (" + applicant.Id + "," + foa.Id + ");";
+                sql += "INSERT INTO `Cross_Applicant_Field-of-activity` VALUES (" + applicant.ID + "," + foa.Id + ");";
             using (var mcCross = new MySqlCommand(sql, connect))
                 mcCross.ExecuteNonQuery();
 
-            sql = "UPDATE Applicant SET id_human = @h_id, XP = @xp, id_education = @id_education, id_city=@id_city, Salary = @salary, IsFullEmployment=@isfullEmployment, IsFlexibleSchedule=@isflexSchedule, Description =@descr, ResumeTitle=@RTitle WHERE Id = " + applicant.Id;
+            sql = "UPDATE Applicant SET id_human = @h_id, XP = @xp, id_education = @id_education, id_city=@id_city, Salary = @salary, IsFullEmployment=@isfullEmployment, IsFlexibleSchedule=@isflexSchedule, Description =@descr, ResumeTitle=@RTitle WHERE Id = " + applicant.ID;
             using (var mc = new MySqlCommand(sql, connect))
             {
-                mc.Parameters.Add(new MySqlParameter("id", applicant.Id));
+                mc.Parameters.Add(new MySqlParameter("id", applicant.ID));
                 mc.Parameters.Add(new MySqlParameter("h_id", applicant.HumanId));
                 mc.Parameters.Add(new MySqlParameter("xp", applicant.XP));
                 mc.Parameters.Add(new MySqlParameter("id_education", applicant.IdEducation));

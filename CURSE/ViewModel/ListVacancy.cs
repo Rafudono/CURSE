@@ -137,27 +137,6 @@ namespace CURSE.ViewModel
                 SelectedCity = Citys[0];
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
-            //Create = new VmCommand(() =>
-            //{
-            //    mainVM.CurrentPage = new EditorDrink(mainVM);
-            //});
-
-            //Edit = new VmCommand(() => {
-            //    if (SelectedDrink == null)
-            //        return;
-            //    mainVM.CurrentPage = new EditorDrink(mainVM, SelectedDrink);
-            //});
-
-            //Delete = new VmCommand(() => {
-            //    if (SelectedDrink == null)
-            //        return;
-
-            //    if (MessageBox.Show("Удаление напитка", "Предупреждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-            //    {
-            //        DrinkRepository.Instance.Remove(SelectedDrink);
-            //        Drinks.Remove(SelectedDrink);
-            //    }
-            //});
         }
         internal void SetMainVM(MainVM mainVM)
         {

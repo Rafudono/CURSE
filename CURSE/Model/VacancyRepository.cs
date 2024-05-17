@@ -99,10 +99,13 @@ namespace CURSE.Model
                 if (mc.ExecuteNonQuery() > 0)
                 {
                     sql = "";
-                    foreach (var field in vacancy.FieldofActivity)
-                        sql += "INSERT INTO `Cross_Vacancy_Field-of-activity` VALUES (" + id + "," + field.Id + ");";
-                    using (var mcCross = new MySqlCommand(sql, connect))
-                        mcCross.ExecuteNonQuery();
+                    if (vacancy.FieldofActivity.Count > 0)
+                    {
+                        foreach (var field in vacancy.FieldofActivity)
+                            sql += "INSERT INTO `Cross_Vacancy_Field-of-activity` VALUES (" + id + "," + field.Id + ");";
+                        using (var mcCross = new MySqlCommand(sql, connect))
+                            mcCross.ExecuteNonQuery();
+                    }
                 }
             }
         }
@@ -113,7 +116,7 @@ namespace CURSE.Model
             if (connect == null)
                 return;
 
-            string sql = "DELETE FROM Cross_Vacancy_Field-of-activity WHERE id_vac = '" + Vacancy.Id + "';";
+            string sql = "DELETE FROM `Cross_Vacancy_Field-of-activity` WHERE id_vac = '" + Vacancy.Id + "';";
             sql += "DELETE FROM Vacancy WHERE ID = '" + Vacancy.Id + "';";
 
             using (var mc = new MySqlCommand(sql, connect))

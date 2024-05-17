@@ -97,6 +97,7 @@ namespace CURSE.ViewModel
                         Vac.FieldofActivity.Clear();
                         foreach (Field_of_Activity foa in listFoa.SelectedItems)
                             Vac.FieldofActivity.Add(foa);
+                       
                         Vac.Id_City = SelectedCity.Id;
                         Vac.IdRequiredEducation = SelectedEducation.Id;
                         VacancyRepository.Instance.AddVacancy(Vac);

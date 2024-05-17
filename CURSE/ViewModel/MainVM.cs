@@ -202,17 +202,6 @@ namespace CURSE.ViewModel
             VacancyPage = new ApplicantView(this);
             ResumePage = new EmployerView(this);
             MyVacPage = new MyVac(this);
-           // AuthorizationPage = new LogIn(this);
         }
-        //public void ChangeVisibilityVac()
-        //{
-        //    if (HumAuthorization.Instance.loginHuman.Name != null)
-        //    {
-        //        Vacancy = Visibility.Visible;
-        //        Notice = Visibility.Visible;
-        //        Settings = Visibility.Visible;
-        //        Signal();
-        //    }
-        //}
     }
 }

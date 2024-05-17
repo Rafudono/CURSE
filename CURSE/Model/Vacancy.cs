@@ -15,7 +15,7 @@ namespace CURSE.Model
         //public string Organization { get; set; } 
         //нужно из id работодателя (которая в таблице) получить органиацию
         public int XP { get; set; }
-        public int Id_City { get; set; } //получить из id
+        public int Id_City { get; set; } = 5;
         public int  MINSalary { get; set; }
         public int MAXSalary { get; set; }
         public string Responsibilities { get; set; }= " ";

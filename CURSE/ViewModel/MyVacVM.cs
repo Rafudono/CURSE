@@ -13,7 +13,7 @@ namespace CURSE.ViewModel
 {
     public class MyVacVM:BaseVM
     {
-        MainVM mainVM;
+        private MainVM mainVM;
         private ObservableCollection<Vacancy> all_vac;
         private Vacancy selectedVac;
 
@@ -64,6 +64,8 @@ namespace CURSE.ViewModel
             {
                     NEWVacancy taskwindow = new NEWVacancy();
                     taskwindow.ShowDialog();
+                var myvac = this;
+                myvac = new MyVacVM();
             });
             EditVac = new VmCommand(() =>
             {
@@ -72,19 +74,33 @@ namespace CURSE.ViewModel
                     SelectedVacancy.Instance.selectedVac=SelectedVac;
                     NewOrEditVacancy taskwindow = new NewOrEditVacancy(SelectedVac);
                     taskwindow.ShowDialog();
+
+                    var myvac = this;
+                    myvac = new MyVacVM();
+
+                   MainVM mainVM = new MainVM();
+                    ListVacancy listVacancy = new ListVacancy();
+                    if(mainVM!=null)
+                   mainVM.VacancyPage.DataContext = listVacancy;
                 }
             });
             DeleteVac = new VmCommand(() =>
             {
                 if (SelectedVac != null && SelectedVac.Id != 0)
                 {
-                    DeleteVac taskwindow = new DeleteVac();
-                    taskwindow.ShowDialog();
+                    SelectedVacancy.Instance.selectedVac = SelectedVac;
+                    var result = MessageBox.Show("Вы правда хотите удалить выбранную вакансию?", "Удаление", MessageBoxButton.YesNo);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        DeleteVac taskwindow = new DeleteVac();
+                        taskwindow.ShowDialog();
+
+                        var myvac = this;
+                        myvac = new MyVacVM();
+                    }
                 }
             });
         }
-        //internal bool GetMyVac()
-        //{ }
         internal void SetMainVM(MainVM mainVM)
         {
             this.mainVM = mainVM;

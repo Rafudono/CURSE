@@ -10,19 +10,30 @@ namespace CURSE.ViewModel
 {
     public class DelteVacVM:BaseVM
     {
+        Action close;
         public string password { get; set; }
         public VmCommand Delete { get; }
+        private Vacancy selectedVac;
+        public Vacancy SelectedVac
+        {
+            get => selectedVac;
+            set
+            {
+                selectedVac = value;
+                Signal();
+            }
+        }
         public DelteVacVM()
         {
             Delete = new VmCommand(() =>
             {
+                SelectedVac = SelectedVacancy.Instance.selectedVac;
                 if (password != null)
                 {
 
-                    if (password == HumAuthorization.Instance.loginHuman.Password)
+                    if (Md5.HashPassword( password) == HumAuthorization.Instance.loginHuman.Password)
                     {
-                        var selectedVac = SelectedVacancy.Instance.selectedVac;
-                        VacancyRepository.Instance.DeleteVac(selectedVac);
+                        VacancyRepository.Instance.DeleteVac(SelectedVac);
                     }
                     else
                     {
@@ -32,6 +43,10 @@ namespace CURSE.ViewModel
                 else
                 { MessageBox.Show("Введите пароль"); }
             });
+        }
+        internal void SetClose(Action close)
+        {
+            this.close = close;
         }
     }
 }

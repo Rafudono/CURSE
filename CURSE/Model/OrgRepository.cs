@@ -24,7 +24,7 @@ namespace CURSE.Model
             }
         }
 
-        internal IEnumerable<Organization> GetEducation(string sql)
+        internal IEnumerable<Organization> GetOrg(string sql)
         {
             var result = new List<Organization>();
             var connect = MySqlDB.Instance.GetConnection();
@@ -43,11 +43,28 @@ namespace CURSE.Model
                         org = new Organization();
                         result.Add(org);
                         org.Id = id;
-                        org.Org_Name = reader.GetString("Title");
+                        org.Org_Name = reader.GetString("Org_Name");
                     }
                 }
             }
             return result;
+        }
+        internal int NewOrg(Organization org)
+        {
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null)
+                return 0;
+
+            int id = MySqlDB.Instance.GetAutoID("Organization"); 
+
+            string sql = "INSERT INTO Organization VALUES (0, @Org_Name)";
+            using (var mc = new MySqlCommand(sql, connect))
+            {
+                mc.Parameters.Add(new MySqlParameter("id", org.Id));
+                mc.Parameters.Add(new MySqlParameter("Org_Name", org.Org_Name));
+                mc.ExecuteNonQuery();
+            }
+            return id;
         }
     }
 }

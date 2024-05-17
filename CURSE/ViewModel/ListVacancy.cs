@@ -15,7 +15,7 @@ namespace CURSE.ViewModel
         private string searchText = "";
         private int minSalary = 0;
         private int xp = 100;
-        private bool isFullEmp;
+        private bool isFullEmp = true;
         private bool isFlexShedule;
         private ObservableCollection<Vacancy> all_vac;
         private City selectedCity;

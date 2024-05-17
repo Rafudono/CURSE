@@ -17,11 +17,14 @@ DataContext="{DynamicResource vm}"
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Content="Удаление вакансии" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <StackPanel VerticalAlignment="Center">
+            <Label Content="Удаление вакансии" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding SelectedVac.Title}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </StackPanel>
         <StackPanel Grid.Row="1">
             <Label Content="Введите текущий пароль"/>
             <TextBox Text="{Binding password}"/>
         </StackPanel>
-        <Button Content="Удалить" Grid.Row="3" HorizontalAlignment="Center"/>
+        <Button Content="Удалить" Grid.Row="3" HorizontalAlignment="Center" Command="{Binding Delete}"/>
     </Grid>
 </Window>

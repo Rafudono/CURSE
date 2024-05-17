@@ -72,6 +72,7 @@ namespace CURSE.ViewModel
         public NewOrEditVacancyVM()
         {
             Vac = SelectedVacancy.Instance.selectedVac;
+            Hum = HumAuthorization.Instance.loginHuman;
             Citys = new ObservableCollection<City>(CityRepository.Instance.GetAllCity());
             Educations = new ObservableCollection<Education>(EducationRepository.Instance.GetEducation());
             Fields = FoaRepository.Instance.GetFields();
@@ -92,7 +93,7 @@ namespace CURSE.ViewModel
                 {
                     if (Md5.HashPassword(CurPassword) == Hum.Password)
                     {
-
+                        Vac.EmployerId = EmpAuthorized.Instance.loginEmp.ID;
                         Vac.FieldofActivity.Clear();
                         foreach (Field_of_Activity foa in listFoa.SelectedItems)
                             Vac.FieldofActivity.Add(foa);
@@ -100,6 +101,7 @@ namespace CURSE.ViewModel
                         VacancyRepository.Instance.UpdateVacancy(Vac);
                         close?.Invoke();
                     }
+                    else { MessageBox.Show("Пароль не тот!"); }
                 }
                 else { MessageBox.Show("Необходимо указать текущий пароль"); }
 

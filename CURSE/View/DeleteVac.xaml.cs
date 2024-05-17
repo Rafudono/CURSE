@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CURSE.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,7 @@ namespace CURSE.View
         public DeleteVac()
         {
             InitializeComponent();
+            ((DelteVacVM)DataContext).SetClose(Close);
         }
     }
 }

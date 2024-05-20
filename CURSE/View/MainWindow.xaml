@@ -61,7 +61,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Button Content="Моё резюме" Visibility = "{Binding Resume}" Command="{Binding ChangeResWindow}" Grid.Column="1"/>
-                <Button Content="Документы" Visibility="{Binding Documents}" Grid.Column="1"/>
+                <Button Content="Документы" Visibility="{Binding Documents}" Command="{Binding MyDoc}" Grid.Column="1"/>
                 <ComboBox Grid.Column="2" x:Name="ComboSettings" Visibility="{Binding Settings}">
                     <StackPanel>
                         <Button Content="Мой профиль" Command="{Binding SettingsWindow}"/>

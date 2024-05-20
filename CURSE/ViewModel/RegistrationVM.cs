@@ -67,12 +67,13 @@ namespace CURSE.ViewModel
                     
                     {
                         if (regLikeApplicant)
-                        { 
-                        ApplicantRepository.Instance.AddApplicant(new Applicant {  HumanId = trueid, Id_City=5 });           
+                        {
+                            ApplicantRepository.Instance.AddApplicant(new Applicant {  HumanId = trueid, Id_City=5 });           
                         }
                         if (regLikeEmp)
                         {
                             EmployerRepository.Instance.AddEmployer(new Employer { id_human = trueid });
+                            MessageBox.Show("Чтобы размещать вакансии добавьте информацию о вашей организации", "Важно!");
                         }
                         close?.Invoke();
                         MessageBox.Show("Вы успешно зарегистрировались!");

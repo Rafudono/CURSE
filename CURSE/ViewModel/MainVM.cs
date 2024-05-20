@@ -21,6 +21,7 @@ namespace CURSE.ViewModel
         public VmCommand ChangeResWindow { get; }
         public VmCommand DelUser { get; }
         public VmCommand LogOut { get; }
+        public VmCommand MyDoc {  get; }
         private Page vacancyPage;
         private Page resumePage;
         private Page myVacPage;
@@ -113,7 +114,7 @@ namespace CURSE.ViewModel
             {
                 HumAuthorization.Instance.loginHuman=new Human();
                 ApplAuthorized.Instance.loginAppl=new Applicant();
-                EmpAuthorized.Instance.loginEmp=new Employer();
+                EmpAuthorized.Instance.loginEmp=new Employer(); //текущую страницу поменять
                 Resume = Visibility.Hidden;
                 VisMyVac = Visibility.Hidden;
                 Documents = Visibility.Hidden;
@@ -192,6 +193,11 @@ namespace CURSE.ViewModel
                 }
                 else
                     MessageBox.Show("Войдите в аккаунт");
+            });
+            MyDoc = new VmCommand(() =>
+            {
+                MyDocuments taskwindow = new MyDocuments();
+                taskwindow.ShowDialog();
             });
             OpenSearch();
         }

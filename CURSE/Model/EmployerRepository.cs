@@ -45,7 +45,7 @@ namespace CURSE.Model
                         result.Add(emp);
                         emp.ID = id;
                         emp.id_human = reader.GetInt32("id_human");
-                        emp.id_organization = reader.GetInt32("XP");
+                        emp.Org_Name = reader.GetString("Org_Name");
                     }
                 }
             }
@@ -60,12 +60,12 @@ namespace CURSE.Model
 
             int id = MySqlDB.Instance.GetAutoID("Employer");
 
-            string sql = "INSERT INTO Employer VALUES (0, @h_id, @id_organization)";
+            string sql = "INSERT INTO Employer VALUES (0, @h_id, @Org_Name)";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("id", employer.ID));
                 mc.Parameters.Add(new MySqlParameter("h_id", employer.id_human));
-                mc.Parameters.Add(new MySqlParameter("id_organization", employer.id_organization));
+                mc.Parameters.Add(new MySqlParameter("Org_Name", employer.Org_Name));
                 mc.ExecuteNonQuery();
             }
         }
@@ -89,7 +89,7 @@ namespace CURSE.Model
                     {
                         employer.ID = id;
                         employer.id_human = reader.GetInt32("id_human");
-                        employer.id_organization = reader.GetInt32("id_organization");
+                        employer.Org_Name = reader.GetString("Org_Name");
                     }
                 }
             }
@@ -121,7 +121,7 @@ namespace CURSE.Model
             {
                 mc.Parameters.Add(new MySqlParameter("id", employer.ID));
                 mc.Parameters.Add(new MySqlParameter("id_human", employer.id_human));
-                mc.Parameters.Add(new MySqlParameter("id_organization", employer.id_organization));
+                mc.Parameters.Add(new MySqlParameter("id_organization", employer.Org_Name));
                 mc.ExecuteNonQuery();
             }
         }

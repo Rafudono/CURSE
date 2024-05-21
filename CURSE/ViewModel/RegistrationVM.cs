@@ -40,45 +40,66 @@ namespace CURSE.ViewModel
             {
                 if (Step0 == Visibility.Visible)
                 {
-                    Step0 = Visibility.Hidden;
-                    Step1 = Visibility.Visible;
+                    if (registrateHuman.Name != null && registrateHuman.Name!="" && registrateHuman.Surname != null && registrateHuman.Surname !="" && registrateHuman.Middle_Name != null && registrateHuman.Middle_Name != "")
+                    {
+                        Step0 = Visibility.Hidden;
+                        Step1 = Visibility.Visible;
+                    }
+                    else
+                        MessageBox.Show("Заполните все необходимые поля");
                 }
                 else if (Step1 == Visibility.Visible)
                 {
-                    if (password1 != password2)
+                    if (registrateHuman.Email != null && registrateHuman.Email!="" && password1 != null && password1!="")
                     {
-                        MessageBox.Show("Введите одинаковые пароли в поля");
-                        return;
+                        if (password1 != password2)
+                        {
+                            MessageBox.Show("Введите одинаковые пароли в поля");
+                            return;
+                        }
+                        Step1 = Visibility.Hidden;
+                        Step2 = Visibility.Visible;
                     }
-                    Step1 = Visibility.Hidden;
-                    Step2 = Visibility.Visible;
+                    else
+                        MessageBox.Show("Заполните все необходимые поля");
                 }
                 else if (Step2 == Visibility.Visible)
                 {
-                    Step2 = Visibility.Hidden;
-                    Step3 = Visibility.Visible;
+                    if (registrateHuman.PhoneNumber != null&&registrateHuman.PhoneNumber!="")
+                    {
+                        Step2 = Visibility.Hidden;
+                        Step3 = Visibility.Visible;
+                    }
+                    else
+                        MessageBox.Show("Заполните все необходимые поля");
                 }
                 else
                 {
-                    registrateHuman.Password = Md5.HashPassword(password2);
-                    int id = HumanRepository.Instance.AddHuman(registrateHuman);
-                    int trueid=HumanRepository.Instance.GetTrueId(registrateHuman);
-                    if (trueid != 0)
-                    
+                    if (regLikeApplicant || regLikeEmp)
                     {
-                        if (regLikeApplicant)
-                        {
-                            ApplicantRepository.Instance.AddApplicant(new Applicant {  HumanId = trueid, Id_City=5 });           
-                        }
-                        if (regLikeEmp)
-                        {
-                            EmployerRepository.Instance.AddEmployer(new Employer { id_human = trueid });
-                            MessageBox.Show("Чтобы размещать вакансии добавьте информацию о вашей организации", "Важно!");
-                        }
-                        close?.Invoke();
-                        MessageBox.Show("Вы успешно зарегистрировались!");
-                    }
+                        registrateHuman.Password = Md5.HashPassword(password2);
+                        HumanRepository.Instance.AddHuman(registrateHuman);
+                        int trueid = HumanRepository.Instance.GetTrueId(registrateHuman);
+                        if (trueid != 0)
 
+                        {
+                            if (regLikeApplicant)
+                            {
+                                ApplicantRepository.Instance.AddApplicant(new Applicant { HumanId = trueid, Id_City = 5 });
+                                HumanRepository.Instance.AddHuman(registrateHuman);
+                            }
+                            if (regLikeEmp)
+                            {
+                                EmployerRepository.Instance.AddEmployer(new Employer { id_human = trueid });
+                                HumanRepository.Instance.AddHuman(registrateHuman);
+                                MessageBox.Show("Чтобы размещать вакансии добавьте информацию о вашей организации", "Важно!");
+                            }
+                            close?.Invoke();
+                            MessageBox.Show("Вы успешно зарегистрировались!");
+                        }
+                    }
+                    else
+                        MessageBox.Show("Выберите роль");
                 }
             });
             ChangePrevVisibility = new VmCommand(() =>

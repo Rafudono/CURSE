@@ -189,7 +189,7 @@ namespace CURSE.Model
                 return;
 
 
-           string sql = "UPDATE Human SET Name = @name, Surname = @surname, Middle_Name = @middle_Name, Email = @email, PHONE_NUMBER=@phoneNumber, Password=@password, Birthday=@birthday, Photo=@photo WHERE ID = " + hum.Id;
+           string sql = "UPDATE Human SET Name = @name, Surname = @surname, Middle_Name = @middle_Name, Email = @email, PHONE_NUMBER=@phoneNumber, Password=@password, Birthday=@birthday, Photo=@photo WHERE ID = " + hum.Id+";";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("id", hum.Id));

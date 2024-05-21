@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:CURSE.ViewModel" 
  DataContext="{DynamicResource vm}"
  mc:Ignorable="d"
- Title="Выбор организации" Height="450" Width="550">
+ Title="Документы" Height="450" Width="550">
 
     <Window.Resources>
         <vm:MyDocumentsVM x:Key="vm"/>
@@ -20,9 +20,11 @@
         </Grid.RowDefinitions>
         <Label Content="Ваша организация" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50"/>
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBox Text="{Binding OrgName}" MinWidth="100" MinHeight="30"/>
+            <TextBox Text="{Binding Emp.Org_Name}" MinWidth="100" MinHeight="30"/>
             <Label Content="ИНН" IsEnabled="False"/>
             <Label Content="КПП" IsEnabled="False"/>
+            <Label Content="Текущий пароль"/>
+            <TextBox Text="{Binding password}"/>
         </StackPanel>
         <Button Content="Сохранить" Grid.Row="4" Grid.ColumnSpan="3" Command="{Binding Save}" MinHeight="50" MaxWidth="100"/>
     </Grid>

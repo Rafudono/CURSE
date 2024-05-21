@@ -112,6 +112,7 @@ namespace CURSE.ViewModel
             });
             LogOut = new VmCommand(() =>
             {
+
                 HumAuthorization.Instance.loginHuman=new Human();
                 ApplAuthorized.Instance.loginAppl=new Applicant();
                 EmpAuthorized.Instance.loginEmp=new Employer(); //текущую страницу поменять

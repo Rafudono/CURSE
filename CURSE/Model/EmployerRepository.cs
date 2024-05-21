@@ -1,6 +1,7 @@
 ﻿using MySqlConnector;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -101,27 +102,34 @@ namespace CURSE.Model
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return;
-
+            ObservableCollection<Vacancy> list;
+            //получить список вакансий этого работодателя, если элементов больше 0, то удалить вакансии из репозитория вакансий, у которых id работодателя такое же, то удалить эти вакансии, а потом удалить ЭТО
+            string getListVac = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID AND v.employer_id ='" + emp.ID+ "'ORDER by v.ID; ";
+             list = new ObservableCollection<Vacancy>( VacancyRepository.Instance.GetAllVacancy(getListVac));
+            if (list.Count != 0)
+            {
+                foreach (Vacancy vacancy in list)
+                {
+                    VacancyRepository.Instance.DeleteVac(vacancy);
+                }
+            }
             string sql = "DELETE FROM Employer WHERE ID = '" + emp.ID + "';";
-
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
+
         }
         internal void UpdateEmployer(Employer employer)
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return;
-            string sql = "";
+            string sql = "Update  Employer SET id_human = @id_human, Org_Name = @Org_Name WHERE ID =" + employer.ID+";";
 
-            
-
-            sql = "";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("id", employer.ID));
                 mc.Parameters.Add(new MySqlParameter("id_human", employer.id_human));
-                mc.Parameters.Add(new MySqlParameter("id_organization", employer.Org_Name));
+                mc.Parameters.Add(new MySqlParameter("Org_Name", employer.Org_Name));
                 mc.ExecuteNonQuery();
             }
         }

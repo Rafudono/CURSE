@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CURSE.Model
 {
@@ -78,6 +79,7 @@ namespace CURSE.Model
                 return;
 
             int id = MySqlDB.Instance.GetAutoID("Vacancy");
+            
 
             string sql = "INSERT INTO Vacancy VALUES (0, @empl_id, @xp, @id_reqeducation, @id_city, " +
                 "@minsalary, @maxsalary, @resp, @require, @cond, @descr, @isflex_schedule, @title, @isfullempl)";
@@ -98,18 +100,39 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("isfullempl", vacancy.IsFullEmployment));
                 if (mc.ExecuteNonQuery() > 0)
                 {
+                    int trueid = GetTrueId(vacancy);
                     sql = "";
                     if (vacancy.FieldofActivity.Count > 0)
                     {
                         foreach (var field in vacancy.FieldofActivity)
-                            sql += "INSERT INTO `Cross_Vacancy_Field-of-activity` VALUES (" + id + "," + field.Id + ");";
+                            sql += "INSERT INTO `Cross_Vacancy_Field-of-activity` VALUES (" + trueid + "," + field.Id + ");";
                         using (var mcCross = new MySqlCommand(sql, connect))
                             mcCross.ExecuteNonQuery();
                     }
                 }
             }
         }
-
+        internal int GetTrueId(Vacancy vac)
+        {
+            List<Vacancy> list = new List<Vacancy>();
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null)
+                MessageBox.Show("нет подключения к БД");
+            string sql = "SELECT v.ID  from CURSE.Vacancy v where v.employer_id ='" + vac.EmployerId+"' and v.`Required-XP` = '"+vac.XP+"' and v.`id_Required-Education` = '"+vac.IdRequiredEducation+"' and v.id_city = '"+vac.Id_City+"' and v.MINSalary = '"+vac.MINSalary+"' and v.MAXSalary = '"+ vac.MAXSalary+"' and v.Responsibilities = '"+vac.Responsibilities+"' and v.Requirements = '"+ vac.Requirements+"'and v.Conditions = '"+vac.Conditions+"' and v.Description = '"+vac.Description+"' and v.IsFlexibleSchedule = '"+vac.IsFlexibleSchedule+"' and v.Title = '"+vac.Title+"' and v.IsFullEmployment = '"+vac.IsFullEmployment+"';";
+            using (var mc = new MySqlCommand(sql, connect)) //НОРМАЛЬНО НАПИШИ !! НОРМАЛЬНО
+            using (var reader = mc.ExecuteReader())
+            {
+                Vacancy vacancy = new Vacancy();
+                while (reader.Read())
+                {
+                    vacancy.Id = reader.GetInt32("id");
+                }
+                list.Add(vacancy);
+            }
+            if (list.Count == 1)
+                return list[0].Id;
+            return -1;
+        }
         internal void DeleteVac(Vacancy Vacancy)
         {
             var connect = MySqlDB.Instance.GetConnection();
@@ -124,7 +147,7 @@ namespace CURSE.Model
         }
         internal IEnumerable<Vacancy> Search(string searchText, int minSalary, int xp, bool isflex, bool isfull, Field_of_Activity selectedField, Education selectedEd, City selectedCity)
         {
-            string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, v.IsFullEmployment, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa , Education e WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID AND v.`id_Required-Education` =e.ID  ";
+            string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, v.IsFullEmployment, foa.ID AS foaId, foa.Field_name AS foaTitle \r\nFROM CURSE.`Cross_Vacancy_Field-of-activity` cvfoa, CURSE.Vacancy v, CURSE.`Fields-of-activity` foa, CURSE.Education e, CURSE.Employer emp WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID AND v.`id_Required-Education` =e.ID and v.employer_id = emp.ID ";
             sql += " AND (v.Title LIKE '%" + searchText + "%')";
             sql+="AND (v.MAXSalary >="+ minSalary + ")";
             sql += "AND (v.`Required-XP` <=" + xp + ")";

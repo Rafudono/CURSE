@@ -23,7 +23,7 @@ namespace CURSE.ViewModel
         private Applicant selectedResume;
         private List<Field_of_Activity> Listfoa=new();
 
-        private int minSalary = 1000000;
+        private int minSalary = 100000000;
         private int xp = 100;
         private bool isFullEmp;
         private bool isFlexShedule=true;

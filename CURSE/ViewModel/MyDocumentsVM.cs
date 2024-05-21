@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CURSE.ViewModel
 {
@@ -13,7 +14,8 @@ namespace CURSE.ViewModel
     {
         public VmCommand Save { get; }
         private Employer emp = new();
-        public string OrgName = "";
+        private Human hum = new();
+        public string password {  get; set; }
         Action close;
         public Employer Emp
         {
@@ -21,6 +23,15 @@ namespace CURSE.ViewModel
             set
             {
                 emp = value;
+                Signal();
+            }
+        }
+        public Human Hum
+        {
+            get => hum;
+            set
+            {
+                hum = value;
                 Signal();
             }
         }
@@ -32,12 +43,23 @@ namespace CURSE.ViewModel
         public MyDocumentsVM()
         {
             Emp = EmpAuthorized.Instance.loginEmp;
+            Hum = HumAuthorization.Instance.loginHuman;
             Save = new VmCommand(() => 
             {
-                Emp.Org_Name = OrgName;
-                EmployerRepository.Instance.UpdateEmployer(Emp);
-                EmpAuthorized.Instance.loginEmp=Emp;
-                close?.Invoke();
+                if (password != null|| password!="")
+                {
+
+                    if (Md5.HashPassword(password) == Hum.Password)
+                    {
+                        EmployerRepository.Instance.UpdateEmployer(Emp);
+                        EmpAuthorized.Instance.loginEmp = Emp;
+                        MessageBox.Show("Данные об организации изменены");
+                        close?.Invoke();
+                    }
+                    else MessageBox.Show("Неверный пароль");
+                }
+                else
+                    MessageBox.Show("Введите текущий пароль");
             });
         }
         internal void SetClose(Action close)

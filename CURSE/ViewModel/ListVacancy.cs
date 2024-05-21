@@ -1,4 +1,5 @@
 ﻿using CURSE.Model;
+using CURSE.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace CURSE.ViewModel
 {
@@ -22,6 +24,16 @@ namespace CURSE.ViewModel
         private Education selectedEducation;    
         private Field_of_Activity selectedField;
         private Vacancy selectedVac;
+        private Page infoVacPage;
+        public Page InfoVacPage
+        {
+            get => infoVacPage;
+            set
+            {
+                infoVacPage = value;
+                Signal();
+            }
+        }
         public Field_of_Activity SelectedField
         {
             get => selectedField;
@@ -108,6 +120,7 @@ namespace CURSE.ViewModel
             {
                 selectedVac = value;
                 Signal();
+                WatchInfo();
             }
         }
         public ObservableCollection<Vacancy> All_vac
@@ -122,8 +135,6 @@ namespace CURSE.ViewModel
 
         public ListVacancy()
         {
-            try
-            {
                 string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID ORDER by v.ID;";
                 All_vac = new ObservableCollection<Vacancy>(VacancyRepository.Instance.GetAllVacancy(sql));
                 Educations = new ObservableCollection<Education>(EducationRepository.Instance.GetEducation());
@@ -135,14 +146,16 @@ namespace CURSE.ViewModel
                 SelectedEducation = Educations[0];
                 Citys.Insert(0, new City { Id = 0, City_Name = "Город" });
                 SelectedCity = Citys[0];
-            }
-            catch (Exception ex) { MessageBox.Show(ex.Message); }
+            
         }
         internal void SetMainVM(MainVM mainVM)
         {
             this.mainVM = mainVM;
         }
+        private void WatchInfo()
+        {
 
+        }
         private void SearchVacancy()
         {
             All_vac = new ObservableCollection<Vacancy>(

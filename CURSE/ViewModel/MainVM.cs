@@ -25,6 +25,7 @@ namespace CURSE.ViewModel
         private Page vacancyPage;
         private Page resumePage;
         private Page myVacPage;
+        private Page infoResPage;
 
         private Visibility resume = Visibility.Hidden;
         private Visibility settings = Visibility.Hidden;
@@ -73,6 +74,16 @@ namespace CURSE.ViewModel
                 Signal();
             }
         }
+      
+        public Page InfoResPage
+        {
+            get => infoResPage;
+            set
+            {
+                infoResPage = value;
+                Signal();
+            }
+        }
         public MainVM()
         {
             Registration = new VmCommand(() =>
@@ -112,7 +123,6 @@ namespace CURSE.ViewModel
             });
             LogOut = new VmCommand(() =>
             {
-
                 HumAuthorization.Instance.loginHuman=new Human();
                 ApplAuthorized.Instance.loginAppl=new Applicant();
                 EmpAuthorized.Instance.loginEmp=new Employer(); //текущую страницу поменять

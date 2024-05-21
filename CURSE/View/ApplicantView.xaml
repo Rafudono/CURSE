@@ -20,6 +20,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal">
             <TextBox Width="350" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
@@ -47,13 +48,8 @@
                 </ListView.View>
             </ListView>
         </StackPanel>
-        <StackPanel Grid.Column="6" Grid.Row="9">
-            <TextBlock Text="{Binding SelectedVac.Description}" TextWrapping="Wrap"/>
-            <TextBlock Text="{Binding SelectedVac.Requirements}" TextWrapping="Wrap"/>
-            <TextBlock Text="{Binding SelectedVac.Conditions}" TextWrapping="Wrap"/>
-            <TextBlock Text="{Binding SelectedVac.Responsibilities}" TextWrapping="Wrap"/>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Right" Grid.Row="6" Grid.Column="2">
+        <Frame Content="{Binding InfoVacPage}" Grid.Column="6" Grid.Row="9"/>
+        <StackPanel HorizontalAlignment="Right" Grid.Row="6" Grid.Column="3">
             <Label Content="Выберите фильтры"/>
             <Label Content="Город или регион"/>
             <ComboBox DisplayMemberPath="City_Name"

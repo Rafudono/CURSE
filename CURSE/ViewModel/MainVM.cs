@@ -14,7 +14,6 @@ namespace CURSE.ViewModel
 {
     public class MainVM : BaseVM
     {
-        
         public VmCommand Login { get; }
         public VmCommand Registration { get; }
         public VmCommand Search { get; }

@@ -31,7 +31,7 @@
             </Grid>
         </StackPanel>
 
-        <TabControl Grid.Row="3" >
+        <TabControl Grid.Row="3" x:Name="tab">
             <TabItem Header="Соискатель" >
                 <Frame Content="{Binding VacancyPage}"/>
             </TabItem>

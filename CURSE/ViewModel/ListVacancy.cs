@@ -17,6 +17,8 @@ namespace CURSE.ViewModel
         private string searchText = "";
         private string isFlex = "";
         private string isFull = "";
+        private string selVacEd = "";
+        private string selVacCity = "";
         private int minSalary = 0;
         private int xp = 100;
         private bool isFullEmp = true;
@@ -26,18 +28,8 @@ namespace CURSE.ViewModel
         private Education selectedEducation;    
         private Field_of_Activity selectedField;
         private Vacancy selectedVac;
-        private Page infoVacPage;
         private Visibility infoVac = Visibility.Hidden;
         public Visibility InfoVac { get => infoVac; set { infoVac = value; Signal(); } }
-        public Page InfoVacPage
-        {
-            get => infoVacPage;
-            set
-            {
-                infoVacPage = value;
-                Signal();
-            }
-        }
         public string IsFlex
         {
             get => isFlex;
@@ -53,6 +45,24 @@ namespace CURSE.ViewModel
             set
             {
                 isFull = value;
+                Signal();
+            }
+        }
+        public string SelVacEd
+        {
+            get => selVacEd;
+            set
+            {
+                selVacEd = value;
+                Signal();
+            }
+        }
+        public string SelVacCity
+        {
+            get => selVacCity;
+            set
+            {
+                selVacCity = value;
                 Signal();
             }
         }
@@ -189,6 +199,20 @@ namespace CURSE.ViewModel
                     IsFull = "Полная занятость";
                 }
                 else { IsFull = "Неполная занятость"; }
+                foreach (var ed in Educations)
+                {
+                    if (SelectedVac.IdRequiredEducation == ed.Id)
+                    {
+                        SelVacEd = ed.Title;
+                    }
+                }
+                foreach (var city in Citys)
+                {
+                    if (SelectedVac.IdRequiredEducation == city.Id)
+                    {
+                        SelVacCity = city.City_Name;
+                    }
+                }
                 InfoVac = Visibility.Visible; 
             }
         }

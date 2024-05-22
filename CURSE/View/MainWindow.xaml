@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:CURSE.ViewModel" 
         DataContext="{DynamicResource vm}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Главная" Height="550" Width="900">
     <Window.Resources>
         <vm:MainVM x:Key="vm"/>
     </Window.Resources>

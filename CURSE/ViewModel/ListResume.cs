@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
 using System.Windows.Controls;
+using System.Windows;
 
 namespace CURSE.ViewModel
 {
@@ -16,6 +17,10 @@ namespace CURSE.ViewModel
     {
         private MainVM mainVM;
         private string searchText = "";
+        private string isFlex = "";
+        private string isFull = "";
+        private string selResEd = "";
+        private string selResCity = "";
         private ObservableCollection<Applicant> all_resume;
         private City selectedCity;
         private Education selectedEducation;
@@ -30,7 +35,44 @@ namespace CURSE.ViewModel
         //public VmCommand Create { get; set; }
         //public VmCommand Edit { get; set; }
         //public VmCommand Delete { get; set; }
-
+        private Visibility infoRes = Visibility.Hidden;
+        public Visibility InfoRes { get => infoRes; set { infoRes = value; Signal(); } }
+        public string IsFlex
+        {
+            get => isFlex;
+            set
+            {
+                isFlex = value;
+                Signal();
+            }
+        }
+        public string IsFull
+        {
+            get => isFull;
+            set
+            {
+                isFull = value;
+                Signal();
+            }
+        }
+        public string SelResEd
+        {
+            get => selResEd;
+            set
+            {
+                selResEd = value;
+                Signal();
+            }
+        }
+        public string SelResCity
+        {
+            get => selResCity;
+            set
+            {
+                selResCity = value;
+                Signal();
+            }
+        }
         public Field_of_Activity SelectedField
         {
             get => selectedField;
@@ -118,6 +160,7 @@ namespace CURSE.ViewModel
             {
                 selectedResume = value;
                 Signal();
+                WatchInfo();
             }
         }
         public ObservableCollection<Applicant> All_resume
@@ -144,7 +187,38 @@ namespace CURSE.ViewModel
             Educations.Insert(0, new Education { Id = 0, Title = "Любое" });
             SelectedEducation = Educations[0];
         }
-        internal void SetMainVM(MainVM mainVM)
+        private void WatchInfo()
+        {
+            if (SelectedResume != null && SelectedResume.ID != 0)
+            {
+                if (SelectedResume.IsFlexibleSchedule)
+                {
+                    IsFlex = "Только гибкий график работы";
+                }
+                else { IsFlex = "Любой график работы"; }
+                if (SelectedResume.IsFullEmployment)
+                {
+                    IsFull = "Полная занятость";
+                }
+                else { IsFull = "Только неполная занятость"; }
+                foreach (var ed in Educations)
+                {
+                    if (SelectedResume.IdEducation == ed.Id)
+                    {
+                        SelResEd = ed.Title;
+                    }
+                }
+                foreach (var city in Citys)
+                {
+                    if (SelectedResume.Id_City == city.Id)
+                    {
+                        SelResCity = city.City_Name;
+                    }
+                }
+                InfoRes = Visibility.Visible;
+            }
+        }
+            internal void SetMainVM(MainVM mainVM)
         {
             this.mainVM = mainVM;
         }

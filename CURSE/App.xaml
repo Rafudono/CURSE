@@ -4,6 +4,9 @@
              xmlns:local="clr-namespace:CURSE"
              StartupUri="View/MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Margin" Value="2"/>
+        </Style>
     </Application.Resources>
 </Application>

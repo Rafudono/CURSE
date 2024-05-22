@@ -165,6 +165,7 @@ namespace CURSE.ViewModel
                 {
                     ChangeData taskwindow = new ChangeData();
                     taskwindow.ShowDialog();
+                    CurPage = new ApplicantView(this);
                 }
                 else
                     MessageBox.Show("Войдите в аккаунт");
@@ -178,6 +179,7 @@ namespace CURSE.ViewModel
                     {
                         ChangeResume taskwindow = new ChangeResume(ApplAuthorized.Instance.loginAppl);
                         taskwindow.ShowDialog();
+                        CurPage = new ApplicantView(this);
                     }
                     else { MessageBox.Show("У вас нет доступа к этой функции"); }
                 }

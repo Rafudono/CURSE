@@ -4,8 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
      xmlns:local="clr-namespace:CURSE.Converters"
-  xmlns:vm="clr-namespace:CURSE.ViewModel" 
-       DataContext="{DynamicResource vm}"
+  xmlns:vm="clr-namespace:CURSE.ViewModel"
+      DataContext="{DynamicResource vm}"
      mc:Ignorable="d" 
      d:DesignHeight="450" d:DesignWidth="800"
      Title="EmployerView">
@@ -20,7 +20,8 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal" >
             <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Width="350"/>
@@ -54,23 +55,48 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
-        <Grid Grid.Column="6" Grid.Row="9">
+        <ScrollViewer Grid.Column="1" Grid.Row="9" Visibility="{Binding InfoRes}" ScrollViewer.CanContentScroll="True">
+        <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="О себе"/>
-            <TextBlock Text="{Binding SelectedResume.Description}" TextWrapping="Wrap" Grid.Column="1"/>
-            <TextBlock Text="Заработная плата" Grid.Row="1"/>
-            <TextBlock Text="{Binding SelectedResume.Salary}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1"/>
-            <TextBlock Text="День рождения" Grid.Row="2"/>
-            <TextBlock Text="{Binding SelectedResume.Birthday, StringFormat=dd MMMM yyyy, ConverterCulture='ru-Ru'}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2"/>
+            <Label Content="{Binding SelectedResume.RTitle}" HorizontalAlignment="Center" Grid.ColumnSpan="2"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="3">
+                <Label Content="Город" Grid.Row="1"/>
+                <Label Content="{Binding SelResCity}" Grid.Row="1" Grid.Column="1"/>
+            </StackPanel>
+
+            <Label Content="Образование" Grid.Row="2"/>
+            <Label Content="{Binding SelResEd}" Grid.Row="2" Grid.Column="1"/>
+            <Label Content="Опыт работы" Grid.Row="3"/>
+            <Label Content="{Binding SelectedResume.XP}" Grid.Row="3" Grid.Column="1"/>
+            <Label Content="Требуемая зарплата" Grid.Row="4" Grid.ColumnSpan="2"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.ColumnSpan="2">
+                <Label Content="от"/>
+                <Label Content="{Binding SelectedResume.Salary}"/>
+            </StackPanel>
+            <Label Content="Описание:" Grid.Row="6"/>
+            <TextBlock Text="{Binding SelectedResume.Description}" Grid.Row="7" Grid.ColumnSpan="4" TextWrapping="Wrap"/>
+            <Label Content="{Binding IsFlex}" Grid.Row="8" Grid.ColumnSpan="3"/>
+            <Label Content="{Binding IsFull}" Grid.Row="9" Grid.ColumnSpan="3"/>
         </Grid>
+        </ScrollViewer>
         <StackPanel HorizontalAlignment="Right" Grid.Row="6" Grid.Column="2">
             <Label Content="Выберите фильтры"/>
             <Label Content="Город или регион"/>

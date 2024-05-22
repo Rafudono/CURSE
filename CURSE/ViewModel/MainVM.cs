@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
+using System.Security.Cryptography.Pkcs;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -74,16 +75,6 @@ namespace CURSE.ViewModel
                 Signal();
             }
         }
-      
-        public Page InfoResPage
-        {
-            get => infoResPage;
-            set
-            {
-                infoResPage = value;
-                Signal();
-            }
-        }
         public MainVM()
         {
             Registration = new VmCommand(() =>
@@ -149,6 +140,9 @@ namespace CURSE.ViewModel
                 {
                     ChangeData taskwindow = new ChangeData();
                     taskwindow.ShowDialog();
+
+                    ListResume res = new ListResume();
+                    ResumePage.DataContext = res;
                 }
                 else
                     MessageBox.Show("Войдите в аккаунт");
@@ -163,8 +157,8 @@ namespace CURSE.ViewModel
                         ChangeResume taskwindow = new ChangeResume(ApplAuthorized.Instance.loginAppl);
                         taskwindow.ShowDialog();
 
-                        ListResume myVacVM = new ListResume();
-                        ResumePage.DataContext = myVacVM;
+                        ListResume res = new ListResume();
+                        ResumePage.DataContext = res;
                     }
                     else { MessageBox.Show("У вас нет доступа к этой функции"); }
                 }
@@ -179,9 +173,12 @@ namespace CURSE.ViewModel
                     var result= MessageBox.Show("Вы правда хотите удалить аккаунт?", "Удаление", MessageBoxButton.YesNo);
                     if (result == MessageBoxResult.Yes)
                     {
-                        DeleteUser taskwindow = new DeleteUser();
-                        taskwindow.ShowDialog();
-                        if(HumAuthorization.Instance.loginHuman.Id==0) 
+
+                        HumanRepository.Instance.Delete(HumAuthorization.Instance.loginHuman);
+                        HumAuthorization.Instance.loginHuman = new();
+                        ApplAuthorized.Instance.loginAppl = new();
+                        EmpAuthorized.Instance.loginEmp = new();
+                        if (HumAuthorization.Instance.loginHuman.Id==0) 
                         {
                             Resume = Visibility.Hidden;
                             VisMyVac = Visibility.Hidden;

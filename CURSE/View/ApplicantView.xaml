@@ -4,8 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CURSE.Model"
-        xmlns:vm="clr-namespace:CURSE.ViewModel" 
-  DataContext="{DynamicResource vm}"
+        xmlns:vm="clr-namespace:CURSE.ViewModel"
+      DataContext="{DynamicResource vm}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ApplicantView">
@@ -48,7 +48,37 @@
                 </ListView.View>
             </ListView>
         </StackPanel>
-        <Frame Content="{Binding InfoVacPage}" Grid.Column="6" Grid.Row="9"/>
+        <StackPanel Grid.Column="1" Grid.Row="9" Visibility="{Binding InfoVac}" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Вакансия"/>
+                <Label Content="{Binding SelectedVac.Title}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Требуемый опыт"/>
+                <Label Content="{Binding SelectedVac.XP}"/>
+            </StackPanel>
+            <Label Content="Зарплата" HorizontalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="от"/>
+                <Label Content="{Binding SelectedVac.MINSalary}"/>
+                <Label Content="до"/>
+                <Label Content="{Binding SelectedVac.MAXSalary}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Обязанности"/>
+                <TextBlock Text="{Binding SelectedVac.Responsibilities}" TextWrapping="Wrap"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Требования"/>
+                <TextBlock Text="{Binding SelectedVac.Requirements}" TextWrapping="Wrap"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Условия"/>
+                <TextBlock Text="{Binding SelectedVac.Conditions}"  TextWrapping="Wrap"/>
+            </StackPanel>
+            <Label Content="{Binding IsFlex}"/>
+            <Label Content="{Binding IsFull}"/>
+        </StackPanel>
         <StackPanel HorizontalAlignment="Right" Grid.Row="6" Grid.Column="3">
             <Label Content="Выберите фильтры"/>
             <Label Content="Город или регион"/>

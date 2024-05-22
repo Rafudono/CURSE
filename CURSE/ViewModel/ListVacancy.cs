@@ -15,6 +15,8 @@ namespace CURSE.ViewModel
     {
         private MainVM mainVM;
         private string searchText = "";
+        private string isFlex = "";
+        private string isFull = "";
         private int minSalary = 0;
         private int xp = 100;
         private bool isFullEmp = true;
@@ -25,12 +27,32 @@ namespace CURSE.ViewModel
         private Field_of_Activity selectedField;
         private Vacancy selectedVac;
         private Page infoVacPage;
+        private Visibility infoVac = Visibility.Hidden;
+        public Visibility InfoVac { get => infoVac; set { infoVac = value; Signal(); } }
         public Page InfoVacPage
         {
             get => infoVacPage;
             set
             {
                 infoVacPage = value;
+                Signal();
+            }
+        }
+        public string IsFlex
+        {
+            get => isFlex;
+            set
+            {
+                isFlex = value;
+                Signal();
+            }
+        }
+        public string IsFull
+        {
+            get => isFull;
+            set
+            {
+                isFull = value;
                 Signal();
             }
         }
@@ -119,8 +141,9 @@ namespace CURSE.ViewModel
             set
             {
                 selectedVac = value;
-                Signal();
+               
                 WatchInfo();
+                Signal();
             }
         }
         public ObservableCollection<Vacancy> All_vac
@@ -154,7 +177,20 @@ namespace CURSE.ViewModel
         }
         private void WatchInfo()
         {
-
+            if(SelectedVac!=null&& SelectedVac.Id!=0) 
+            {
+                if(SelectedVac.IsFlexibleSchedule) 
+                {
+                    IsFlex = "Гибкий график работы";
+                }
+                else { IsFlex = "Гибкий график не поддерживается"; }
+                if (SelectedVac.IsFullEmployment)
+                {
+                    IsFull = "Полная занятость";
+                }
+                else { IsFull = "Неполная занятость"; }
+                InfoVac = Visibility.Visible; 
+            }
         }
         private void SearchVacancy()
         {

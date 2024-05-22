@@ -19,7 +19,6 @@ namespace CURSE.ViewModel
         private City selectedCity;
         private Education selectedEducation;
         private Field_of_Activity selectedField;
-        public string CurPassword { get; set; }
         public Human Hum
         {
             get => hum;
@@ -89,23 +88,15 @@ namespace CURSE.ViewModel
             string sql = "";
             Save = new VmCommand(() =>
             {
-                if (CurPassword != null)
-                {
-                    if (Md5.HashPassword(CurPassword) == Hum.Password)
-                    {
-                        Vac.EmployerId = EmpAuthorized.Instance.loginEmp.ID;
-                        Vac.FieldofActivity.Clear();
-                        foreach (Field_of_Activity foa in listFoa.SelectedItems)
-                            Vac.FieldofActivity.Add(foa);
-                       
-                        Vac.Id_City = SelectedCity.Id;
-                        Vac.IdRequiredEducation = SelectedEducation.Id;
-                        VacancyRepository.Instance.AddVacancy(Vac);
-                        close?.Invoke();
-                    }
-                }
-                else { MessageBox.Show("Необходимо указать текущий пароль"); }
+                Vac.EmployerId = EmpAuthorized.Instance.loginEmp.ID;
+                Vac.FieldofActivity.Clear();
+                foreach (Field_of_Activity foa in listFoa.SelectedItems)
+                    Vac.FieldofActivity.Add(foa);
 
+                Vac.Id_City = SelectedCity.Id;
+                Vac.IdRequiredEducation = SelectedEducation.Id;
+                VacancyRepository.Instance.AddVacancy(Vac);
+                close?.Invoke();
             });
         }
         internal void SetClose(Action close)

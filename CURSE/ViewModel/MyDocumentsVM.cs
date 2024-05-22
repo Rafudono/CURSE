@@ -15,7 +15,6 @@ namespace CURSE.ViewModel
         public VmCommand Save { get; }
         private Employer emp = new();
         private Human hum = new();
-        public string password {  get; set; }
         Action close;
         public Employer Emp
         {
@@ -44,22 +43,12 @@ namespace CURSE.ViewModel
         {
             Emp = EmpAuthorized.Instance.loginEmp;
             Hum = HumAuthorization.Instance.loginHuman;
-            Save = new VmCommand(() => 
+            Save = new VmCommand(() =>
             {
-                if (password != null|| password!="")
-                {
-
-                    if (Md5.HashPassword(password) == Hum.Password)
-                    {
-                        EmployerRepository.Instance.UpdateEmployer(Emp);
-                        EmpAuthorized.Instance.loginEmp = Emp;
-                        MessageBox.Show("Данные об организации изменены");
-                        close?.Invoke();
-                    }
-                    else MessageBox.Show("Неверный пароль");
-                }
-                else
-                    MessageBox.Show("Введите текущий пароль");
+                EmployerRepository.Instance.UpdateEmployer(Emp);
+                EmpAuthorized.Instance.loginEmp = Emp;
+                MessageBox.Show("Данные об организации изменены");
+                close?.Invoke();
             });
         }
         internal void SetClose(Action close)

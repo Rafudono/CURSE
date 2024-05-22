@@ -52,11 +52,6 @@
                 <CheckBox Content="Только полная занятость" IsChecked="{Binding Vac.IsFullEmployment}"/>
                 <CheckBox Content="Возможен гибкий график работы" IsChecked="{Binding Vac.IsFlexibleSchedule}"/>
             </StackPanel>
-
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Текущий пароль"/>
-                <TextBox Text="{Binding CurPassword}"/>
-            </StackPanel>
             <Button Content="Save" HorizontalAlignment="Center" Command="{Binding Save}"/>
         </StackPanel>
         <ListBox DisplayMemberPath="Title" Grid.Column="3" 

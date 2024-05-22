@@ -67,8 +67,6 @@ ItemsSource="{Binding Educations}"/>
             <CheckBox Content="Согласен на полную занятость" IsChecked="{Binding Appl.IsFullEmployment}"/>
             <CheckBox Content="Только гибкий график" IsChecked="{Binding Appl.IsFlexibleSchedule}"/>
         </StackPanel>
-        <Label Content="Текущий пароль" Grid.Row="2" HorizontalAlignment="Right"/>
-        <TextBox Text="{Binding CurPassword}" Grid.Row="2" Grid.Column="1"/>
         <StackPanel Grid.Row="4" Grid.ColumnSpan="3">
             <Button Content="Сохранить" HorizontalAlignment="Center" Command="{Binding Save}"/>
         </StackPanel>

@@ -79,8 +79,8 @@ namespace CURSE.ViewModel
                     myvac = new MyVacVM();
 
                    MainVM mainVM = new MainVM();
-                    ListVacancy listVacancy = new ListVacancy();
-                    if(mainVM!=null)
+                   ListVacancy listVacancy = new ListVacancy();
+                   if(mainVM!=null)
                    mainVM.VacancyPage.DataContext = listVacancy;
                 }
             });
@@ -92,8 +92,7 @@ namespace CURSE.ViewModel
                     var result = MessageBox.Show("Вы правда хотите удалить выбранную вакансию?", "Удаление", MessageBoxButton.YesNo);
                     if (result == MessageBoxResult.Yes)
                     {
-                        DeleteVac taskwindow = new DeleteVac();
-                        taskwindow.ShowDialog();
+                        VacancyRepository.Instance.DeleteVac(SelectedVac);
 
                         var myvac = this;
                         myvac = new MyVacVM();

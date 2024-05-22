@@ -22,10 +22,14 @@ namespace CURSE.ViewModel
         public VmCommand DelUser { get; }
         public VmCommand LogOut { get; }
         public VmCommand MyDoc {  get; }
-        private Page vacancyPage;
-        private Page resumePage;
-        private Page myVacPage;
-        private Page infoResPage;
+        public VmCommand ListVac {  get; }
+        public VmCommand ListRes { get; }
+        public VmCommand ListMyVac { get; }
+        private Page curPage;
+        //private Page vacancyPage;
+        //private Page resumePage;
+        //private Page myVacPage;
+        //private Page infoResPage;
 
         private Visibility resume = Visibility.Hidden;
         private Visibility settings = Visibility.Hidden;
@@ -47,35 +51,56 @@ namespace CURSE.ViewModel
         public Visibility RoleEmp { get => roleEmp; set { roleEmp = value; Signal(); } }
         public Visibility RoleAppl { get => roleAppl; set { roleAppl = value; Signal(); } }
         public Visibility LogOutVis { get => logOut; set { logOut = value; Signal(); } }
-        public Page VacancyPage
+        public Page CurPage
         {
-            get => vacancyPage;
+            get => curPage;
             set
             {
-                vacancyPage = value;
+                curPage = value;
                 Signal();
             }
         }
-        public Page ResumePage
-        {
-            get => resumePage;
-            set
-            {
-                resumePage = value;
-                Signal();
-            }
-        }
-        public Page MyVacPage
-        {
-            get => myVacPage;
-            set
-            {
-                myVacPage = value;
-                Signal();
-            }
-        }
+        //public Page VacancyPage
+        //{
+        //    get => vacancyPage;
+        //    set
+        //    {
+        //        vacancyPage = value;
+        //        Signal();
+        //    }
+        //}
+        //public Page ResumePage
+        //{
+        //    get => resumePage;
+        //    set
+        //    {
+        //        resumePage = value;
+        //        Signal();
+        //    }
+        //}
+        //public Page MyVacPage
+        //{
+        //    get => myVacPage;
+        //    set
+        //    {
+        //        myVacPage = value;
+        //        Signal();
+        //    }
+        //}
         public MainVM()
         {
+            ListVac = new VmCommand(() => 
+            {
+                CurPage = new ApplicantView(this);
+            });
+            ListRes = new VmCommand(() =>
+            {
+                CurPage = new EmployerView(this);
+            });
+            ListMyVac = new VmCommand(() =>
+            {
+                CurPage = new MyVac(this);
+            });
             Registration = new VmCommand(() =>
             {
                 Registration taskwindow = new Registration();
@@ -106,8 +131,8 @@ namespace CURSE.ViewModel
                     RoleEmp = Visibility.Visible;
                     LogOutVis = Visibility.Visible;
 
-                    MyVacVM myVacVM = new MyVacVM();
-                    MyVacPage.DataContext = myVacVM;
+                    //MyVacVM myVacVM = new MyVacVM();
+                    //MyVacPage.DataContext = myVacVM;
                 }
                 Signal();
             });
@@ -126,6 +151,7 @@ namespace CURSE.ViewModel
                 RoleEmp = Visibility.Hidden;
                 RoleAppl = Visibility.Hidden;
                 LogOutVis = Visibility.Hidden;
+                CurPage = new ApplicantView(this);
                 Signal();
                 
             });
@@ -139,9 +165,6 @@ namespace CURSE.ViewModel
                 {
                     ChangeData taskwindow = new ChangeData();
                     taskwindow.ShowDialog();
-
-                    ListResume res = new ListResume();
-                    ResumePage.DataContext = res;
                 }
                 else
                     MessageBox.Show("Войдите в аккаунт");
@@ -155,9 +178,6 @@ namespace CURSE.ViewModel
                     {
                         ChangeResume taskwindow = new ChangeResume(ApplAuthorized.Instance.loginAppl);
                         taskwindow.ShowDialog();
-
-                        ListResume res = new ListResume();
-                        ResumePage.DataContext = res;
                     }
                     else { MessageBox.Show("У вас нет доступа к этой функции"); }
                 }
@@ -190,11 +210,7 @@ namespace CURSE.ViewModel
                             RoleAppl = Visibility.Hidden;
                             LogOutVis = Visibility.Hidden;
 
-                            ListResume res = new ListResume();
-                            ResumePage.DataContext = res;
-
-                            ListVacancy vac = new ListVacancy();
-                            VacancyPage.DataContext = vac;
+                            CurPage=new ApplicantView(this);
                         }
                     }
                 }
@@ -208,13 +224,9 @@ namespace CURSE.ViewModel
             });
             OpenSearch();
         }
-        //public Page applicantView = new ApplicantView(); //не сигнал
-        //public Page employerView = new EmployerView();
         private void OpenSearch()
         {
-            VacancyPage = new ApplicantView(this);
-            ResumePage = new EmployerView(this);
-            MyVacPage = new MyVac(this);
+            CurPage = new ApplicantView(this);
         }
     }
 }

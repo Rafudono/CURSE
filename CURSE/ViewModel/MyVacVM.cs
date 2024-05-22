@@ -64,8 +64,7 @@ namespace CURSE.ViewModel
             {
                     NEWVacancy taskwindow = new NEWVacancy();
                     taskwindow.ShowDialog();
-                var myvac = this;
-                myvac = new MyVacVM();
+                mainVM.CurPage = new MyVac(mainVM);
             });
             EditVac = new VmCommand(() =>
             {
@@ -74,14 +73,7 @@ namespace CURSE.ViewModel
                     SelectedVacancy.Instance.selectedVac=SelectedVac;
                     NewOrEditVacancy taskwindow = new NewOrEditVacancy(SelectedVac);
                     taskwindow.ShowDialog();
-
-                    var myvac = this;
-                    myvac = new MyVacVM();
-
-                   MainVM mainVM = new MainVM();
-                   ListVacancy listVacancy = new ListVacancy();
-                   if(mainVM!=null)
-                   mainVM.VacancyPage.DataContext = listVacancy;
+                    mainVM.CurPage = new MyVac(mainVM);
                 }
             });
             DeleteVac = new VmCommand(() =>
@@ -94,8 +86,7 @@ namespace CURSE.ViewModel
                     {
                         VacancyRepository.Instance.DeleteVac(SelectedVac);
 
-                        var myvac = this;
-                        myvac = new MyVacVM();
+                        mainVM.CurPage = new MyVac(mainVM);
                     }
                 }
             });

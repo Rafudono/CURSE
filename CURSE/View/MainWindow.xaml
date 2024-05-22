@@ -14,6 +14,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
@@ -30,18 +31,12 @@
                 <Label Content="Соискатель" Margin="0" Grid.Column="1" Visibility="{Binding RoleAppl}"/>
             </Grid>
         </StackPanel>
-
-        <TabControl Grid.Row="3" x:Name="tab">
-            <TabItem Header="Соискатель" >
-                <Frame Content="{Binding VacancyPage}"/>
-            </TabItem>
-            <TabItem Header="Работодатель">
-                <Frame Content="{Binding ResumePage}"/>
-            </TabItem>
-            <TabItem Header="Мои вакансии" Visibility="{Binding VisMyVac}">
-                <Frame Content="{Binding MyVacPage}"/>
-            </TabItem>
-        </TabControl>
+        <Frame Content="{Binding CurPage}" Grid.Row="3" NavigationUIVisibility="Hidden"/>
+        <Menu Grid.Row="1">
+            <MenuItem Header="Соискатель" Command="{Binding ListVac}"/>
+            <MenuItem Header="Работодатель" Command="{Binding ListRes}" />
+            <MenuItem Header="Мои вакансии" Visibility="{Binding VisMyVac}" Command="{Binding ListMyVac}"/>
+        </Menu>
         <Grid HorizontalAlignment="Right">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>

@@ -11,7 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 namespace CURSE.ViewModel
-{
+{//пароль видимый-невидимый; фильтры?; проверки на есть-нет в полях что-то, необязательные заполнить прочерком
     public class MainVM : BaseVM
     {
         public VmCommand Login { get; }

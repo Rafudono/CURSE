@@ -95,6 +95,7 @@ namespace CURSE.ViewModel
                 foreach (Field_of_Activity foa in listFoa.SelectedItems)
                     Appl.FieldofActivity.Add(foa);
                 Appl.Id_City = SelectedCity.Id;
+                Appl.IdEducation = SelectedEducation.Id;
                 ApplicantRepository.Instance.UpdateResume(Appl);
                 close?.Invoke();
 

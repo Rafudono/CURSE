@@ -214,13 +214,14 @@ namespace CURSE.ViewModel
                 }
                 foreach (var city in Citys)
                 {
-                    if (SelectedVac.IdRequiredEducation == city.Id)
+                    if (SelectedVac.Id_City == city.Id)
                     {
                         SelVacCity = city.City_Name;
                     }
                 }
                 InfoVac = Visibility.Visible; 
             }
+            else InfoVac = Visibility.Hidden;
         }
         private void SearchVacancy()
         {

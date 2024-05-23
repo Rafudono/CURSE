@@ -214,6 +214,7 @@ namespace CURSE.ViewModel
                 }
                 InfoRes = Visibility.Visible;
             }
+            else InfoRes = Visibility.Hidden;
         }
             internal void SetMainVM(MainVM mainVM)
         {

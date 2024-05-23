@@ -14,9 +14,50 @@ namespace CURSE.ViewModel
     public class MyVacVM:BaseVM
     {
         private MainVM mainVM;
+        private string isFlex = "";
+        private string isFull = "";
+        private string selVacEd = "";
+        private string selVacCity = "";
         private ObservableCollection<Vacancy> all_vac;
         private Vacancy selectedVac;
-
+        private Visibility infoVac = Visibility.Hidden;
+        public Visibility InfoVac { get => infoVac; set { infoVac = value; Signal(); } }
+        public string IsFlex
+        {
+            get => isFlex;
+            set
+            {
+                isFlex = value;
+                Signal();
+            }
+        }
+        public string IsFull
+        {
+            get => isFull;
+            set
+            {
+                isFull = value;
+                Signal();
+            }
+        }
+        public string SelVacEd
+        {
+            get => selVacEd;
+            set
+            {
+                selVacEd = value;
+                Signal();
+            }
+        }
+        public string SelVacCity
+        {
+            get => selVacCity;
+            set
+            {
+                selVacCity = value;
+                Signal();
+            }
+        }
         public VmCommand NewVac { get; }
         public VmCommand EditVac { get; }
         public VmCommand DeleteVac { get; }
@@ -28,6 +69,7 @@ namespace CURSE.ViewModel
             {
                 selectedVac = value;
                 Signal();
+                WatchInfo();
             }
         }
         public ObservableCollection<Vacancy> All_vac
@@ -48,7 +90,8 @@ namespace CURSE.ViewModel
                 Signal();
             }
         }
-
+        public ObservableCollection<Education> Educations { get; set; } = new ObservableCollection<Education>();
+        public ObservableCollection<City> Citys { get; set; } = new ObservableCollection<City>();
         public MyVacVM()
         {
             if (EmpAuthorized.Instance.loginEmp.id_human != 0)
@@ -57,6 +100,8 @@ namespace CURSE.ViewModel
                 {
                     string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, foa.ID AS foaId, foa.Field_name AS foaTitle FROM `Cross_Vacancy_Field-of-activity` cvfoa, Vacancy v, `Fields-of-activity` foa WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID and employer_id = " + EmpAuthorized.Instance.loginEmp.ID + " ORDER by v.ID;";
                     MyVacancy = new ObservableCollection<Vacancy>(VacancyRepository.Instance.GetAllVacancy(sql));
+                    Educations = new ObservableCollection<Education>(EducationRepository.Instance.GetEducation());
+                    Citys = new ObservableCollection<City>(CityRepository.Instance.GetAllCity());
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
             }
@@ -90,6 +135,38 @@ namespace CURSE.ViewModel
                     }
                 }
             });
+        }
+        private void WatchInfo()
+        {
+            if (SelectedVac != null && SelectedVac.Id != 0)
+            {
+                if (SelectedVac.IsFlexibleSchedule)
+                {
+                    IsFlex = "Гибкий график работы";
+                }
+                else { IsFlex = "Гибкий график не поддерживается"; }
+                if (SelectedVac.IsFullEmployment)
+                {
+                    IsFull = "Полная занятость";
+                }
+                else { IsFull = "Неполная занятость"; }
+                foreach (var ed in Educations)
+                {
+                    if (SelectedVac.IdRequiredEducation == ed.Id)
+                    {
+                        SelVacEd = ed.Title;
+                    }
+                }
+                foreach (var city in Citys)
+                {
+                    if (SelectedVac.Id_City == city.Id)
+                    {
+                        SelVacCity = city.City_Name;
+                    }
+                }
+                InfoVac = Visibility.Visible;
+            }
+            else InfoVac = Visibility.Hidden;
         }
         internal void SetMainVM(MainVM mainVM)
         {

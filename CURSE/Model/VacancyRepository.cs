@@ -100,12 +100,11 @@ namespace CURSE.Model
                 mc.Parameters.Add(new MySqlParameter("isfullempl", vacancy.IsFullEmployment));
                 if (mc.ExecuteNonQuery() > 0)
                 {
-                    int trueid = GetTrueId(vacancy);
                     sql = "";
                     if (vacancy.FieldofActivity.Count > 0)
                     {
                         foreach (var field in vacancy.FieldofActivity)
-                            sql += "INSERT INTO `Cross_Vacancy_Field-of-activity` VALUES (" + trueid + "," + field.Id + ");";
+                            sql += "INSERT INTO `Cross_Vacancy_Field-of-activity` VALUES (" + id + "," + field.Id + ");";
                         using (var mcCross = new MySqlCommand(sql, connect))
                             mcCross.ExecuteNonQuery();
                     }
@@ -147,35 +146,31 @@ namespace CURSE.Model
         }
         internal IEnumerable<Vacancy> Search(string searchText, int minSalary, int xp, bool isflex, bool isfull, Field_of_Activity selectedField, Education selectedEd, City selectedCity)
         {
-            string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, v.IsFullEmployment, foa.ID AS foaId, foa.Field_name AS foaTitle \r\nFROM CURSE.`Cross_Vacancy_Field-of-activity` cvfoa, CURSE.Vacancy v, CURSE.`Fields-of-activity` foa, CURSE.Education e, CURSE.Employer emp WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID AND v.`id_Required-Education` =e.ID and v.employer_id = emp.ID ";
+            string sql = "SELECT v.ID, v.employer_id, v.`Required-XP`, v.`id_Required-Education`, v.id_city, v.MINSalary, v.MAXSalary, v.Responsibilities, v.Requirements, v.Conditions, v.Description, v.IsFlexibleSchedule, v.Title, v.IsFullEmployment, foa.ID AS foaId, foa.Field_name AS foaTitle FROM CURSE.`Fields-of-activity` foa, CURSE.Education e, CURSE.Employer emp, CURSE.Vacancy v join `Cross_Vacancy_Field-of-activity` cvfoa on (cvfoa.id_vac  = v.ID ) WHERE cvfoa.id_vac = v.ID AND cvfoa.id_field = foa.ID AND v.`id_Required-Education` =e.ID and v.employer_id = emp.ID ";
             sql += " AND (v.Title LIKE '%" + searchText + "%')";
-            sql+="AND (v.MAXSalary >="+ minSalary + ")";
-            sql += "AND (v.`Required-XP` <=" + xp + ")";
+            sql+=" AND (v.MAXSalary >="+ minSalary + ")";
+            sql += " AND (v.`Required-XP` <=" + xp + ")";
             if(isflex)
-            sql+= "AND (v.IsFlexibleSchedule ="+ isflex+ ")";
+            sql+= " AND (v.IsFlexibleSchedule ="+ isflex+ ")";
             if(!isfull)
-            sql += "AND(v.IsFullEmployment=" + isfull + ")";
-            if (selectedField != null && selectedField.Id != 0)
-            {
-                var list = GetAllVacancy(sql).Where(s => s.FieldofActivity.FirstOrDefault(s => s.Title == selectedField.Title) != null);
-                return list;
-            }
+            sql += " AND(v.IsFullEmployment=" + isfull + ")";
+
             if (selectedField != null && selectedField.Id != 0 && selectedCity != null && selectedCity.Id != 0 && selectedEd != null && selectedEd.Id != 0)
-                sql += "AND foa.ID =" + selectedField.Id + " AND v.id_city =" + selectedCity.Id + " and v.`id_Required-Education`=" + selectedEd.Id + "  ORDER by v.ID;";
+                sql += " AND  cvfoa.id_field in (SELECT DISTINCT cvfoa.id_field  from `Cross_Vacancy_Field-of-activity` cvfoa WHERE cvfoa.id_vac in (select v.ID from `Vacancy` v join `Cross_Vacancy_Field-of-activity` cvfoa on cvfoa.id_vac = v.ID WHERE cvfoa.id_field = " + selectedField.Id + ")) AND v.id_city =" + selectedCity.Id + " and v.`id_Required-Education` >=" + selectedEd.Id + "  ORDER by v.ID;";
 
             else if (selectedField != null && selectedField.Id != 0 && selectedCity != null && selectedCity.Id != 0)
-                sql += "AND foa.ID =" + selectedField.Id + " AND v.id_city =" + selectedCity.Id + " ORDER by v.ID;";
+                sql += " AND  cvfoa.id_field in (SELECT DISTINCT cvfoa.id_field  from `Cross_Vacancy_Field-of-activity` cvfoa WHERE cvfoa.id_vac in (select v.ID from `Vacancy` v join `Cross_Vacancy_Field-of-activity` cvfoa on cvfoa.id_vac = v.ID WHERE cvfoa.id_field = " + selectedField.Id + ")) AND v.id_city =" + selectedCity.Id + " ORDER by v.ID;";
             else if (selectedField != null && selectedField.Id != 0 && selectedEd != null && selectedEd.Id != 0)
-                sql += "AND foa.ID =" + selectedField.Id + " AND  v.`id_Required-Education` =" + selectedEd.Id + " ORDER by v.ID;";
+                sql += " AND  cvfoa.id_field in (SELECT DISTINCT cvfoa.id_field  from `Cross_Vacancy_Field-of-activity` cvfoa WHERE cvfoa.id_vac in (select v.ID from `Vacancy` v join `Cross_Vacancy_Field-of-activity` cvfoa on cvfoa.id_vac = v.ID WHERE cvfoa.id_field = " + selectedField.Id + ")) AND  v.`id_Required-Education` >=" + selectedEd.Id + " ORDER by v.ID;";
             else if (selectedCity != null && selectedCity.Id != 0 && selectedEd != null && selectedEd.Id != 0)
-                sql += "AND v.id_city =" + selectedCity.Id + " and v.`id_Required-Education`=" + selectedEd.Id + " ORDER by v.ID;";
+                sql += " AND v.id_city =" + selectedCity.Id + " and v.`id_Required-Education` >=" + selectedEd.Id + " ORDER by v.ID;";
 
             else if (selectedCity != null && selectedCity.Id != 0)
-                sql += "AND v.id_city =" + selectedCity.Id + " ORDER by v.ID;";
+                sql += " AND v.id_city =" + selectedCity.Id + " ORDER by v.ID;";
             else if (selectedField != null && selectedField.Id != 0)
-                sql += "AND foa.ID =" + selectedField.Id + " ORDER by v.ID;";
+                sql += " AND cvfoa.id_field in (SELECT DISTINCT cvfoa.id_field  from `Cross_Vacancy_Field-of-activity` cvfoa WHERE cvfoa.id_vac in (select v.ID from `Vacancy` v join `Cross_Vacancy_Field-of-activity` cvfoa on cvfoa.id_vac = v.ID WHERE cvfoa.id_field = "+ selectedField.Id + "))";
             else if (selectedEd != null && selectedEd.Id != 0)
-                sql += "and v.`id_Required-Education`=" + selectedEd.Id + " ORDER by v.ID;";
+                sql += "and v.`id_Required-Education` >=" + selectedEd.Id + " ORDER by v.ID;";
 
             else
                 sql += " ORDER by v.ID;";
@@ -187,6 +182,11 @@ namespace CURSE.Model
             //else
             //    return drinks.
         }
+        //if (selectedField != null && selectedField.Id != 0)
+        //{
+        //    var list = GetAllVacancy(sql).Where(s => s.FieldofActivity.FirstOrDefault(s => s.Title == selectedField.Title) != null);
+        //    return list;
+        //}
         internal void UpdateVacancy(Vacancy vacancy)
         {
             var connect = MySqlDB.Instance.GetConnection();

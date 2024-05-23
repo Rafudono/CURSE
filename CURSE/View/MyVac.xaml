@@ -43,12 +43,56 @@
                 </ListView.View>
             </ListView>
         </StackPanel>
-        <StackPanel Grid.Column="1">
-            <TextBlock Text="{Binding SelectedVac.Description}" TextWrapping="Wrap"/>
-            <TextBlock Text="{Binding SelectedVac.Requirements}" TextWrapping="Wrap"/>
-            <TextBlock Text="{Binding SelectedVac.Conditions}" TextWrapping="Wrap"/>
-            <TextBlock Text="{Binding SelectedVac.Responsibilities}" TextWrapping="Wrap"/>
-        </StackPanel>
+        <ScrollViewer Grid.Column="1" Visibility="{Binding InfoVac}" ScrollViewer.CanContentScroll="True">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition  Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="{Binding SelectedVac.Title}" HorizontalAlignment="Center" Grid.ColumnSpan="2"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="3">
+                    <Label Content="Город" Grid.Row="1"/>
+                    <Label Content="{Binding SelVacCity}" Grid.Row="1" Grid.Column="1"/>
+                </StackPanel>
+                <Label Content="Описание:" Grid.Row="2"/>
+                <TextBlock Text="{Binding SelectedVac.Description}" Grid.Row="3" Grid.ColumnSpan="4" TextWrapping="Wrap" Margin="5"/>
+                <Label Content="Требуемое образование" Grid.Row="4"/>
+                <Label Content="{Binding SelVacEd}" Grid.Row="4" Grid.Column="1"/>
+                <Label Content="Требуемый опыт" Grid.Row="5"/>
+                <Label Content="{Binding SelectedVac.XP}" Grid.Row="5" Grid.Column="1"/>
+                <Label Content="Зарплата" Grid.Row="6"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.ColumnSpan="2">
+                    <Label Content="от"/>
+                    <Label Content="{Binding SelectedVac.MINSalary}"/>
+                    <Label Content="до"/>
+                    <Label Content="{Binding SelectedVac.MAXSalary}"/>
+                </StackPanel>
+                <Label Content="Обязанности" Grid.Row="8"/>
+                <TextBlock Text="{Binding SelectedVac.Responsibilities}" TextWrapping="Wrap" Grid.Row="8" Grid.Column="1"/>
+                <Label Content="Требования" Grid.Row="9"/>
+                <TextBlock Text="{Binding SelectedVac.Requirements}" TextWrapping="Wrap" Grid.Row="9" Grid.Column="1"/>
+                <Label Content="Условия" Grid.Row="10"/>
+                <TextBlock Text="{Binding SelectedVac.Conditions}"  TextWrapping="Wrap" Grid.Row="10" Grid.Column="1"/>
+                <Label Content="{Binding IsFlex}" Grid.Row="11" Grid.ColumnSpan="3"/>
+                <Label Content="{Binding IsFull}" Grid.Row="12" Grid.ColumnSpan="3"/>
+            </Grid>
+        </ScrollViewer>
         <Grid Grid.Row="4" Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>

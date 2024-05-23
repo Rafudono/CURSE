@@ -103,8 +103,9 @@ namespace CURSE.Model
                     sql = "";
                     if (vacancy.FieldofActivity.Count > 0)
                     {
+                        int trueid = GetTrueId(vacancy);
                         foreach (var field in vacancy.FieldofActivity)
-                            sql += "INSERT INTO `Cross_Vacancy_Field-of-activity` VALUES (" + id + "," + field.Id + ");";
+                            sql += "INSERT INTO `Cross_Vacancy_Field-of-activity` VALUES (" + trueid + "," + field.Id + ");";
                         using (var mcCross = new MySqlCommand(sql, connect))
                             mcCross.ExecuteNonQuery();
                     }
@@ -117,8 +118,8 @@ namespace CURSE.Model
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 MessageBox.Show("нет подключения к БД");
-            string sql = "SELECT v.ID  from CURSE.Vacancy v where v.employer_id ='" + vac.EmployerId+"' and v.`Required-XP` = '"+vac.XP+"' and v.`id_Required-Education` = '"+vac.IdRequiredEducation+"' and v.id_city = '"+vac.Id_City+"' and v.MINSalary = '"+vac.MINSalary+"' and v.MAXSalary = '"+ vac.MAXSalary+"' and v.Responsibilities = '"+vac.Responsibilities+"' and v.Requirements = '"+ vac.Requirements+"'and v.Conditions = '"+vac.Conditions+"' and v.Description = '"+vac.Description+"' and v.IsFlexibleSchedule = '"+vac.IsFlexibleSchedule+"' and v.Title = '"+vac.Title+"' and v.IsFullEmployment = '"+vac.IsFullEmployment+"';";
-            using (var mc = new MySqlCommand(sql, connect)) //НОРМАЛЬНО НАПИШИ !! НОРМАЛЬНО
+            string sql = "SELECT v.ID  from CURSE.Vacancy v where v.employer_id ='" + vac.EmployerId+"' and v.`Required-XP` = '"+vac.XP+"' and v.`id_Required-Education` = '"+vac.IdRequiredEducation+"' and v.id_city = '"+vac.Id_City+"' and v.MINSalary = '"+vac.MINSalary+"' and v.MAXSalary = '"+ vac.MAXSalary+"' and v.Responsibilities = '"+vac.Responsibilities+"' and v.Requirements = '"+ vac.Requirements+"'and v.Conditions = '"+vac.Conditions+"' and v.Description = '"+vac.Description+"' and v.IsFlexibleSchedule = '"+(vac.IsFlexibleSchedule ? 1:0)+"' and v.Title = '"+vac.Title+"' and v.IsFullEmployment = '"+(vac.IsFullEmployment ? 1 :0)+"';";
+            using (var mc = new MySqlCommand(sql, connect)) 
             using (var reader = mc.ExecuteReader())
             {
                 Vacancy vacancy = new Vacancy();

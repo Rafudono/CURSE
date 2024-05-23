@@ -28,7 +28,7 @@ namespace CURSE.ViewModel
         private Applicant selectedResume;
         private List<Field_of_Activity> Listfoa=new();
 
-        private int minSalary = 100000000;
+        private int minSalary = 1000000000;
         private int xp = 100;
         private bool isFullEmp;
         private bool isFlexShedule=true;
@@ -183,6 +183,8 @@ namespace CURSE.ViewModel
             SelectedField = Fields[0];
             Educations.Insert(0, new Education { Id = 0, Title = "Любое" });
             SelectedEducation = Educations[0];
+            Citys.Insert(0, new City { Id = 0, City_Name = "Город" });
+            SelectedCity = Citys[0];
         }
         private void WatchInfo()
         {

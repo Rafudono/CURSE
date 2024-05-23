@@ -61,11 +61,15 @@ namespace CURSE.ViewModel
                         {
                             if (registrateHuman.Email.Contains("@"))
                             {
-                                if (password1 != password2)
+                                if (password1.Length >= 3)
                                 {
-                                    MessageBox.Show("Введите одинаковые пароли в поля");
-                                    return;
+                                    if (password1 != password2)
+                                    {
+                                        MessageBox.Show("Введите одинаковые пароли в поля");
+                                        return;
+                                    }
                                 }
+                                else MessageBox.Show("Пароль слишком короткий");
                                 Step1 = Visibility.Hidden;
                                 Step2 = Visibility.Visible;
                             }

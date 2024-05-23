@@ -1,0 +1,65 @@
+﻿<Window x:Class="CURSE.View.EmpInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CURSE.Converters"
+                xmlns:vm="clr-namespace:CURSE.ViewModel"
+        DataContext="{DynamicResource vm}"
+        mc:Ignorable="d"
+        Title="Информация о работодателе" Height="400" Width="450">
+    <Window.Resources>
+        <vm:EmpInfoVM x:Key="vm"/>
+        <local:NullImageConverter x:Key="nullImageConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Center">
+            <StackPanel>
+                <Label Content="Организация"/>
+                <Label Content="{Binding FoundEmp.Org_Name}"/>
+            </StackPanel>
+          
+        </StackPanel>
+        <Image Height="200" Width="150" Source="{Binding FoundHum.Photo, Converter={StaticResource nullImageConverter}}" Grid.Row="1"/>
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <TextBlock Text="Представитель организации" HorizontalAlignment="Center"/>
+            <Label Content="{Binding FoundHum.Name}"/>
+            <Label Content="{Binding FoundHum.Middle_Name}"/>
+            <Label Content="{Binding FoundHum.Surname}"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+                <TextBlock Text="День рождения" Margin="5"/>
+                <DatePickerTextBox  Text="{Binding FoundHum.Birthday, StringFormat= dd mm yyyy}" IsReadOnly="True" Margin="5"/>
+            </StackPanel>
+        </StackPanel>
+        
+        <Label Content="Контактные данные" HorizontalAlignment="Center" Grid.Row="3" Grid.ColumnSpan="2"/>
+        <StackPanel Grid.Row="4" Grid.ColumnSpan="4" HorizontalAlignment="Center">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Content="Email" />
+                <Label Content="{Binding FoundHum.Email}" Grid.Column="1"/>
+                <Label Content="Телефон" Grid.Row="1" />
+                <Label Content="{Binding FoundHum.PhoneNumber}" Grid.Row="1" Grid.Column="1"/>
+            </Grid>
+ 
+    </StackPanel>
+    </Grid>
+</Window>

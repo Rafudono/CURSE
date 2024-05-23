@@ -28,6 +28,7 @@ namespace CURSE.ViewModel
         private Education selectedEducation;    
         private Field_of_Activity selectedField;
         private Vacancy selectedVac;
+        public VmCommand EmpInformation { get; }
         private Visibility infoVac = Visibility.Hidden;
         public Visibility InfoVac { get => infoVac; set { infoVac = value; Signal(); } }
         public string IsFlex
@@ -179,7 +180,12 @@ namespace CURSE.ViewModel
                 SelectedEducation = Educations[0];
                 Citys.Insert(0, new City { Id = 0, City_Name = "Город" });
                 SelectedCity = Citys[0];
-            
+            EmpInformation = new VmCommand(() =>
+            {
+                SelectedVacancy.Instance.selectedVac = SelectedVac;
+                EmpInfo empInfo = new EmpInfo();
+                empInfo.ShowDialog();
+            });
         }
         internal void SetMainVM(MainVM mainVM)
         {

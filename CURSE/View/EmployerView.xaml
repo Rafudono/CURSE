@@ -92,10 +92,15 @@
                 <Label Content="{Binding SelectedResume.Salary}"/>
             </StackPanel>
             <Label Content="Описание:" Grid.Row="6"/>
-            <TextBlock Text="{Binding SelectedResume.Description}" Grid.Row="7" Grid.ColumnSpan="4" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding SelectedResume.Description}" Grid.Row="7" Grid.ColumnSpan="4" Margin="5" HorizontalAlignment="Center" TextWrapping="Wrap"/>
             <Label Content="{Binding IsFlex}" Grid.Row="8" Grid.ColumnSpan="3"/>
             <Label Content="{Binding IsFull}" Grid.Row="9" Grid.ColumnSpan="3"/>
-        </Grid>
+                <Label Content="Контактные данные" Grid.Row="10" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
+                <Label Content="Телефон" Grid.Row="11" />
+                <Label Content="{Binding SelectedResume.PhoneNumber}" Grid.Row="11" Grid.Column="1"/>
+                <Label Content="Почта" Grid.Row="12"/>
+                <Label Content="{Binding SelectedResume.Email}" Grid.Row="12" Grid.Column="1"/>
+            </Grid>
         </ScrollViewer>
         <StackPanel HorizontalAlignment="Right" Grid.Row="6" Grid.Column="2">
             <Label Content="Выберите фильтры"/>

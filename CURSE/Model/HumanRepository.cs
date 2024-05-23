@@ -142,9 +142,39 @@ namespace CURSE.Model
                         stream.Read(hum.Photo, 0, (int)stream.Length);
                     }
                 }
-
                 return hum;
+            }
+        }
+        internal Human FindHum(int id_emp)
+        {
 
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null)
+                MessageBox.Show("нет соединения с бд");
+
+            Human hum = new Human();
+            string sql = "Select h.ID ,h.PASSWORD, h.EMAIL, h.PHONE_NUMBER, h.Name, h.Middle_name, h.Surname, h.Birthday, h.Photo from CURSE.Human h, CURSE.Employer e WHERE e.ID = "+id_emp+" and e.id_human = h.ID;";
+            using (var mc = new MySqlCommand(sql, connect))
+            using (var reader = mc.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    hum.Id = reader.GetInt32("id");
+                    hum.Password = reader.GetString("Password");
+                    hum.Email = reader.GetString("Email");
+                    hum.PhoneNumber = reader.GetString("PHONE_NUMBER");
+                    hum.Name = reader.GetString("Name");
+                    hum.Middle_Name = reader.GetString("Middle_Name");
+                    hum.Surname = reader.GetString("Surname");
+                    hum.Birthday = reader.GetDateTime("Birthday");
+                    int index = reader.GetOrdinal("Photo");
+                    using (var stream = reader.GetStream(index))
+                    {
+                        hum.Photo = new byte[stream.Length];
+                        stream.Read(hum.Photo, 0, (int)stream.Length);
+                    }
+                }
+                return hum;
             }
         }
         internal void Delete(Human hum)

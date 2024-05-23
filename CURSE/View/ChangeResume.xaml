@@ -30,13 +30,13 @@
         </Grid.RowDefinitions>
         <Image Height="160" Width="120" Source="{Binding Hum.Photo, Converter={StaticResource nullImageConverter}}"/>
         <StackPanel Grid.Column="1" >
-            <TextBlock Text="Имя"/>
-            <TextBox Text="{Binding Hum.Name}"/>
-            <TextBlock Text="Фамилия"/>
-            <TextBox Text="{Binding Hum.Surname}"/>
-            <TextBlock Text="Отчество"/>
-            <TextBox Text="{Binding Hum.Middle_Name}"/>
-            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+            <TextBlock Text="Имя" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding Hum.Name}"/>
+            <TextBlock Text="Фамилия" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding Hum.Surname}"/>
+            <TextBlock Text="Отчество" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding Hum.Middle_Name}"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" VerticalAlignment="Bottom">
                 <Label Content="Город"/>
                 <ComboBox DisplayMemberPath="City_Name" 
 SelectedItem="{Binding SelectedCity}" 

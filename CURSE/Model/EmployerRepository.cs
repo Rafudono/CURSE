@@ -95,7 +95,32 @@ namespace CURSE.Model
                 }
             }
             return employer;
+        }
+        internal Employer FindEmp(int id_vac)
+        {
 
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null)
+                MessageBox.Show("нет соединения с бд");
+
+            Employer employer = new Employer();
+            string sql = "SELECT e.ID, e.id_human, e.Org_Name FROM CURSE.Employer e, CURSE.Vacancy v Where v.ID = " + id_vac + " and v.employer_id = e.ID;";
+            using (var mc = new MySqlCommand(sql, connect))
+            using (var reader = mc.ExecuteReader())
+            {
+                int id;
+                while (reader.Read())
+                {
+                    id = reader.GetInt32("id");
+                    if (employer.Id != id)
+                    {
+                        employer.ID = id;
+                        employer.id_human = reader.GetInt32("id_human");
+                        employer.Org_Name = reader.GetString("Org_Name");
+                    }
+                }
+            }
+            return employer;
         }
         internal void Delete(Employer emp)
         {

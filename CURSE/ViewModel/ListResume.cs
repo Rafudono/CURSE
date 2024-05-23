@@ -32,9 +32,6 @@ namespace CURSE.ViewModel
         private int xp = 100;
         private bool isFullEmp;
         private bool isFlexShedule=true;
-        //public VmCommand Create { get; set; }
-        //public VmCommand Edit { get; set; }
-        //public VmCommand Delete { get; set; }
         private Visibility infoRes = Visibility.Hidden;
         public Visibility InfoRes { get => infoRes; set { infoRes = value; Signal(); } }
         public string IsFlex

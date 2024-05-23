@@ -48,7 +48,7 @@
                 </ListView.View>
             </ListView>
         </StackPanel>
-        <WrapPanel Grid.Column="1" Grid.Row="9" Visibility="{Binding InfoVac}" > 
+        <ScrollViewer Grid.Column="1" Grid.Row="9" Visibility="{Binding InfoVac}" ScrollViewer.CanContentScroll="True"> 
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -68,14 +68,15 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
             <Label Content="{Binding SelectedVac.Title}" HorizontalAlignment="Center" Grid.ColumnSpan="2"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="3">
                 <Label Content="Город" Grid.Row="1"/>
                 <Label Content="{Binding SelVacCity}" Grid.Row="1" Grid.Column="1"/>
             </StackPanel>
             <Label Content="Описание:" Grid.Row="2"/>
-            <TextBlock Text="{Binding SelectedVac.Description}" Grid.Row="3" Grid.ColumnSpan="4" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding SelectedVac.Description}" Grid.Row="3" Grid.ColumnSpan="4" TextWrapping="Wrap" Margin="5"/>
             <Label Content="Требуемое образование" Grid.Row="4"/>
             <Label Content="{Binding SelVacEd}" Grid.Row="4" Grid.Column="1"/>
             <Label Content="Требуемый опыт" Grid.Row="5"/>
@@ -95,8 +96,9 @@
             <TextBlock Text="{Binding SelectedVac.Conditions}"  TextWrapping="Wrap" Grid.Row="10" Grid.Column="1"/>
             <Label Content="{Binding IsFlex}" Grid.Row="11" Grid.ColumnSpan="3"/>
             <Label Content="{Binding IsFull}" Grid.Row="12" Grid.ColumnSpan="3"/>
-        </Grid>
-        </WrapPanel>
+                <Button Content="Подробная информация о работодателе" Grid.Row="13" Grid.ColumnSpan="3" Command="{Binding EmpInformation}"/>
+            </Grid>
+        </ScrollViewer>
         <StackPanel HorizontalAlignment="Right" Grid.Row="6" Grid.Column="3">
             <Label Content="Выберите фильтры"/>
             <Label Content="Город или регион"/>

@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:CURSE.ViewModel" 
         DataContext="{DynamicResource vm}"
         mc:Ignorable="d"
-        Title="Registration" Height="400" Width="600">
+        Title="Регистрация" Height="400" Width="600">
     <Window.Resources>
         <vm:RegistrationVM x:Key="vm" />
     </Window.Resources>
@@ -17,11 +17,11 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step0}" Grid.Row="1">
-            <Label Content="Имя"/>
-            <TextBox Text="{Binding registrateHuman.Name}"/>
             <Label Content="Фамилия"/>
             <TextBox Text="{Binding registrateHuman.Surname}"/>
-            <Label Content="Отчество"/>
+            <Label Content="Имя"/>
+            <TextBox Text="{Binding registrateHuman.Name}"/>
+            <Label Content="Отчество (при наличии)"/>
             <TextBox Text="{Binding registrateHuman.Middle_Name}"/>
             <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
         </StackPanel>
@@ -36,7 +36,7 @@
             <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Step2}" Grid.Row="1">
-            <Label Content="Телефон"/>
+            <Label Content="Номер телефона (без доп. знаков)"/>
             <TextBox Text="{Binding  registrateHuman.PhoneNumber}"/>
             <Button Content="Назад" Command="{Binding ChangePrevVisibility}"/>
             <Button Content="Продолжить" Command="{Binding ChangeNEXTVisibility}"/>

@@ -200,17 +200,11 @@ namespace CURSE.Model
                 else { MessageBox.Show("ошибка"); }
             }
 
-            sql = "DELETE FROM Human WHERE ID = '" + hum.Id + "';"; //из apple или emlpl а потом отсюда
+            sql = "DELETE FROM Human WHERE ID = '" + hum.Id + "';";
 
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
         }
-
-        //internal IEnumerable<Human> Search(string searchText)
-        //{
-        //    string sql = "SELECT hum.ID, hum.LOGIN, hum.PASSWORD, hum.EMAIL, hum.PHONE_NUMBER, hum.Name, hum.Middle_name, hum.Surname, hum.Birthday, hum.Photo from CURSE.Human hum;";
-        //    return GetPeople(sql);
-        //}
 
         internal void UpdateData(Human hum)
         {

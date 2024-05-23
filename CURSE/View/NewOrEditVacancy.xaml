@@ -7,7 +7,7 @@
           xmlns:vm="clr-namespace:CURSE.ViewModel" 
  DataContext="{DynamicResource vm}"
         mc:Ignorable="d"
-        Title="NewOrEditVacancy" Height="450" Width="800">
+        Title="Изменение вакансии" Height="450" Width="800">
     <Window.Resources>
         <vm:NewOrEditVacancyVM x:Key="vm"/>
         <Style x:Key="listItemFoa" TargetType="ListBoxItem">

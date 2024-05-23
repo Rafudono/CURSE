@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:CURSE.ViewModel" 
         DataContext="{DynamicResource vm}"
         mc:Ignorable="d"
-        Title="LogIn"  Height="400" Width="600">
+        Title="Авторизация"  Height="400" Width="600">
     <Window.Resources>
         <vm:LoginVM x:Key="vm"/>
     </Window.Resources>
@@ -15,8 +15,8 @@
         <Label Content="Почта"/>
         <TextBox Text="{Binding loginEmail}"/>
         <Label Content="Пароль"/>
-        <TextBox Text="{Binding loginPassword}"/>
-        <Button Content="Войти" Command="{Binding loginCommand}"/>
+        <TextBox Text="{Binding loginPassword}" />
+        <Button Content="Войти" Command="{Binding loginCommand}" Margin="0"/>
     </StackPanel>
    
 </Window>

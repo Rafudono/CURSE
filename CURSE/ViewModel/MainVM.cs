@@ -11,7 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 namespace CURSE.ViewModel
-{//пароль видимый-невидимый; фильтры?; проверки на есть-нет в полях что-то, необязательные заполнить прочерком
+{//пароль видимый-невидимый;
     public class MainVM : BaseVM
     {
         public VmCommand Login { get; }
@@ -26,11 +26,6 @@ namespace CURSE.ViewModel
         public VmCommand ListRes { get; }
         public VmCommand ListMyVac { get; }
         private Page curPage;
-        //private Page vacancyPage;
-        //private Page resumePage;
-        //private Page myVacPage;
-        //private Page infoResPage;
-
         private Visibility resume = Visibility.Hidden;
         private Visibility settings = Visibility.Hidden;
         private Visibility documents = Visibility.Hidden;
@@ -60,33 +55,6 @@ namespace CURSE.ViewModel
                 Signal();
             }
         }
-        //public Page VacancyPage
-        //{
-        //    get => vacancyPage;
-        //    set
-        //    {
-        //        vacancyPage = value;
-        //        Signal();
-        //    }
-        //}
-        //public Page ResumePage
-        //{
-        //    get => resumePage;
-        //    set
-        //    {
-        //        resumePage = value;
-        //        Signal();
-        //    }
-        //}
-        //public Page MyVacPage
-        //{
-        //    get => myVacPage;
-        //    set
-        //    {
-        //        myVacPage = value;
-        //        Signal();
-        //    }
-        //}
         public MainVM()
         {
             ListVac = new VmCommand(() => 
@@ -99,7 +67,9 @@ namespace CURSE.ViewModel
             });
             ListMyVac = new VmCommand(() =>
             {
-                CurPage = new MyVac(this);
+                if(EmpAuthorized.Instance.loginEmp.Org_Name!=null && EmpAuthorized.Instance.loginEmp.Org_Name !="" && EmpAuthorized.Instance.loginEmp.Org_Name != "-" && EmpAuthorized.Instance.loginEmp.Org_Name != "")
+                  CurPage = new MyVac(this);
+                else MessageBox.Show("Недостаточно информации об организации");
             });
             Registration = new VmCommand(() =>
             {

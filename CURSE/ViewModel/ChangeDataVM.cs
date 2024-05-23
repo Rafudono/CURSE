@@ -14,7 +14,7 @@ namespace CURSE.ViewModel
     {
         MainVM mainVM;
         Action close;
-        private Human hum = new();
+        private Human hum;
         public string NewPassword { get; set; }
         public Human Hum
         {
@@ -33,10 +33,16 @@ namespace CURSE.ViewModel
         {
             Hum = HumAuthorization.Instance.loginHuman;
             Save = new VmCommand(() =>
-            {      if (NewPassword != null) 
+            {
+                if (Hum.Email == null || Hum.Email == "" || Hum.PhoneNumber.Length != 11 || Hum.Name == null || Hum.Name == "" || Hum.Surname == null || Hum.Surname == "" || Hum.Middle_Name == null || Hum.Middle_Name == "")
+                    MessageBox.Show("Неверный формат данных");
+                else
+                {
+                    if (NewPassword != null && NewPassword.Length >= 3)
                         Hum.Password = Md5.HashPassword(NewPassword);
                     HumanRepository.Instance.UpdateData(Hum);
                     close?.Invoke();
+                }
             });
 
             PickImage = new VmCommand(() => {

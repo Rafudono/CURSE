@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:CURSE.ViewModel" 
         DataContext="{DynamicResource vm}"
         mc:Ignorable="d"
-        Title="NEWVacancy" Height="450" Width="800">
+        Title="Новая вакансия" Height="450" Width="800">
     <Window.Resources>
         <vm:NEWVacancyVM x:Key="vm"/>
         <Style x:Key="listItemFoa" TargetType="ListBoxItem">
@@ -22,9 +22,10 @@
 
         <StackPanel>
             <Label Content="Специальность(название вакансии)"/>
+            <TextBox Text="{Binding Vac.Title}"/>
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding Vac.Title}"/>
-                <ComboBox DisplayMemberPath="City_Name" ItemsSource="{Binding Citys}" SelectedItem="{Binding SelectedCity}" HorizontalAlignment="Right"/>
+                <Label Content="Выберите город"/>
+                <ComboBox DisplayMemberPath="City_Name" ItemsSource="{Binding Citys}" SelectedItem="{Binding SelectedCity}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Требуемый опыт"/>
@@ -53,6 +54,7 @@
                 <CheckBox Content="Возможен гибкий график работы" IsChecked="{Binding Vac.IsFlexibleSchedule}"/>
             </StackPanel>
             <Button Content="Save" HorizontalAlignment="Center" Command="{Binding Save}"/>
+                
         </StackPanel>
         <ListBox DisplayMemberPath="Title" Grid.Column="3" 
      ItemContainerStyle="{StaticResource listItemFoa}"

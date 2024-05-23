@@ -76,28 +76,46 @@ namespace CURSE.ViewModel
             Hum = HumAuthorization.Instance.loginHuman;
             Appl = ApplAuthorized.Instance.loginAppl;
             Citys = new ObservableCollection<City>(CityRepository.Instance.GetAllCity());
-            Educations= new ObservableCollection<Education>(EducationRepository.Instance.GetEducation());
+            Educations = new ObservableCollection<Education>(EducationRepository.Instance.GetEducation());
             Fields = FoaRepository.Instance.GetFields();
-            foreach (City city in Citys) 
-            { 
-                if (city.Id == Appl.Id_City) 
-                    SelectedCity = city; 
+            foreach (City city in Citys)
+            {
+                if (city.Id == Appl.Id_City)
+                    SelectedCity = city;
             }
             foreach (Education ed in Educations)
             {
-                if(ed.Id==Appl.IdEducation)
+                if (ed.Id == Appl.IdEducation)
                     SelectedEducation = ed;
             }
-            string sql = "";
             Save = new VmCommand(() =>
             {
-                Appl.FieldofActivity.Clear();
-                foreach (Field_of_Activity foa in listFoa.SelectedItems)
-                    Appl.FieldofActivity.Add(foa);
-                Appl.Id_City = SelectedCity.Id;
-                Appl.IdEducation = SelectedEducation.Id;
-                ApplicantRepository.Instance.UpdateResume(Appl);
-                close?.Invoke();
+                if (Appl.RTitle != null && Appl.RTitle != "")
+                {
+                    if (SelectedCity != null)
+                    {
+
+                        if (SelectedEducation == null)
+                            foreach (Education ed in Educations)
+                            {
+                                if (ed.Id == 5)
+                                    SelectedEducation = ed;
+                            }
+                        Appl.FieldofActivity.Clear();
+                        foreach (Field_of_Activity foa in listFoa.SelectedItems)
+                            Appl.FieldofActivity.Add(foa);
+                        if (Appl.FieldofActivity.Count > 0)
+                        {
+                            Appl.Id_City = SelectedCity.Id;
+                            Appl.IdEducation = SelectedEducation.Id;
+                            ApplicantRepository.Instance.UpdateResume(Appl);
+                            close?.Invoke();
+                        }
+                        else MessageBox.Show("Укажите сферу деятельности");
+                    }
+                    else MessageBox.Show("Выберите город из списка");
+                }
+                else MessageBox.Show("Заполните все обязательные поля");
 
             });
         }

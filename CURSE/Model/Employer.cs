@@ -10,6 +10,6 @@ namespace CURSE.Model
     {
         public int ID { get; set; }
         public int id_human { get; set; }
-        public string Org_Name { get; set; } = " ";
+        public string Org_Name { get; set; } = "-";
     } 
 }

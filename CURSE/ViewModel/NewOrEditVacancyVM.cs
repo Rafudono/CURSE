@@ -88,13 +88,44 @@ namespace CURSE.ViewModel
             string sql = "";
             Save = new VmCommand(() =>
             {
-                Vac.EmployerId = EmpAuthorized.Instance.loginEmp.ID;
-                Vac.FieldofActivity.Clear();
-                foreach (Field_of_Activity foa in listFoa.SelectedItems)
-                    Vac.FieldofActivity.Add(foa);
-                Vac.Id_City = SelectedCity.Id;
-                VacancyRepository.Instance.UpdateVacancy(Vac);
-                close?.Invoke();
+                if (Vac.Title != null && Vac.Title != "")
+                {
+                    if (SelectedCity != null)
+                    {
+                        if (Vac.MINSalary <= Vac.MAXSalary)
+                        {
+                            if (SelectedEducation == null)
+                                foreach (Education ed in Educations)
+                                {
+                                    if (ed.Id == 5)
+                                        SelectedEducation = ed;
+                                }
+                            if (Vac.Description == null || Vac.Description == "")
+                                Vac.Description = "-";
+                            if (Vac.Responsibilities == null || Vac.Responsibilities == "")
+                                Vac.Responsibilities = "-";
+                            if (Vac.Requirements == null || Vac.Requirements == "")
+                                Vac.Requirements = "-";
+                            if (Vac.Conditions == null || Vac.Conditions == "")
+                                Vac.Conditions = "-";
+                            Vac.EmployerId = EmpAuthorized.Instance.loginEmp.ID;
+                            Vac.FieldofActivity.Clear();
+                            foreach (Field_of_Activity foa in listFoa.SelectedItems)
+                                Vac.FieldofActivity.Add(foa);
+                            if (Vac.FieldofActivity.Count > 0)
+                            {
+                                Vac.Id_City = SelectedCity.Id;
+                                Vac.IdRequiredEducation = SelectedEducation.Id;
+                                VacancyRepository.Instance.UpdateVacancy(Vac);
+                                close?.Invoke();
+                            }
+                            else MessageBox.Show("Укажите сферу деятельности");
+                        }
+                        else MessageBox.Show("Максимальная зарплата не может быть меньше минимальной");
+                    }
+                    else MessageBox.Show("Выберите город из списка");
+                }
+                else MessageBox.Show("Заполните все обязательные поля");
             });
         }
         internal void SetClose(Action close)

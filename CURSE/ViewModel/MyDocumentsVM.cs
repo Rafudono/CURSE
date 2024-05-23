@@ -34,21 +34,20 @@ namespace CURSE.ViewModel
                 Signal();
             }
         }
-
-        // список всех организаций-партнёров
-        //кнопочка добавить организацию-партнера
-        //переключение на окно с формой для добавления организации-партнера     // Моя организация: выбрать название организации работодателя по id_org в работодателе
-        // updateEmp
         public MyDocumentsVM()
         {
             Emp = EmpAuthorized.Instance.loginEmp;
             Hum = HumAuthorization.Instance.loginHuman;
             Save = new VmCommand(() =>
             {
-                EmployerRepository.Instance.UpdateEmployer(Emp);
-                EmpAuthorized.Instance.loginEmp = Emp;
-                MessageBox.Show("Данные об организации изменены");
-                close?.Invoke();
+                if (Emp.Org_Name != null && Emp.Org_Name != "" && Emp.Org_Name != "-")
+                {
+                    EmployerRepository.Instance.UpdateEmployer(Emp);
+                    EmpAuthorized.Instance.loginEmp = Emp;
+                    MessageBox.Show("Данные об организации изменены");
+                    close?.Invoke();
+                }
+                else MessageBox.Show("Укажите имя организации");
             });
         }
         internal void SetClose(Action close)

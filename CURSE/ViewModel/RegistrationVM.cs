@@ -2,6 +2,7 @@
 using CURSE.View;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -40,8 +41,10 @@ namespace CURSE.ViewModel
             {
                 if (Step0 == Visibility.Visible)
                 {
-                    if (registrateHuman.Name != null && registrateHuman.Name!="" && registrateHuman.Surname != null && registrateHuman.Surname !="" && registrateHuman.Middle_Name != null && registrateHuman.Middle_Name != "")
+                    if (registrateHuman.Name != null && registrateHuman.Name!="" && registrateHuman.Surname != null && registrateHuman.Surname !="")
                     {
+                        if (registrateHuman.Middle_Name == null || registrateHuman.Middle_Name == "")
+                            registrateHuman.Middle_Name = "-";
                         Step0 = Visibility.Hidden;
                         Step1 = Visibility.Visible;
                     }
@@ -52,13 +55,23 @@ namespace CURSE.ViewModel
                 {
                     if (registrateHuman.Email != null && registrateHuman.Email!="" && password1 != null && password1!="")
                     {
-                        if (password1 != password2)
+                        string sql = "select * from Human h where h.Email ='"+registrateHuman.Email+"';";
+                        var listSameEmail= new ObservableCollection<Human>( HumanRepository.Instance.GetPeople(sql));
+                        if (listSameEmail.Count == 0)
                         {
-                            MessageBox.Show("Введите одинаковые пароли в поля");
-                            return;
+                            if (registrateHuman.Email.Contains("@"))
+                            {
+                                if (password1 != password2)
+                                {
+                                    MessageBox.Show("Введите одинаковые пароли в поля");
+                                    return;
+                                }
+                                Step1 = Visibility.Hidden;
+                                Step2 = Visibility.Visible;
+                            }
+                            else MessageBox.Show("Неверный формат электронной почты");
                         }
-                        Step1 = Visibility.Hidden;
-                        Step2 = Visibility.Visible;
+                        else MessageBox.Show("Аккаунт с такой почтой уже существует");
                     }
                     else
                         MessageBox.Show("Заполните все необходимые поля");
@@ -67,8 +80,12 @@ namespace CURSE.ViewModel
                 {
                     if (registrateHuman.PhoneNumber != null&&registrateHuman.PhoneNumber!="")
                     {
-                        Step2 = Visibility.Hidden;
-                        Step3 = Visibility.Visible;
+                        if (registrateHuman.PhoneNumber.Length == 11)
+                        {
+                            Step2 = Visibility.Hidden;
+                            Step3 = Visibility.Visible;
+                        }
+                        else MessageBox.Show("Неверный формат номера телефона");
                     }
                     else
                         MessageBox.Show("Заполните все необходимые поля");
@@ -86,12 +103,10 @@ namespace CURSE.ViewModel
                             if (regLikeApplicant)
                             {
                                 ApplicantRepository.Instance.AddApplicant(new Applicant { HumanId = trueid, Id_City = 5 });
-                                HumanRepository.Instance.AddHuman(registrateHuman);
                             }
                             if (regLikeEmp)
                             {
                                 EmployerRepository.Instance.AddEmployer(new Employer { id_human = trueid });
-                                HumanRepository.Instance.AddHuman(registrateHuman);
                                 MessageBox.Show("Чтобы размещать вакансии добавьте информацию о вашей организации", "Важно!");
                             }
                             close?.Invoke();

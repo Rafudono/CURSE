@@ -7,7 +7,7 @@
             xmlns:vm="clr-namespace:CURSE.ViewModel" 
     DataContext="{DynamicResource vm}"
     mc:Ignorable="d"
-   Title="ChangeData" Height="500" Width="500">
+   Title="Изменение данных" Height="500" Width="500">
     <Window.Resources>
         <local:NullImageConverter x:Key="nullImageConverter"/>
         <vm:ChangeDataVM x:Key="vm"/>

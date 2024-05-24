@@ -59,8 +59,8 @@
                 <Button Content="Документы" Visibility="{Binding Documents}" Command="{Binding MyDoc}" Grid.Column="1"/>
                 <ComboBox Grid.Column="2" x:Name="ComboSettings" Visibility="{Binding Settings}">
                     <StackPanel>
-                        <Button Content="Мой профиль" Command="{Binding SettingsWindow}"/>
-                        <Button Content="Удалить аккаунт" Command="{Binding DelUser}"/>
+                        <Button Content="Мой профиль" Command="{Binding SettingsWindow}" Margin="0"/>
+                        <Button Content="Удалить аккаунт" Command="{Binding DelUser}" Margin="0"/>
                     </StackPanel>
                 </ComboBox>
             </Grid>

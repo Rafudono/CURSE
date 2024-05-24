@@ -25,8 +25,6 @@ namespace CURSE.View
             InitializeComponent();
             var vm = DataContext as ListVacancy;
             vm?.SetMainVM(mainVM);
-            //((ListDrinksVM)DataContext).SetMainVM(mainVM);
-            //DataContext = new ListDrinksVM(mainVM);
         }
         
     }
